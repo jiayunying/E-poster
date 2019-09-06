@@ -1,0 +1,61 @@
+﻿<Page x:Class="E_Poster.Login"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:E_Poster"
+      mc:Ignorable="d" 
+      d:DesignHeight="1200" d:DesignWidth="765"
+      Title="Login">
+    <Page.Resources>
+        <Style x:Key="TextBoxStyle" TargetType="TextBox">
+            <Setter Property="Control.FontFamily" Value="Time New Roman"/>
+            <Setter Property="Control.FontSize" Value="20"/>
+            <Setter Property="Control.Height" Value="60"/>
+            <Setter Property="Control.MaxWidth" Value="500"/>
+            <Setter Property="Control.Foreground" Value="Gray"/>
+            <Setter Property="Control.Padding" Value="30,30,0,5"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Background" Value="Transparent"/>
+
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="电 子 壁 报 管 理 系 统" TextAlignment="Center" VerticalAlignment="Center" FontSize="28px" Foreground="White" FontWeight="Bold"></TextBlock>
+        <TextBox Name="mettingId" Grid.Row="1" Grid.Column="1"  VerticalAlignment="Bottom" Style="{StaticResource TextBoxStyle}" Text="会议ID" GotFocus="MettingId_GotFocus" LostFocus="MettingId_LostFocus" >
+
+
+        </TextBox>
+        <TextBox Name="checksum" Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextBoxStyle}" Text="校验码" GotFocus="Checksum_GotFocus" LostFocus="Checksum_LostFocus"></TextBox>
+        <Button Name="login" Grid.Row="3" Grid.Column="1" Click="Login_Click" MaxWidth="500" Height="50" VerticalAlignment="Top" Foreground="White" FontSize="20px" FontWeight="Bold" Content="登  录" >
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border BorderBrush="{TemplateBinding Control.BorderBrush}" BorderThickness="0" CornerRadius="20">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="Red" Offset="0.5"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <ContentPresenter Content="{TemplateBinding ContentControl.Content}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Image Source="pack://application:,,,/resources/logo.png" Grid.Row="5" Grid.Column="1" Width="200" VerticalAlignment="Center"></Image>
+
+    </Grid>
+</Page>
