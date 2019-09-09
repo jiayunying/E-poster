@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29020.237
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E-Poster", "..\E-Poster\E-Poster.csproj", "{CA4BEE46-29E9-4D0F-BDA6-280437AB2009}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InputPanel", "..\InputPanel\InputPanel.csproj", "{D01D02A3-5990-4101-913B-507D72D9DC8A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonUtil", "CommonUtil\CommonUtil.csproj", "{77140152-8CDB-4755-BB41-EE2BF39CDDED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{CA4BEE46-29E9-4D0F-BDA6-280437AB2009}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA4BEE46-29E9-4D0F-BDA6-280437AB2009}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA4BEE46-29E9-4D0F-BDA6-280437AB2009}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D01D02A3-5990-4101-913B-507D72D9DC8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D01D02A3-5990-4101-913B-507D72D9DC8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D01D02A3-5990-4101-913B-507D72D9DC8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D01D02A3-5990-4101-913B-507D72D9DC8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77140152-8CDB-4755-BB41-EE2BF39CDDED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77140152-8CDB-4755-BB41-EE2BF39CDDED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77140152-8CDB-4755-BB41-EE2BF39CDDED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77140152-8CDB-4755-BB41-EE2BF39CDDED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
