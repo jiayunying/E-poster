@@ -56,14 +56,7 @@
     <Compile Include="Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
     <Page Include="Login.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -126,9 +119,17 @@
     <Resource Include="resources\banner.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\InputPanel\InputPanel.csproj">
-      <Project>{d01d02a3-5990-4101-913b-507d72d9dc8a}</Project>
-      <Name>InputPanel</Name>
+    <Resource Include="ydt-mettings\1103\banner.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="ydt-mettings\1103\logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonUtil\CommonUtil.csproj">
+      <Project>{77140152-8cdb-4755-bb41-ee2bf39cdded}</Project>
+      <Name>CommonUtil</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

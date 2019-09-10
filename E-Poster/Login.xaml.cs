@@ -11,7 +11,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using InputPanel;
+using CommonUtil;
+
 
 namespace E_Poster
 {
@@ -27,11 +28,30 @@ namespace E_Poster
             b.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/bg_login.jpg"));
             b.Stretch = Stretch.Fill;
             this.Background = b;
-            MyInputPanel.HideInputPanel();
+            InputPanel.HideInputPanel();
         }
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            //TODO:
+            //TODO:调接口进行权限校验
+            DependencyObject currParent = VisualTreeHelper.GetParent(this);
+            Window mainwindow = null;
+            //循环取节点树中this的父节点直到取到window
+            while (currParent != null && mainwindow == null)
+            {
+                mainwindow = currParent as Window;
+                currParent = VisualTreeHelper.GetParent(currParent);
+            }
+            // Change the page of the frame.
+            if (mainwindow != null)
+            {
+                mainwindow.Content = new PaperList();
+            }
+
+            //mainwindow.Content = new PaperList();
+
+            //NavigationService.GetNavigationService(this).Navigate(new Uri("../PaperList.xaml", UriKind.RelativeOrAbsolute));
+            //NavigationService.GetNavigationService(this).GoForward(); 向后转
+            //NavigationService.GetNavigationService(this).GoBack(); 向前转
 
 
         }
@@ -41,7 +61,7 @@ namespace E_Poster
         {
             mettingId.Text = "";
             //System.Diagnostics.Process.Start("osk.exe");
-            MyInputPanel.ShowInputPanel();
+            InputPanel.ShowInputPanel();
         }
         //会议ID输入框失去焦点时
         private void MettingId_LostFocus(object sender, RoutedEventArgs e)
@@ -49,14 +69,14 @@ namespace E_Poster
             if (String.IsNullOrEmpty(mettingId.Text)) {
                 mettingId.Text = "会议ID";
             }
-            MyInputPanel.HideInputPanel();
+            InputPanel.HideInputPanel();
         }
         //校验码输入框获得焦点时
         private void Checksum_GotFocus(object sender, RoutedEventArgs e)
         {
             mettingId.Text = "";
             //System.Diagnostics.Process.Start("osk.exe");
-            MyInputPanel.ShowInputPanel();
+            InputPanel.ShowInputPanel();
         }
         //校验码输入框失去焦点时
         private void Checksum_LostFocus(object sender, RoutedEventArgs e)
@@ -65,7 +85,7 @@ namespace E_Poster
             {
                 mettingId.Text = "校验码";
             }
-            MyInputPanel.HideInputPanel();
+            InputPanel.HideInputPanel();
         }
     }
 }

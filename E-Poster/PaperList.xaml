@@ -7,8 +7,103 @@
       mc:Ignorable="d" 
       d:DesignHeight="1200" d:DesignWidth="675"
       Title="PaperList">
+    <Page.Resources>
+        <Style TargetType="ListBox" x:Key="style_listbox">
+            <Setter  Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBox">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition/>
+                                <RowDefinition Height="20"/>
+                            </Grid.RowDefinitions>
+                            <Border CornerRadius="5" Background="Black" TextBlock.Foreground="White" Grid.Row="0">
+                                <TextBlock Text="Hello,world" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <Border CornerRadius="15" Background="Yellow" Grid.Row="1">
+                                <ScrollViewer>
+                                    <UniformGrid IsItemsHost="True" Columns="1"></UniformGrid>
+                                    <!--<StackPanel IsItemsHost="True"/>-->
+                                </ScrollViewer>
+                            </Border>
+                            <Border CornerRadius="5" Background="Black" TextBlock.Foreground="White" Grid.Row="2">
+                                <TextBlock Text="foot:2019/04/15 10:20:00" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Background" Value="AliceBlue"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border x:Name="border" CornerRadius="10" Margin="5" Background="White">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="true">
+                                            <Setter Property="Background" TargetName="border" Value="Blue"/>
+                                        </Trigger>
+
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter Property="Background" TargetName="border" Value="White"/>
+                                            <Setter Property="Foreground" Value="Red"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <DataTemplate x:Key="listBoxTemplate">
+            <StackPanel Margin="4">
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" FontWeight="Bold" Text="城市名称：" DockPanel.Dock="Left" Margin="5,0,10,0"/>
+                        <TextBlock Text=" " Grid.Column="1"/>
+                        <TextBlock Grid.Column="2" Text="{Binding ProvinceName}" Foreground="Green" FontWeight="Bold"/>
+                    </Grid>
+
+                <DockPanel >
+                    <TextBlock FontWeight="Bold" Text="创建日期：" DockPanel.Dock="Left" Margin="5,0,5,0"/>
+                    <TextBlock Text=" "/>
+                    <TextBlock Text="{Binding DateCreated}" Foreground="DarkOrange"/>
+                    <TextBlock Text=" "/>
+                    <TextBlock Text=" "/>
+                    <TextBlock Text=" "/>
+                    <TextBlock FontWeight="Bold" Text="测试项目：" DockPanel.Dock="Left" />
+                    <TextBlock Text=" "/>
+                    <TextBlock Text="{Binding DataTest}" Foreground="DarkOrange"/>
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock FontWeight="Bold" Text="更新日期：" DockPanel.Dock="Left" Margin="5,0,5,0"/>
+                    <TextBlock Text=" "/>
+                    <TextBlock Text="{Binding DateUpdated}" Foreground="Cyan"/>
+                </DockPanel>
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+    
+    
     <Grid>
-        <TextBlock Text="测试测试测试" FontSize="100"></TextBlock>
-      
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Image x:Name="banner" Grid.Row="0"/>
+        <ListBox Grid.Row="1" Name="listBox1" ItemsSource="{Binding Tables[0]}" 
+                 ItemTemplate="{StaticResource listBoxTemplate}" SelectedIndex="0" SelectionChanged="ListBox1_SelectionChanged"/>
+        <Image x:Name="bottom" Grid.Row="2"/>
     </Grid>
 </Page>
