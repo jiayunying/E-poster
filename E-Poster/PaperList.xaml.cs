@@ -12,7 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using System.Windows.Threading;
+using CommonUtil;
 namespace E_Poster
 {
     /// <summary>
@@ -21,7 +22,9 @@ namespace E_Poster
     public partial class PaperList : Page
     {
         DataSet paperListData = new DataSet();
-        
+
+        DispatcherTimer timer;
+
         public PaperList()
         {
             InitializeComponent();
@@ -82,23 +85,83 @@ namespace E_Poster
         }
 
         private void ImageInit() {
-            //BitmapImage bi_banner = new BitmapImage();
-            //// BitmapImage.UriSource must be in a BeginInit/EndInit block.  
-            //bi_banner.BeginInit();
-            //bi_banner.UriSource = new Uri(@"D:\Product\e-poster电子壁报\E-Poster\bin\Debug\ydt-mettings\1103\banner.png", UriKind.RelativeOrAbsolute);
-            //bi_banner.EndInit();
-            //this.banner.Source = bi_banner;
+            SystemConfig sc = new SystemConfig();
+            string uri_banner = sc.GetValue("image.banner");
+            string uri_bottom = sc.GetValue("image.bottom");
 
-            //相对路径
+            BitmapImage bi_banner = new BitmapImage();
+            // BitmapImage.UriSource must be in a BeginInit/EndInit block.  
+            bi_banner.BeginInit();
+            bi_banner.UriSource = new Uri(AppDomain.CurrentDomain.BaseDirectory + uri_banner, UriKind.Absolute);
+            bi_banner.EndInit();
+            this.banner.Source = bi_banner;
 
-            Uri uri = new Uri(@"ydt-mettings\1103\logo.png", UriKind.Relative);
-            this.bottom.Source = new BitmapImage(uri);
+            BitmapImage bi_bottom = new BitmapImage();
+            // BitmapImage.UriSource must be in a BeginInit/EndInit block.  
+            bi_bottom.BeginInit();
+            bi_bottom.UriSource = new Uri(AppDomain.CurrentDomain.BaseDirectory + uri_bottom, UriKind.Absolute);
+            bi_bottom.EndInit();
+            this.bottom.Source = bi_bottom;
+
+            //相对路径:有问题！！
+            //Uri uri_re_bottom = new Uri(uri_bottom, UriKind.Relative);
+            //this.bottom.Source = new BitmapImage(uri_re_bottom);
 
         }
 
         private void ListBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //TODO:调接口进行权限校验
+            DependencyObject currParent = VisualTreeHelper.GetParent(this);
+            Window mainwindow = null;
+            //循环取节点树中this的父节点直到取到window
+            while (currParent != null && mainwindow == null)
+            {
+                mainwindow = currParent as Window;
+                currParent = VisualTreeHelper.GetParent(currParent);
+            }
+            // Change the page of the frame.
+            if (mainwindow != null)
+            {
+                mainwindow.Content = new PaperDetail();
+            }
 
+            //mainwindow.Content = new PaperList();
+
+            //NavigationService.GetNavigationService(this).Navigate(new Uri("../PaperList.xaml", UriKind.RelativeOrAbsolute));
+            //NavigationService.GetNavigationService(this).GoForward(); 向后转
+            //NavigationService.GetNavigationService(this).GoBack(); 向前转
+
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMilliseconds(1000);
+            timer.Tick += timer1_Tick;
+            timer.Start();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e) {
+            Ellipse rec = (Ellipse)_btn.Template.FindName("ButtonEllipse", _btn);
+            if (rec.Fill == System.Windows.Media.Brushes.Gray)
+            {
+                rec.Fill = System.Windows.Media.Brushes.LightGreen;
+            }
+            else
+            {
+                rec.Fill = System.Windows.Media.Brushes.Gray;
+            }
+
+            //Polygon pol = (Polygon)_btn.Template.FindName("ButtonPolygon", _btn);
+            //if (pol.Fill.Opacity ==0.4)
+            //{
+            //    pol.Fill.Opacity =0.8;
+            //}
+            //else
+            //{
+            //    pol.Fill.Opacity = 0.4;
+            //}
         }
     }
 }

@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:E_Poster"
       mc:Ignorable="d" 
       d:DesignHeight="1200" d:DesignWidth="675"
-      Title="PaperList">
+      Title="PaperList" Loaded="Page_Loaded">
     <Page.Resources>
         <Style TargetType="ListBox" x:Key="style_listbox">
             <Setter  Property="Template">
@@ -103,7 +103,24 @@
         </Grid.RowDefinitions>
         <Image x:Name="banner" Grid.Row="0"/>
         <ListBox Grid.Row="1" Name="listBox1" ItemsSource="{Binding Tables[0]}" 
-                 ItemTemplate="{StaticResource listBoxTemplate}" SelectedIndex="0" SelectionChanged="ListBox1_SelectionChanged"/>
+                 ItemTemplate="{StaticResource listBoxTemplate}" SelectionChanged="ListBox1_SelectionChanged"/>
+        <Button Name="_btn" Grid.Row="1" Width="40" Visibility="Visible" Template="{DynamicResource ButtonControlTemplate}" Height="40" HorizontalAlignment="Left"  Cursor="Hand" Margin="20,0,0,0">
+                               
+            <Button.Resources>
+                <ControlTemplate x:Key="ButtonControlTemplate" TargetType="{x:Type Button}">
+                    <Grid>
+                        <Ellipse x:Name="ButtonEllipse" Width="Auto" Height="Auto" StrokeThickness="2" Stroke="Gray"></Ellipse>
+                        <Polygon x:Name="ButtonPolygon" Stroke="Gray" StrokeThickness="1">
+                            <Polygon.Fill>
+                                <SolidColorBrush Color="Red" Opacity="0.4"/>
+                            </Polygon.Fill>
+                        </Polygon>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Resources>
+        </Button>
+
         <Image x:Name="bottom" Grid.Row="2"/>
+       
     </Grid>
 </Page>

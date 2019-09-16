@@ -19,7 +19,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\run\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -36,6 +36,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -72,12 +73,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PaperDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PaperList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PaperDetail.xaml.cs">
+      <DependentUpon>PaperDetail.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PaperList.xaml.cs">
       <DependentUpon>PaperList.xaml</DependentUpon>
     </Compile>
@@ -104,9 +112,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\bg_login.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="resources\logo.png" />
   </ItemGroup>
   <ItemGroup>
@@ -114,9 +119,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resources\bg_checknum.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="resources\banner.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ydt-mettings\1103\banner.png">
@@ -131,6 +133,9 @@
       <Project>{77140152-8cdb-4755-bb41-ee2bf39cdded}</Project>
       <Name>CommonUtil</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\bg_login.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

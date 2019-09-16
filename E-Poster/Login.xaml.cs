@@ -25,7 +25,7 @@ namespace E_Poster
         {
             InitializeComponent();
             ImageBrush b = new ImageBrush();
-            b.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/bg_login.jpg"));
+            b.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/bg_login.png"));
             b.Stretch = Stretch.Fill;
             this.Background = b;
             InputPanel.HideInputPanel();
