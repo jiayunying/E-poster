@@ -9,6 +9,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -80,10 +81,38 @@ namespace E_Poster
             paperListData.Tables.Add(dt);
             listBox1.DataContext = paperListData;
 
-           ImageInit();
+            ImageInit();
+            TypeListInit();
 
         }
+        /// <summary>
+        /// 初始化论文类型列表
+        /// </summary>
+        private void TypeListInit() {
+            //TODO：调接口查询论文类型
+            List<PaperType> typelist = new List<PaperType>() {
+            new PaperType(){ID=1,TypeName="康复医学基础研究(90篇)"},
+            new PaperType(){ID=2,TypeName="康复医学临床研究(30篇)"},
+            new PaperType(){ID=3,TypeName="康复机构管理(46篇)"},
+            new PaperType(){ID=4,TypeName="中西医结合康复(39篇)"},
+            new PaperType(){ID=5,TypeName="运动康复研究(91篇)"},
+            new PaperType(){ID=6,TypeName="康复与养老结合发展(48篇)"},
+            new PaperType(){ID=7,TypeName="康复设备器具研发与康复工程(98篇)"},
+            new PaperType(){ID=8,TypeName="康复医学信息化建设(78篇)"},
+            };
 
+            this.typeList.ItemsSource = typelist;
+        }
+        public class PaperType
+        {
+            public int ID { get; set; }
+            public string TypeName { get; set; }
+            //public int Count { get; set; }
+        }
+
+        /// <summary>
+        /// 初始化banner图和bottom图
+        /// </summary>
         private void ImageInit() {
             SystemConfig sc = new SystemConfig();
             string uri_banner = sc.GetValue("image.banner");
@@ -111,7 +140,7 @@ namespace E_Poster
 
         private void ListBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //TODO:调接口进行权限校验
+            //TODO：根据选择项跳转详情页
             DependencyObject currParent = VisualTreeHelper.GetParent(this);
             Window mainwindow = null;
             //循环取节点树中this的父节点直到取到window
@@ -126,22 +155,22 @@ namespace E_Poster
                 mainwindow.Content = new PaperDetail();
             }
 
-            //mainwindow.Content = new PaperList();
-
-            //NavigationService.GetNavigationService(this).Navigate(new Uri("../PaperList.xaml", UriKind.RelativeOrAbsolute));
-            //NavigationService.GetNavigationService(this).GoForward(); 向后转
-            //NavigationService.GetNavigationService(this).GoBack(); 向前转
 
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            //开启定时器
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(1000);
             timer.Tick += timer1_Tick;
             timer.Start();
         }
-
+        /// <summary>
+        /// 定时器控制翻页按钮闪烁
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void timer1_Tick(object sender, EventArgs e) {
             Ellipse rec = (Ellipse)_btn.Template.FindName("ButtonEllipse", _btn);
             if (rec.Fill == System.Windows.Media.Brushes.Gray)
@@ -152,16 +181,56 @@ namespace E_Poster
             {
                 rec.Fill = System.Windows.Media.Brushes.Gray;
             }
-
-            //Polygon pol = (Polygon)_btn.Template.FindName("ButtonPolygon", _btn);
-            //if (pol.Fill.Opacity ==0.4)
-            //{
-            //    pol.Fill.Opacity =0.8;
-            //}
-            //else
-            //{
-            //    pol.Fill.Opacity = 0.4;
-            //}
         }
+        #region 抽屉效果
+        private bool _Expand = true;
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            Expand = !_Expand;
+        }
+
+        public bool Expand
+        {
+            get { return _Expand; }
+            set
+            {
+                _Expand = value;
+
+                Duration duration = new Duration(TimeSpan.FromSeconds(1));
+                FillBehavior behavior = FillBehavior.HoldEnd;
+
+                DoubleAnimation translateAnim = new DoubleAnimation();
+                translateAnim.Duration = duration;
+                translateAnim.FillBehavior = behavior;
+
+                RectAnimation clipAnim = new RectAnimation();
+                clipAnim.Duration = duration;
+                clipAnim.FillBehavior = behavior;
+
+                double delta = 500; //收缩的大小
+
+                if (_Expand) // Expand
+                {
+                    translateAnim.From = -delta;
+                    translateAnim.To = 0;
+
+                    clipAnim.From = new Rect(delta, 0, Thumb1.ActualWidth, Thumb1.ActualHeight);
+                    clipAnim.To = new Rect(0, 0, Thumb1.ActualWidth, Thumb1.ActualHeight);
+                }
+                else  //Shrink
+                {
+                    translateAnim.From = 0;
+                    translateAnim.To = -delta;
+
+                    clipAnim.From = new Rect(0, 0, Thumb1.ActualWidth, Thumb1.ActualHeight);
+                    clipAnim.To = new Rect(delta, 0, Thumb1.ActualWidth, Thumb1.ActualHeight);
+                }
+
+                spt1.BeginAnimation(TranslateTransform.XProperty, translateAnim);
+                spc1.BeginAnimation(RectangleGeometry.RectProperty, clipAnim);
+            }
+        }
+        #endregion
     }
 }

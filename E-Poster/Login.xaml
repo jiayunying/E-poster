@@ -34,7 +34,7 @@
             <RowDefinition Height="2*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Grid.Column="1" Text="电 子 壁 报 管 理 系 统" TextAlignment="Center" VerticalAlignment="Center" FontSize="28px" Foreground="White" FontWeight="Bold"></TextBlock>
+        <Image Grid.Row="0" Grid.Column="1" Source="pack://application:,,,/resources/title.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <TextBox Name="mettingId" Grid.Row="1" Grid.Column="1"  VerticalAlignment="Bottom" Style="{StaticResource TextBoxStyle}" Text="会议ID" GotFocus="MettingId_GotFocus" LostFocus="MettingId_LostFocus" >
 
 
@@ -46,7 +46,8 @@
                     <Border BorderBrush="{TemplateBinding Control.BorderBrush}" BorderThickness="0" CornerRadius="20">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                <GradientStop Color="Red" Offset="0.5"/>
+                                <GradientStop Color="#456EF9" Offset="1"/>
+                                <GradientStop Color="#019DD5" Offset="0"/>
                             </LinearGradientBrush>
                         </Border.Background>
                         <ContentPresenter Content="{TemplateBinding ContentControl.Content}" HorizontalAlignment="Center" VerticalAlignment="Center" />

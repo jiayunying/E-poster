@@ -13,23 +13,14 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBox">
                         <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="30"/>
-                                <RowDefinition/>
-                                <RowDefinition Height="20"/>
-                            </Grid.RowDefinitions>
-                            <Border CornerRadius="5" Background="Black" TextBlock.Foreground="White" Grid.Row="0">
-                                <TextBlock Text="Hello,world" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
-                            <Border CornerRadius="15" Background="Yellow" Grid.Row="1">
-                                <ScrollViewer>
+
+                            <Border>
+                                <ScrollViewer BorderBrush="Transparent">
                                     <UniformGrid IsItemsHost="True" Columns="1"></UniformGrid>
                                     <!--<StackPanel IsItemsHost="True"/>-->
                                 </ScrollViewer>
                             </Border>
-                            <Border CornerRadius="5" Background="Black" TextBlock.Foreground="White" Grid.Row="2">
-                                <TextBlock Text="foot:2019/04/15 10:20:00" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            </Border>
+
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
@@ -41,7 +32,7 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListBoxItem">
-                                    <Border x:Name="border" CornerRadius="10" Margin="5" Background="White">
+                                    <Border x:Name="border" CornerRadius="10" Margin="5" >
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Border>
                                     <ControlTemplate.Triggers>
@@ -92,19 +83,46 @@
                 </DockPanel>
             </StackPanel>
         </DataTemplate>
+
     </Page.Resources>
     
     
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="100*"/>
+            <RowDefinition Height="342*"/>
+            <RowDefinition Height="38*"/>
         </Grid.RowDefinitions>
-        <Image x:Name="banner" Grid.Row="0"/>
-        <ListBox Grid.Row="1" Name="listBox1" ItemsSource="{Binding Tables[0]}" 
-                 ItemTemplate="{StaticResource listBoxTemplate}" SelectionChanged="ListBox1_SelectionChanged"/>
-        <Button Name="_btn" Grid.Row="1" Width="40" Visibility="Visible" Template="{DynamicResource ButtonControlTemplate}" Height="40" HorizontalAlignment="Left"  Cursor="Hand" Margin="20,0,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Button Content="Button" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Grid.Row="0"  Width="75" Click="Button_Click_1" Panel.ZIndex="100"/>
+        <StackPanel  HorizontalAlignment="Left"  Name="Thumb1" VerticalAlignment="Stretch" Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Width="Auto" CanVerticallyScroll="True" Panel.ZIndex="10">
+            <StackPanel.RenderTransform>
+                <TranslateTransform x:Name="spt1"></TranslateTransform>
+            </StackPanel.RenderTransform>
+
+            <StackPanel.Clip>
+                <RectangleGeometry x:Name="spc1"></RectangleGeometry>
+
+            </StackPanel.Clip>
+
+            <ListBox Name="typeList" DisplayMemberPath="TypeName" SelectedValuePath="ID" Width="500" VerticalAlignment="Stretch" Background="#2B323A" Foreground="White">
+            </ListBox>
+        </StackPanel>
+
+
+
+
+        <Image x:Name="banner" Grid.Row="0" Grid.ColumnSpan="2" Stretch="Fill"/>
+
+
+        <ListBox Grid.Row="1" Name="listBox1" Grid.ColumnSpan="2"  ItemsSource="{Binding Tables[0]}" 
+                 ItemTemplate="{StaticResource listBoxTemplate}" Background="Transparent" SelectionChanged="ListBox1_SelectionChanged"/>
+        <!--翻页按钮 -->
+            <Button Name="_btn" Grid.Row="1" Width="40" Visibility="Visible" Template="{DynamicResource ButtonControlTemplate}" Height="40" HorizontalAlignment="Left"  Cursor="Hand" Margin="20,0,0,0">
                                
             <Button.Resources>
                 <ControlTemplate x:Key="ButtonControlTemplate" TargetType="{x:Type Button}">
@@ -120,7 +138,7 @@
             </Button.Resources>
         </Button>
 
-        <Image x:Name="bottom" Grid.Row="2"/>
+        <Image x:Name="bottom" Grid.Row="2" Grid.ColumnSpan="2" Stretch="None"/>
        
     </Grid>
 </Page>

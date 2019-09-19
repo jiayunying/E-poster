@@ -115,12 +115,6 @@
     <Resource Include="resources\logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\bg_mettingid.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="resources\bg_checknum.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="ydt-mettings\1103\banner.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -135,7 +129,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="resources\bg_login.png" />
+    <Resource Include="resources\bg_login.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\title.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -24,11 +24,11 @@ namespace E_Poster
         public Login()
         {
             InitializeComponent();
-            ImageBrush b = new ImageBrush();
-            b.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/bg_login.png"));
-            b.Stretch = Stretch.Fill;
-            this.Background = b;
-            InputPanel.HideInputPanel();
+            //ImageBrush b = new ImageBrush();
+            //b.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/bg_login.png"));
+            //b.Stretch = Stretch.Fill;
+            //this.Background = b;
+            //InputPanel.HideInputPanel();
         }
         private void Login_Click(object sender, RoutedEventArgs e)
         {

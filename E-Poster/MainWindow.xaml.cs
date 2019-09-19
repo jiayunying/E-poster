@@ -24,10 +24,10 @@ namespace E_Poster
         {
             InitializeComponent();
             this.Content = new Login();
-            //ImageBrush b = new ImageBrush();
-            //b.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/bg_login.jpg"));
-            //b.Stretch = Stretch.Fill;
-            //this.Background = b;
+            ImageBrush b = new ImageBrush();
+            b.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/bg_login.png"));
+            b.Stretch = Stretch.Fill;
+            this.Background = b;
         }
         /// <summary>
         /// 相应鼠标左键，使窗体能拖动
