@@ -5,6 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:E_Poster"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1200" Width="675" WindowStyle="None" ResizeMode="CanResizeWithGrip" MouseLeftButtonDown="Window_MouseLeftButtonDown" WindowStartupLocation="CenterScreen" Topmost="True">
+        Title="MainWindow" Height="1200" Width="675" WindowStyle="None" ResizeMode="CanResizeWithGrip" MouseLeftButtonDown="Window_MouseLeftButtonDown" WindowStartupLocation="CenterScreen" Topmost="True" AllowsTransparency="True">
 
 </Window>

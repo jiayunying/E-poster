@@ -134,5 +134,18 @@
   <ItemGroup>
     <Resource Include="resources\title.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\bg.png" />
+    <Resource Include="resources\checknum.png" />
+    <Resource Include="resources\hot.png" />
+    <Resource Include="resources\icon.png" />
+    <Resource Include="resources\last.png" />
+    <Resource Include="resources\left.png" />
+    <Resource Include="resources\mettingID.png" />
+    <Resource Include="resources\next.png" />
+    <Resource Include="resources\return.png" />
+    <Resource Include="resources\right.png" />
+    <Resource Include="resources\search.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

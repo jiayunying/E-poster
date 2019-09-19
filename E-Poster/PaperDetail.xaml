@@ -5,10 +5,56 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:E_Poster"
       mc:Ignorable="d" 
-      d:DesignHeight="1200" d:DesignWidth="675"
+      d:DesignHeight="1920" d:DesignWidth="1080"
       Title="PaperDetail">
+    <Page.Resources>
+        <Style TargetType="{x:Type Button}" x:Key="DefaultButton">
+            <Setter Property="IsEnabled" Value="True"/>
+            <Setter Property="Width" Value="56"/>
+            <Setter Property="Height" Value="56"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            
+        </Style>
+       
+    </Page.Resources>
 
     <Grid>
-        <Image HorizontalAlignment="Left" VerticalAlignment="Top"  Name="imgViewer" />
+        <Viewbox Stretch="Fill">
+            <Image HorizontalAlignment="Center" VerticalAlignment="Center"  Name="imgViewer"/>
+        </Viewbox>
+
+        <Button x:Name="Last" Style="{StaticResource DefaultButton}"  Margin="0,190,26,0" >
+            <Button.Template>
+                <ControlTemplate>
+                    <Rectangle Margin="2">
+                        <Rectangle.Fill>
+                            <ImageBrush x:Name="Last_Imgbrush" ImageSource="pack://application:,,,/resources/last.png" Opacity="0.4"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="Next" Style="{StaticResource DefaultButton}"  Margin="0,380,26,0">
+            <Button.Template>
+                <ControlTemplate>
+                    <Rectangle Margin="2">
+                        <Rectangle.Fill>
+                            <ImageBrush x:Name="Next_Imgbrush" ImageSource="pack://application:,,,/resources/next.png" Opacity="0.4"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="Return" Style="{StaticResource DefaultButton}"  Margin="0,570,26,0">
+            <Button.Template>
+                <ControlTemplate>
+                    <Rectangle Margin="2">
+                        <Rectangle.Fill>
+                            <ImageBrush x:Name="Return_Imgbrush" ImageSource="pack://application:,,,/resources/return.png" Opacity="0.4"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
     </Grid>
 </Page>

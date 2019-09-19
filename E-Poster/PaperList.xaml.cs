@@ -83,8 +83,71 @@ namespace E_Poster
 
             ImageInit();
             TypeListInit();
+            ButtomAnimation();      
+        }
+        /// <summary>
+        /// 翻页按钮闪烁动画
+        /// </summary>
+        private void ButtomAnimation() {
+            Storyboard s_left = new Storyboard();
+            DoubleAnimation da_opacity = new DoubleAnimation();
+            da_opacity.From = 0.3;
+            da_opacity.To = 1;
+
+            DoubleAnimation da_width= new DoubleAnimation();
+            da_width.From = 40;
+            da_width.To = 95;
+
+            DoubleAnimation da_height = new DoubleAnimation();
+            da_height.From = 40;
+            da_height.To = 95;
+
+            Storyboard.SetTarget(da_opacity, Left);
+            Storyboard.SetTarget(da_width, Left);
+            Storyboard.SetTarget(da_height, Left);
+            Storyboard.SetTargetProperty(da_opacity, new PropertyPath("Opacity", new object[] { }));
+            Storyboard.SetTargetProperty(da_width, new PropertyPath("Width", new object[] { }));
+            Storyboard.SetTargetProperty(da_height, new PropertyPath("Height", new object[] { }));
+
+
+            s_left.Duration = new Duration(TimeSpan.FromSeconds(2));
+            s_left.Children.Add(da_opacity);
+            s_left.Children.Add(da_width);
+            s_left.Children.Add(da_height);
+            s_left.AutoReverse = true;
+            s_left.RepeatBehavior = RepeatBehavior.Forever;
+            s_left.Begin();
+
+            Storyboard s_right = new Storyboard();
+
+            Storyboard.SetTarget(da_opacity, Right);
+            Storyboard.SetTarget(da_width, Right);
+            Storyboard.SetTarget(da_height, Right);
+            Storyboard.SetTargetProperty(da_opacity, new PropertyPath("Opacity", new object[] { }));
+            Storyboard.SetTargetProperty(da_width, new PropertyPath("Width", new object[] { }));
+            Storyboard.SetTargetProperty(da_height, new PropertyPath("Height", new object[] { }));
+            s_right.Duration = new Duration(TimeSpan.FromSeconds(2));
+            s_right.Children.Add(da_opacity);
+            s_right.Children.Add(da_width);
+            s_right.Children.Add(da_height);
+            s_right.AutoReverse = true;
+            s_right.RepeatBehavior = RepeatBehavior.Forever;
+            s_right.Begin();
+
+            //da_opacity.Duration = new Duration(TimeSpan.FromSeconds(1.5));
+            //Right.BeginAnimation(Button.OpacityProperty, da_opacity);
+
+            //DoubleAnimation da_width = new DoubleAnimation();
+            //da_width.From = Right.Width;
+            //da_width.To = 30;
+            //da_width.AutoReverse = true;
+            //da_width.Duration = new Duration(TimeSpan.FromSeconds(3));
+            //da_width.RepeatBehavior = RepeatBehavior.Forever;
+            //Right.BeginAnimation(Button.WidthProperty, da_width);
 
         }
+
+
         /// <summary>
         /// 初始化论文类型列表
         /// </summary>
@@ -167,20 +230,12 @@ namespace E_Poster
             timer.Start();
         }
         /// <summary>
-        /// 定时器控制翻页按钮闪烁
+        /// 定时器事件
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void timer1_Tick(object sender, EventArgs e) {
-            Ellipse rec = (Ellipse)_btn.Template.FindName("ButtonEllipse", _btn);
-            if (rec.Fill == System.Windows.Media.Brushes.Gray)
-            {
-                rec.Fill = System.Windows.Media.Brushes.LightGreen;
-            }
-            else
-            {
-                rec.Fill = System.Windows.Media.Brushes.Gray;
-            }
+
         }
         #region 抽屉效果
         private bool _Expand = true;

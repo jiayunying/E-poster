@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:E_Poster"
       mc:Ignorable="d" 
-      d:DesignHeight="1200" d:DesignWidth="675"
+      d:DesignHeight="1920" d:DesignWidth="1080"
       Title="PaperList" Loaded="Page_Loaded">
     <Page.Resources>
         <Style TargetType="ListBox" x:Key="style_listbox">
@@ -98,7 +98,17 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Button Content="Button" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Grid.Row="0"  Width="75" Click="Button_Click_1" Panel.ZIndex="100"/>
+        <Button  HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="Button_Click_1" Grid.Row="0"  Width="54" Height="54" Visibility="Visible" Panel.ZIndex="10">
+            <Button.Template>
+                <ControlTemplate>
+                    <Rectangle Margin="2">
+                        <Rectangle.Fill>
+                            <ImageBrush ImageSource="pack://application:,,,/resources/search.png"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
         <StackPanel  HorizontalAlignment="Left"  Name="Thumb1" VerticalAlignment="Stretch" Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Width="Auto" CanVerticallyScroll="True" Panel.ZIndex="10">
             <StackPanel.RenderTransform>
                 <TranslateTransform x:Name="spt1"></TranslateTransform>
@@ -108,9 +118,14 @@
                 <RectangleGeometry x:Name="spc1"></RectangleGeometry>
 
             </StackPanel.Clip>
+            <Grid>
+                <Grid.RowDefinitions>
+                    
+                </Grid.RowDefinitions>
+                <ListBox Name="typeList" DisplayMemberPath="TypeName" SelectedValuePath="ID" Width="500" VerticalAlignment="Stretch" Background="#2B323A" Foreground="White">
+                </ListBox>
+            </Grid>
 
-            <ListBox Name="typeList" DisplayMemberPath="TypeName" SelectedValuePath="ID" Width="500" VerticalAlignment="Stretch" Background="#2B323A" Foreground="White">
-            </ListBox>
         </StackPanel>
 
 
@@ -121,21 +136,29 @@
 
         <ListBox Grid.Row="1" Name="listBox1" Grid.ColumnSpan="2"  ItemsSource="{Binding Tables[0]}" 
                  ItemTemplate="{StaticResource listBoxTemplate}" Background="Transparent" SelectionChanged="ListBox1_SelectionChanged"/>
-        <!--翻页按钮 -->
-            <Button Name="_btn" Grid.Row="1" Width="40" Visibility="Visible" Template="{DynamicResource ButtonControlTemplate}" Height="40" HorizontalAlignment="Left"  Cursor="Hand" Margin="20,0,0,0">
-                               
-            <Button.Resources>
-                <ControlTemplate x:Key="ButtonControlTemplate" TargetType="{x:Type Button}">
-                    <Grid>
-                        <Ellipse x:Name="ButtonEllipse" Width="Auto" Height="Auto" StrokeThickness="2" Stroke="Gray"></Ellipse>
-                        <Polygon x:Name="ButtonPolygon" Stroke="Gray" StrokeThickness="1">
-                            <Polygon.Fill>
-                                <SolidColorBrush Color="Red" Opacity="0.4"/>
-                            </Polygon.Fill>
-                        </Polygon>
-                    </Grid>
+        <!--翻页按钮 --> 
+        <Button x:Name="Left"   HorizontalAlignment="Left"  Grid.Row="1" Grid.ColumnSpan="2" Width="95" Height="95" Visibility="Visible" Margin="12,0,0,0">
+            <Button.Template>
+                <ControlTemplate>
+                    <Rectangle Margin="2">
+                        <Rectangle.Fill>
+                            <ImageBrush x:Name="Last_Imgbrush" ImageSource="pack://application:,,,/resources/left.png"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
                 </ControlTemplate>
-            </Button.Resources>
+            </Button.Template>
+        </Button>
+
+        <Button x:Name="Right"   HorizontalAlignment="Right"  Grid.Row="1" Grid.ColumnSpan="2" Width="95" Height="95" Visibility="Visible"  Margin="0,0,12,0">
+            <Button.Template>
+                <ControlTemplate>
+                    <Rectangle Margin="2">
+                        <Rectangle.Fill>
+                            <ImageBrush x:Name="Next_Imgbrush" ImageSource="pack://application:,,,/resources/right.png"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </ControlTemplate>
+            </Button.Template>
         </Button>
 
         <Image x:Name="bottom" Grid.Row="2" Grid.ColumnSpan="2" Stretch="None"/>
