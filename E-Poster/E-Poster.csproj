@@ -145,6 +145,9 @@
     <Resource Include="resources\next.png" />
     <Resource Include="resources\return.png" />
     <Resource Include="resources\right.png" />
+    <Resource Include="resources\typelist.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Resource Include="resources\search.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

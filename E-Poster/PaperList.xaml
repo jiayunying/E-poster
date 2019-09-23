@@ -16,8 +16,8 @@
 
                             <Border>
                                 <ScrollViewer BorderBrush="Transparent">
-                                    <UniformGrid IsItemsHost="True" Columns="1"></UniformGrid>
-                                    <!--<StackPanel IsItemsHost="True"/>-->
+                                    <!--<UniformGrid IsItemsHost="True" Columns="1"></UniformGrid>-->
+                                    <StackPanel IsItemsHost="True"/>
                                 </ScrollViewer>
                             </Border>
 
@@ -103,30 +103,84 @@
                 <ControlTemplate>
                     <Rectangle Margin="2">
                         <Rectangle.Fill>
-                            <ImageBrush ImageSource="pack://application:,,,/resources/search.png"/>
+                            <ImageBrush ImageSource="pack://application:,,,/resources/typelist.png"/>
                         </Rectangle.Fill>
                     </Rectangle>
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <StackPanel  HorizontalAlignment="Left"  Name="Thumb1" VerticalAlignment="Stretch" Grid.Row="1" Grid.RowSpan="2" Grid.Column="0" Width="Auto" CanVerticallyScroll="True" Panel.ZIndex="10">
-            <StackPanel.RenderTransform>
+        <Grid  HorizontalAlignment="Stretch"  Name="Thumb1" VerticalAlignment="Stretch" Grid.Row="0" Grid.RowSpan="3"  Grid.ColumnSpan="2"  Panel.ZIndex="100">
+            <!--CanVerticallyScroll="True"-->
+            <Grid.RenderTransform>
                 <TranslateTransform x:Name="spt1"></TranslateTransform>
-            </StackPanel.RenderTransform>
-
-            <StackPanel.Clip>
+            </Grid.RenderTransform>
+            <Grid.Clip>
                 <RectangleGeometry x:Name="spc1"></RectangleGeometry>
+            </Grid.Clip>
+            <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+            <StackPanel Background="#2B323A" Grid.Column="0">
+                <StackPanel.Effect>
+                    <DropShadowEffect x:Name="shadow" Color="#404851" Direction="0" ShadowDepth="10" Opacity="0.5" />
+                </StackPanel.Effect>
 
-            </StackPanel.Clip>
-            <Grid>
-                <Grid.RowDefinitions>
-                    
-                </Grid.RowDefinitions>
-                <ListBox Name="typeList" DisplayMemberPath="TypeName" SelectedValuePath="ID" Width="500" VerticalAlignment="Stretch" Background="#2B323A" Foreground="White">
+                
+                <StackPanel Margin="40,150,40,40" >
+                    <Border BorderBrush="#0DBCCD" BorderThickness="1,1,1,1">
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220"/>
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox  Grid.Column="0" x:Name="txt_search" Text="搜索"  Padding="10" Background="Transparent"  BorderThickness="0,0,0,0" Foreground="#999999" GotFocus="Search_GotFocus" LostFocus="Search_LostFocus" />
+                            <Image Source="pack://application:,,,/resources/search.png" Width="30" Height="30" Grid.Column="1"></Image>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+               
+
+                <TextBlock Text="论文分类" Foreground="White" Margin="60,20" FontWeight="Bold" FontSize="20"/>
+                <ListBox Name="typeList" Grid.Row="1"  DisplayMemberPath="TypeName" SelectedValuePath="ID"  VerticalAlignment="Stretch" Background="Transparent" Foreground="White" BorderThickness="0,0,0,0" GotFocus="Button_Click_1">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border Background="{TemplateBinding Background}" Padding="60,20">
+                                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+TextBlock.Foreground="{TemplateBinding Foreground}"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="true">
+                                    <Setter Property="Background">
+                                        <Setter.Value>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                <GradientStop Color="#09B9CB" Offset="1"/>
+                                                <GradientStop Color="#73EDF9" Offset="0"/>
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Foreground" Value="White"/>
+                                </Trigger>
+                                <!--<Trigger Property="IsMouseOver" Value="true">
+                                    <Setter Property="Background" Value="LightGreen"/>
+                                    <Setter Property="Foreground" Value="Red"/>
+                                </Trigger>-->
+                            </Style.Triggers>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
                 </ListBox>
-            </Grid>
-
-        </StackPanel>
+                <!--<Button Content="返回" Click="Button_Click_1" HorizontalAlignment="Center"></Button>-->
+            </StackPanel>
+            <StackPanel Background="#404851" Opacity="0.2" Grid.Column="1" Visibility="Hidden" Name="mengban" GotFocus="Button_Click_1">
+            </StackPanel>
+        </Grid>
 
 
 
@@ -135,7 +189,7 @@
 
 
         <ListBox Grid.Row="1" Name="listBox1" Grid.ColumnSpan="2"  ItemsSource="{Binding Tables[0]}" 
-                 ItemTemplate="{StaticResource listBoxTemplate}" Background="Transparent" SelectionChanged="ListBox1_SelectionChanged"/>
+                 ItemTemplate="{StaticResource listBoxTemplate}" Background="Transparent" SelectionChanged="ListBox1_SelectionChanged" BorderThickness="0,0,0,0"/>
         <!--翻页按钮 --> 
         <Button x:Name="Left"   HorizontalAlignment="Left"  Grid.Row="1" Grid.ColumnSpan="2" Width="95" Height="95" Visibility="Visible" Margin="12,0,0,0">
             <Button.Template>

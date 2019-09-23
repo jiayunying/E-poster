@@ -94,26 +94,26 @@ namespace E_Poster
             da_opacity.From = 0.3;
             da_opacity.To = 1;
 
-            DoubleAnimation da_width= new DoubleAnimation();
-            da_width.From = 40;
-            da_width.To = 95;
+            //DoubleAnimation da_width= new DoubleAnimation();
+            //da_width.From = 40;
+            //da_width.To = 95;
 
-            DoubleAnimation da_height = new DoubleAnimation();
-            da_height.From = 40;
-            da_height.To = 95;
+            //DoubleAnimation da_height = new DoubleAnimation();
+            //da_height.From = 40;
+            //da_height.To = 95;
 
             Storyboard.SetTarget(da_opacity, Left);
-            Storyboard.SetTarget(da_width, Left);
-            Storyboard.SetTarget(da_height, Left);
+            //Storyboard.SetTarget(da_width, Left);
+            //Storyboard.SetTarget(da_height, Left);
             Storyboard.SetTargetProperty(da_opacity, new PropertyPath("Opacity", new object[] { }));
-            Storyboard.SetTargetProperty(da_width, new PropertyPath("Width", new object[] { }));
-            Storyboard.SetTargetProperty(da_height, new PropertyPath("Height", new object[] { }));
+            //Storyboard.SetTargetProperty(da_width, new PropertyPath("Width", new object[] { }));
+            //Storyboard.SetTargetProperty(da_height, new PropertyPath("Height", new object[] { }));
 
 
             s_left.Duration = new Duration(TimeSpan.FromSeconds(2));
             s_left.Children.Add(da_opacity);
-            s_left.Children.Add(da_width);
-            s_left.Children.Add(da_height);
+            //s_left.Children.Add(da_width);
+            //s_left.Children.Add(da_height);
             s_left.AutoReverse = true;
             s_left.RepeatBehavior = RepeatBehavior.Forever;
             s_left.Begin();
@@ -121,15 +121,15 @@ namespace E_Poster
             Storyboard s_right = new Storyboard();
 
             Storyboard.SetTarget(da_opacity, Right);
-            Storyboard.SetTarget(da_width, Right);
-            Storyboard.SetTarget(da_height, Right);
+            //Storyboard.SetTarget(da_width, Right);
+            //Storyboard.SetTarget(da_height, Right);
             Storyboard.SetTargetProperty(da_opacity, new PropertyPath("Opacity", new object[] { }));
-            Storyboard.SetTargetProperty(da_width, new PropertyPath("Width", new object[] { }));
-            Storyboard.SetTargetProperty(da_height, new PropertyPath("Height", new object[] { }));
+            //Storyboard.SetTargetProperty(da_width, new PropertyPath("Width", new object[] { }));
+            //Storyboard.SetTargetProperty(da_height, new PropertyPath("Height", new object[] { }));
             s_right.Duration = new Duration(TimeSpan.FromSeconds(2));
             s_right.Children.Add(da_opacity);
-            s_right.Children.Add(da_width);
-            s_right.Children.Add(da_height);
+            //s_right.Children.Add(da_width);
+            //s_right.Children.Add(da_height);
             s_right.AutoReverse = true;
             s_right.RepeatBehavior = RepeatBehavior.Forever;
             s_right.Begin();
@@ -237,8 +237,33 @@ namespace E_Poster
         private void timer1_Tick(object sender, EventArgs e) {
 
         }
+        /// <summary>
+        /// 输入框获得焦点时
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Search_GotFocus(object sender, RoutedEventArgs e)
+        {
+            txt_search.Text = "";
+            //System.Diagnostics.Process.Start("osk.exe");
+            InputPanel.ShowInputPanel();
+        }
+        /// <summary>
+        /// 输入框失去焦点事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Search_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (String.IsNullOrEmpty(txt_search.Text))
+            {
+                txt_search.Text = "搜索";
+            }
+            InputPanel.HideInputPanel();
+        }
+        
         #region 抽屉效果
-        private bool _Expand = true;
+        private bool _Expand = false;
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
@@ -263,7 +288,7 @@ namespace E_Poster
                 clipAnim.Duration = duration;
                 clipAnim.FillBehavior = behavior;
 
-                double delta = 500; //收缩的大小
+                double delta = this.ActualWidth/2+shadow.ShadowDepth; //收缩的大小
 
                 if (_Expand) // Expand
                 {
@@ -272,6 +297,7 @@ namespace E_Poster
 
                     clipAnim.From = new Rect(delta, 0, Thumb1.ActualWidth, Thumb1.ActualHeight);
                     clipAnim.To = new Rect(0, 0, Thumb1.ActualWidth, Thumb1.ActualHeight);
+                    mengban.Visibility = Visibility.Visible;
                 }
                 else  //Shrink
                 {
@@ -280,12 +306,15 @@ namespace E_Poster
 
                     clipAnim.From = new Rect(0, 0, Thumb1.ActualWidth, Thumb1.ActualHeight);
                     clipAnim.To = new Rect(delta, 0, Thumb1.ActualWidth, Thumb1.ActualHeight);
+                    mengban.Visibility = Visibility.Hidden;
                 }
 
                 spt1.BeginAnimation(TranslateTransform.XProperty, translateAnim);
                 spc1.BeginAnimation(RectangleGeometry.RectProperty, clipAnim);
+
             }
         }
         #endregion
+
     }
 }
