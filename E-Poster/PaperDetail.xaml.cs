@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommonUtil;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -53,7 +54,11 @@ namespace E_Poster
                 }
             }
         }
-
+        /// <summary>
+        /// 自动播放
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void bw_DoWork(object sender, DoWorkEventArgs e)
         {
             while (true)
@@ -81,6 +86,35 @@ namespace E_Poster
                 }
                 isRendering = false;
             }
+        }
+        /// <summary>
+        /// 向下翻页
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Next_Click(object sender, RoutedEventArgs e)
+        {
+            List<Paper> list = MainWindow.paperlist;
+        }
+        /// <summary>
+        /// 向上翻页
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Last_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+        /// <summary>
+        /// 返回列表页
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Return_Click(object sender, RoutedEventArgs e)
+        {
+            ////TODO:调接口进行权限校验
+            NavigationService.GetNavigationService(this).GoBack(); //向前转
+            this.NavigationService.Navigate(new Uri("/PaperList.xaml", UriKind.Relative));
         }
     }
 }

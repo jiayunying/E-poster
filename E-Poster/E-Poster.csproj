@@ -34,6 +34,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -81,6 +84,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Resources\en-us.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\zh-cn.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PaperDetail.xaml.cs">
@@ -106,13 +117,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\logo.png" />
+    <Resource Include="Resources\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="ydt-mettings\1103\banner.png">
@@ -129,26 +141,26 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\bg_login.png" />
+    <Resource Include="Resources\bg_login.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\title.png" />
+    <Resource Include="Resources\title.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\bg.png" />
-    <Resource Include="resources\checknum.png" />
-    <Resource Include="resources\hot.png" />
-    <Resource Include="resources\icon.png" />
-    <Resource Include="resources\last.png" />
-    <Resource Include="resources\left.png" />
-    <Resource Include="resources\mettingID.png" />
-    <Resource Include="resources\next.png" />
-    <Resource Include="resources\return.png" />
-    <Resource Include="resources\right.png" />
-    <Resource Include="resources\typelist.png" />
+    <Resource Include="Resources\bg.png" />
+    <Resource Include="Resources\checknum.png" />
+    <Resource Include="Resources\hot.png" />
+    <Resource Include="Resources\icon.png" />
+    <Resource Include="Resources\last.png" />
+    <Resource Include="Resources\left.png" />
+    <Resource Include="Resources\mettingID.png" />
+    <Resource Include="Resources\next.png" />
+    <Resource Include="Resources\return.png" />
+    <Resource Include="Resources\right.png" />
+    <Resource Include="Resources\typelist.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\search.png" />
+    <Resource Include="Resources\search.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

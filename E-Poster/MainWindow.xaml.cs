@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommonUtil;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,11 +20,17 @@ namespace E_Poster
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// 全局静态变量：论文列表
+        /// </summary>
+        public static List<Paper> paperlist = new List<Paper>();
+
+        public string request_filter = "";
 
         public MainWindow()
         {
             InitializeComponent();
-            this.Content = new Login();
+            this.MainFrame.Content = new Login();
             ImageBrush b = new ImageBrush();
             b.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/bg_login.png"));
             b.Stretch = Stretch.Fill;
@@ -38,12 +45,6 @@ namespace E_Poster
         {
             this.DragMove();
         }
-        //点击登录按钮
-        private void Login_Click(object sender, RoutedEventArgs e)
-        {
-            //TODO:
 
-
-        }
     }
 }

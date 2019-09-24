@@ -15,6 +15,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using CommonUtil;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 namespace E_Poster
 {
     /// <summary>
@@ -22,7 +24,7 @@ namespace E_Poster
     /// </summary>
     public partial class PaperList : Page
     {
-        DataSet paperListData = new DataSet();
+
 
         DispatcherTimer timer;
 
@@ -30,61 +32,82 @@ namespace E_Poster
         {
             InitializeComponent();
             //初始化paperdata数据
-            DataTable dt = new DataTable();
-            dt.Columns.Add("ProvinceName");
-            dt.Columns.Add("DateCreated");
-            dt.Columns.Add("DataTest");
-            dt.Columns.Add("DateUpdated");
 
-            DataRow dr = dt.NewRow();
-            dr["ProvinceName"] = "北京";
-            dr["DateCreated"] = "论文一论文一论文一论文一论文一论文一论文一论文一";
-            dr["DataTest"] = "测试数据";
-            dr["DateUpdated"] = "第一作者";
-            dt.Rows.Add(dr.ItemArray);
-
-            DataRow dr1 = dt.NewRow();
-            dr1["ProvinceName"] = "上海";
-            dr1["DateCreated"] = "论文一论文一论文一论文一论文一论文一论文一论文一";
-            dr1["DataTest"] = "测试数据";
-            dr1["DateUpdated"] = "第二作者";
-            dt.Rows.Add(dr1.ItemArray);
-
-            DataRow dr2 = dt.NewRow();
-            dr2["ProvinceName"] = "广州";
-            dr2["DateCreated"] = "论文一论文一论文一论文一论文一论文一论文一论文一";
-            dr2["DataTest"] = "测试数据";
-            dr2["DateUpdated"] = "第一作者";
-            dt.Rows.Add(dr2.ItemArray);
-
-            DataRow dr3 = dt.NewRow();
-            dr3["ProvinceName"] = "深圳";
-            dr3["DateCreated"] = "论文一论文一论文一论文一论文一论文一论文一论文一";
-            dr3["DataTest"] = "测试数据";
-            dr3["DateUpdated"] = "第一作者";
-            dt.Rows.Add(dr3.ItemArray);
-
-            DataRow dr4 = dt.NewRow();
-            dr4["ProvinceName"] = "南京";
-            dr4["DateCreated"] = "论文一论文一论文一论文一论文一论文一论文一论文一";
-            dr4["DataTest"] = "测试数据";
-            dr4["DateUpdated"] = "第一作者";
-            dt.Rows.Add(dr4.ItemArray);
-
-            DataRow dr5 = dt.NewRow();
-            dr5["ProvinceName"] = "海口";
-            dr5["DateCreated"] = "论文一论文一论文一论文一论文一论文一论文一论文一";
-            dr["DataTest"] = "测试数据";
-            dr5["DateUpdated"] = "第一作者";
-            dt.Rows.Add(dr5.ItemArray);
-
-            paperListData.Tables.Add(dt);
-            listBox1.DataContext = paperListData;
-
+            InitPaperList();
+            
             ImageInit();
             TypeListInit();
-            ButtomAnimation();      
+            ButtomAnimation();
         }
+
+        /// <summary>
+        /// 初始化论文列表
+        /// </summary>
+        private void InitPaperList() {
+            string str_papers = "{\"paper_list\": [{\"paper_id\": 1,\"paper_title\":\"电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响\",\"first_author\": \"张春萍\",\"first_author_org\": \"北京大学医学部\",\"keyword\": \"关节，疼痛\"," +
+"\"filename\": \"电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响.jpg\",\"hot\": 34}," +
+        "{\"paper_id\": 2,\"paper_title\": \"冲击波治疗关节疼痛的疗效观察\",\"first_author\": \"薛毅\",\"first_author_org\": \"北京大学医学部\",\"keyword\": \"冲击波，疼痛\",\"filename\": \"冲击波治疗关节疼痛的疗效观察.jpg\",\"hot\": 5}," +
+        "{\"paper_id\": 1,\"paper_title\": \" 浅谈自闭症儿童正面干预的策略\",\"first_author\": \"刘锡\",\"first_author_org\": \"北京大学医学部\",\"keyword\": \"自闭症\",\"filename\": \"浅谈自闭症儿童正面干预的策略.jpg\",\"hot\": 2}]}";
+
+                JObject jo = (JObject)JsonConvert.DeserializeObject(str_papers);
+                //TODO：调接口查询论文类型
+               
+                String record = jo["paper_list"].ToString();
+                JArray array = (JArray)JsonConvert.DeserializeObject(record);
+
+                if (array.Count< 1) return;
+                else
+                {
+                    foreach (JToken token in array)
+                    {
+                        Paper p = new Paper()
+                        {
+                            paper_id = (int)token["paper_id"],
+                            paper_title = (string)token["paper_title"],
+                            first_author = (string)token["first_author"],
+                            first_author_org=(string)token["first_author_org"],
+                            keyword=(string)token["keyword"],
+                            filename=(string)token["filename"],
+                            hot=(int)token["hot"]
+                        };
+                    MainWindow.paperlist.Add(p);
+                    }
+                 }
+            this.listBox1.ItemsSource = MainWindow.paperlist;
+         }
+
+        /// <summary>
+        /// 初始化论文类型列表
+        /// </summary>
+        private void TypeListInit()
+            {
+            //这个方法应该放到登录事件中
+                string Typelist = "{\"code\": 0,\"msg\": \"\",\"paper_type\": [{\"t_id\": 1,\"t_name\": \"康复医学基础研究\",\"p_count\": 39}, {\"t_id\": 2,\"t_name\": \"康复医学临床研究\",\"p_count\": 78}, {\"t_id\": 3,\"t_name\": \"骨关节疼痛研究\",\"p_count\": 113}]}";
+
+                JObject jo = (JObject)JsonConvert.DeserializeObject(Typelist);
+                //TODO：调接口查询论文类型
+                List<PaperType> typelist = new List<PaperType>();
+                String record = jo["paper_type"].ToString();
+                JArray array = (JArray)JsonConvert.DeserializeObject(record);
+
+                if (array.Count < 1) return;
+                else
+                {
+                    foreach (JToken token in array)
+                    {
+                        PaperType pt = new PaperType()
+                        {
+                            t_id = (int)token["t_id"],
+                            t_name = (string)token["t_name"] + "(" + (string)token["p_count"] + "篇)",
+                            p_count = (int)token["p_count"]
+                        };
+                        typelist.Add(pt);
+                    }
+                }
+
+                this.typeList.ItemsSource = typelist;
+            }
+
         /// <summary>
         /// 翻页按钮闪烁动画
         /// </summary>
@@ -147,32 +170,6 @@ namespace E_Poster
 
         }
 
-
-        /// <summary>
-        /// 初始化论文类型列表
-        /// </summary>
-        private void TypeListInit() {
-            //TODO：调接口查询论文类型
-            List<PaperType> typelist = new List<PaperType>() {
-            new PaperType(){ID=1,TypeName="康复医学基础研究(90篇)"},
-            new PaperType(){ID=2,TypeName="康复医学临床研究(30篇)"},
-            new PaperType(){ID=3,TypeName="康复机构管理(46篇)"},
-            new PaperType(){ID=4,TypeName="中西医结合康复(39篇)"},
-            new PaperType(){ID=5,TypeName="运动康复研究(91篇)"},
-            new PaperType(){ID=6,TypeName="康复与养老结合发展(48篇)"},
-            new PaperType(){ID=7,TypeName="康复设备器具研发与康复工程(98篇)"},
-            new PaperType(){ID=8,TypeName="康复医学信息化建设(78篇)"},
-            };
-
-            this.typeList.ItemsSource = typelist;
-        }
-        public class PaperType
-        {
-            public int ID { get; set; }
-            public string TypeName { get; set; }
-            //public int Count { get; set; }
-        }
-
         /// <summary>
         /// 初始化banner图和bottom图
         /// </summary>
@@ -204,20 +201,9 @@ namespace E_Poster
         private void ListBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //TODO：根据选择项跳转详情页
-            DependencyObject currParent = VisualTreeHelper.GetParent(this);
-            Window mainwindow = null;
-            //循环取节点树中this的父节点直到取到window
-            while (currParent != null && mainwindow == null)
-            {
-                mainwindow = currParent as Window;
-                currParent = VisualTreeHelper.GetParent(currParent);
-            }
-            // Change the page of the frame.
-            if (mainwindow != null)
-            {
-                mainwindow.Content = new PaperDetail();
-            }
 
+            //this.NavigationService.Navigate(new PaperDetail());
+            this.NavigationService.Navigate(new Uri("/PaperDetail.xaml", UriKind.Relative));
 
         }
 
@@ -261,13 +247,46 @@ namespace E_Poster
             }
             InputPanel.HideInputPanel();
         }
-        
+
+        /// <summary>
+        /// 中英文切换
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Cn_Click(object sender, RoutedEventArgs e) {
+            var btn = sender as RadioButton;
+            string requestedCulture= @"Resources\zh-cn.xaml";
+            if (btn.Name.Equals("btn_en"))
+            {
+                requestedCulture = @"Resources\en-us.xaml";
+            }
+            if(btn.Name.Equals("btn_cn"))
+            {
+                requestedCulture = @"Resources\zh-cn.xaml";
+            }
+
+            List<ResourceDictionary> dictionaries = new List<ResourceDictionary>();
+            foreach (ResourceDictionary dictionary in Application.Current.Resources.MergedDictionaries)
+            {
+                dictionaries.Add(dictionary);
+            }
+            
+            ResourceDictionary resourceDictionary = dictionaries.FirstOrDefault(d => d.Source.OriginalString.Equals(requestedCulture));
+            Application.Current.Resources.MergedDictionaries.Remove(resourceDictionary);
+            Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
+
+            //TODO:调接口获取论文列表（按中/英文排序）
+        }
+
         #region 抽屉效果
         private bool _Expand = false;
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             Expand = !_Expand;
+            if (this.typeList.SelectedItem != null) { 
+            this.typeList.SelectedItem.ToString();
+            }
         }
 
         public bool Expand

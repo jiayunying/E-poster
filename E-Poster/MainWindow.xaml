@@ -6,5 +6,6 @@
         xmlns:local="clr-namespace:E_Poster"
         mc:Ignorable="d"
         Title="MainWindow" Height="1200" Width="675" WindowStyle="None" ResizeMode="CanResizeWithGrip" MouseLeftButtonDown="Window_MouseLeftButtonDown" WindowStartupLocation="CenterScreen" Topmost="True" AllowsTransparency="True">
-
+    <Frame Name="MainFrame" NavigationUIVisibility="Hidden">
+    </Frame>
 </Window>

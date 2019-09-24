@@ -24,37 +24,19 @@ namespace E_Poster
         public Login()
         {
             InitializeComponent();
-            //ImageBrush b = new ImageBrush();
-            //b.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/bg_login.png"));
-            //b.Stretch = Stretch.Fill;
-            //this.Background = b;
-            //InputPanel.HideInputPanel();
         }
+        /// <summary>
+        /// 登录
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            //TODO:调接口进行权限校验
-            DependencyObject currParent = VisualTreeHelper.GetParent(this);
-            Window mainwindow = null;
-            //循环取节点树中this的父节点直到取到window
-            while (currParent != null && mainwindow == null)
-            {
-                mainwindow = currParent as Window;
-                currParent = VisualTreeHelper.GetParent(currParent);
-            }
-            // Change the page of the frame.
-            if (mainwindow != null)
-            {
-                mainwindow.Content = new PaperList();
-            }
+            ////TODO:调接口进行权限校验
 
-            //mainwindow.Content = new PaperList();
-
-            //NavigationService.GetNavigationService(this).Navigate(new Uri("../PaperList.xaml", UriKind.RelativeOrAbsolute));
-            //NavigationService.GetNavigationService(this).GoForward(); 向后转
-            //NavigationService.GetNavigationService(this).GoBack(); 向前转
-
-
+            this.NavigationService.Navigate(new Uri("/PaperList.xaml", UriKind.Relative));
         }
+
         //会议ID输入框获得焦点时
         //TODO：输入时禁止输入非数字项
         private void MettingId_GotFocus(object sender, RoutedEventArgs e)

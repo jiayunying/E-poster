@@ -22,8 +22,8 @@
         <Viewbox Stretch="Fill">
             <Image HorizontalAlignment="Center" VerticalAlignment="Center"  Name="imgViewer"/>
         </Viewbox>
-
-        <Button x:Name="Last" Style="{StaticResource DefaultButton}"  Margin="0,190,26,0" >
+        <!-- 上一页 -->
+        <Button x:Name="Last" Style="{StaticResource DefaultButton}"  Margin="0,190,26,0" Click="Last_Click">
             <Button.Template>
                 <ControlTemplate>
                     <Rectangle Margin="2">
@@ -34,7 +34,8 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="Next" Style="{StaticResource DefaultButton}"  Margin="0,380,26,0">
+        <!-- 下一页 -->
+        <Button x:Name="Next" Style="{StaticResource DefaultButton}"  Margin="0,380,26,0" Click="Next_Click">
             <Button.Template>
                 <ControlTemplate>
                     <Rectangle Margin="2">
@@ -45,7 +46,8 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="Return" Style="{StaticResource DefaultButton}"  Margin="0,570,26,0">
+        <!-- 返回列表页 -->
+        <Button x:Name="Return" Style="{StaticResource DefaultButton}"  Margin="0,570,26,0" Click="Return_Click">
             <Button.Template>
                 <ControlTemplate>
                     <Rectangle Margin="2">

@@ -7,108 +7,83 @@
       mc:Ignorable="d" 
       d:DesignHeight="1920" d:DesignWidth="1080"
       Title="PaperList" Loaded="Page_Loaded">
-    <Page.Resources>
-        <Style TargetType="ListBox" x:Key="style_listbox">
-            <Setter  Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ListBox">
-                        <Grid>
 
-                            <Border>
-                                <ScrollViewer BorderBrush="Transparent">
-                                    <!--<UniformGrid IsItemsHost="True" Columns="1"></UniformGrid>-->
-                                    <StackPanel IsItemsHost="True"/>
-                                </ScrollViewer>
-                            </Border>
-
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="ItemContainerStyle">
-                <Setter.Value>
-                    <Style TargetType="ListBoxItem">
-                        <Setter Property="Background" Value="AliceBlue"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListBoxItem">
-                                    <Border x:Name="border" CornerRadius="10" Margin="5" >
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsSelected" Value="true">
-                                            <Setter Property="Background" TargetName="border" Value="Blue"/>
-                                        </Trigger>
-
-                                        <Trigger Property="IsMouseOver" Value="true">
-                                            <Setter Property="Background" TargetName="border" Value="White"/>
-                                            <Setter Property="Foreground" Value="Red"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <DataTemplate x:Key="listBoxTemplate">
-            <StackPanel Margin="4">
-
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                            <ColumnDefinition Width="*"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" FontWeight="Bold" Text="城市名称：" DockPanel.Dock="Left" Margin="5,0,10,0"/>
-                        <TextBlock Text=" " Grid.Column="1"/>
-                        <TextBlock Grid.Column="2" Text="{Binding ProvinceName}" Foreground="Green" FontWeight="Bold"/>
-                    </Grid>
-
-                <DockPanel >
-                    <TextBlock FontWeight="Bold" Text="创建日期：" DockPanel.Dock="Left" Margin="5,0,5,0"/>
-                    <TextBlock Text=" "/>
-                    <TextBlock Text="{Binding DateCreated}" Foreground="DarkOrange"/>
-                    <TextBlock Text=" "/>
-                    <TextBlock Text=" "/>
-                    <TextBlock Text=" "/>
-                    <TextBlock FontWeight="Bold" Text="测试项目：" DockPanel.Dock="Left" />
-                    <TextBlock Text=" "/>
-                    <TextBlock Text="{Binding DataTest}" Foreground="DarkOrange"/>
-                </DockPanel>
-                <DockPanel>
-                    <TextBlock FontWeight="Bold" Text="更新日期：" DockPanel.Dock="Left" Margin="5,0,5,0"/>
-                    <TextBlock Text=" "/>
-                    <TextBlock Text="{Binding DateUpdated}" Foreground="Cyan"/>
-                </DockPanel>
-            </StackPanel>
-        </DataTemplate>
-
-    </Page.Resources>
-    
-    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="100*"/>
             <RowDefinition Height="342*"/>
-            <RowDefinition Height="38*"/>
+            <RowDefinition Height="30*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-
-        <Button  HorizontalAlignment="Left" VerticalAlignment="Bottom" Click="Button_Click_1" Grid.Row="0"  Width="54" Height="54" Visibility="Visible" Panel.ZIndex="10">
-            <Button.Template>
-                <ControlTemplate>
-                    <Rectangle Margin="2">
-                        <Rectangle.Fill>
-                            <ImageBrush ImageSource="pack://application:,,,/resources/typelist.png"/>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
+        <!--头部功能按钮-->
+        <DockPanel Grid.Row="0" Panel.ZIndex="10" Grid.ColumnSpan="2">
+            <!--展开分类侧边的按钮-->
+                <Button   VerticalAlignment="Bottom" Click="Button_Click_1" Width="54" Height="54" Visibility="Visible" HorizontalAlignment="Left" Margin="10,0,0,10">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Rectangle Margin="2">
+                            <Rectangle.Fill>
+                                <ImageBrush ImageSource="pack://application:,,,/resources/typelist.png"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <!--中英文切换按钮-->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10">
+                <RadioButton Visibility="Visible" Click="Cn_Click" Name="btn_cn" IsChecked="True">
+                    <RadioButton.Template>
+                        <ControlTemplate>
+                            <StackPanel>
+                                <Border Width="45" Height="25" Background="#C7C7C7" x:Name="bdcn" CornerRadius="5,0,0,5">
+                                    <TextBlock Text="中" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
+                                </Border>
+                            </StackPanel>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="RadioButton.IsChecked" Value="True">
+                                    <Setter TargetName="bdcn" Property="Background">
+                                        <Setter.Value>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                <GradientStop Color="#1E4DEF" Offset="1"/>
+                                                <GradientStop Color="#019DD5" Offset="0"/>
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </RadioButton.Template>
+                </RadioButton>
+                <RadioButton Visibility="Visible" Name="btn_en" Click="Cn_Click">
+                    <RadioButton.Template>
+                        <ControlTemplate>
+                            <StackPanel>
+                                <Border Width="45" Height="25" Background="#C7C7C7" x:Name="bden" CornerRadius="0,5,5,0">
+                                    <TextBlock Text="EN" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
+                                </Border>
+                            </StackPanel>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="RadioButton.IsChecked" Value="True">
+                                    <Setter TargetName="bden" Property="Background">
+                                        <Setter.Value>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                <GradientStop Color="#1E4DEF" Offset="1"/>
+                                                <GradientStop Color="#019DD5" Offset="0"/>
+                                            </LinearGradientBrush>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </RadioButton.Template>
+                </RadioButton>
+            </StackPanel>
+        </DockPanel>
+       
+        <!-- 抽屉-论文分类-->
         <Grid  HorizontalAlignment="Stretch"  Name="Thumb1" VerticalAlignment="Stretch" Grid.Row="0" Grid.RowSpan="3"  Grid.ColumnSpan="2"  Panel.ZIndex="100">
             <!--CanVerticallyScroll="True"-->
             <Grid.RenderTransform>
@@ -118,15 +93,15 @@
                 <RectangleGeometry x:Name="spc1"></RectangleGeometry>
             </Grid.Clip>
             <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
             <StackPanel Background="#2B323A" Grid.Column="0">
                 <StackPanel.Effect>
                     <DropShadowEffect x:Name="shadow" Color="#404851" Direction="0" ShadowDepth="10" Opacity="0.5" />
                 </StackPanel.Effect>
 
-                
+
                 <StackPanel Margin="40,150,40,40" >
                     <Border BorderBrush="#0DBCCD" BorderThickness="1,1,1,1">
                         <Grid >
@@ -134,15 +109,15 @@
                                 <ColumnDefinition Width="220"/>
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
-                            <TextBox  Grid.Column="0" x:Name="txt_search" Text="搜索"  Padding="10" Background="Transparent"  BorderThickness="0,0,0,0" Foreground="#999999" GotFocus="Search_GotFocus" LostFocus="Search_LostFocus" />
+                            <TextBox  Grid.Column="0" x:Name="txt_search" Text="{DynamicResource txt_search}"  Padding="10" Background="Transparent"  BorderThickness="0,0,0,0" Foreground="#999999" GotFocus="Search_GotFocus" LostFocus="Search_LostFocus" />
                             <Image Source="pack://application:,,,/resources/search.png" Width="30" Height="30" Grid.Column="1"></Image>
                         </Grid>
                     </Border>
                 </StackPanel>
-               
 
-                <TextBlock Text="论文分类" Foreground="White" Margin="60,20" FontWeight="Bold" FontSize="20"/>
-                <ListBox Name="typeList" Grid.Row="1"  DisplayMemberPath="TypeName" SelectedValuePath="ID"  VerticalAlignment="Stretch" Background="Transparent" Foreground="White" BorderThickness="0,0,0,0" GotFocus="Button_Click_1">
+
+                <TextBlock Text="{DynamicResource txt_type}" Foreground="White" Margin="60,20" FontWeight="Bold" FontSize="20"/>
+                <ListBox Name="typeList" Grid.Row="1"  DisplayMemberPath="t_name" SelectedValuePath="t-id"  VerticalAlignment="Stretch" Background="Transparent" Foreground="White" BorderThickness="0,0,0,0" GotFocus="Button_Click_1">
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Template">
@@ -181,16 +156,43 @@ TextBlock.Foreground="{TemplateBinding Foreground}"/>
             <StackPanel Background="#404851" Opacity="0.2" Grid.Column="1" Visibility="Hidden" Name="mengban" GotFocus="Button_Click_1">
             </StackPanel>
         </Grid>
-
-
-
-
+       
+        <!--头部banner图 根据不同的会议可配置-->
         <Image x:Name="banner" Grid.Row="0" Grid.ColumnSpan="2" Stretch="Fill"/>
+       
+        <!-- 论文列表-->
+        <ListBox Grid.Row="1" Name="listBox1" Grid.ColumnSpan="2" 
+                Background="Transparent" SelectionChanged="ListBox1_SelectionChanged" BorderThickness="0,0,0,0" Padding="10,0,10,0" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Name="border_paper" Background="#F8F8F8">
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Source="pack://application:,,,/resources/icon.png" VerticalAlignment="Center" Grid.Column="0" Width="21" Height="21" Margin="5"/>
+                            <TextBlock Text="{Binding paper_title}" Foreground="#000524" FontWeight="Bold"  VerticalAlignment="Center" FontSize="16"  Grid.Column="1" FontStretch="Normal"/>
 
-
-        <ListBox Grid.Row="1" Name="listBox1" Grid.ColumnSpan="2"  ItemsSource="{Binding Tables[0]}" 
-                 ItemTemplate="{StaticResource listBoxTemplate}" Background="Transparent" SelectionChanged="ListBox1_SelectionChanged" BorderThickness="0,0,0,0"/>
-        <!--翻页按钮 --> 
+                            <StackPanel Orientation="Horizontal" Grid.Row="1"  Margin="4" Grid.Column="1" HorizontalAlignment="Stretch">
+                                <TextBlock Text="{DynamicResource first_author}" Foreground="#019DD5"/>
+                                <TextBlock Text="{Binding first_author}" TextAlignment="Center"/>
+                                <TextBlock Text="{DynamicResource first_author_org}" Foreground="#019DD5"/>
+                                <TextBlock Text="{Binding first_author_org}" />
+                                <Image Source="pack://application:,,,/resources/hot.png" Width="20" Height="15"/>
+                                <TextBlock Text="{Binding hot}"  />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+      
+        <!--翻页按钮 -->
         <Button x:Name="Left"   HorizontalAlignment="Left"  Grid.Row="1" Grid.ColumnSpan="2" Width="95" Height="95" Visibility="Visible" Margin="12,0,0,0">
             <Button.Template>
                 <ControlTemplate>
@@ -202,7 +204,6 @@ TextBlock.Foreground="{TemplateBinding Foreground}"/>
                 </ControlTemplate>
             </Button.Template>
         </Button>
-
         <Button x:Name="Right"   HorizontalAlignment="Right"  Grid.Row="1" Grid.ColumnSpan="2" Width="95" Height="95" Visibility="Visible"  Margin="0,0,12,0">
             <Button.Template>
                 <ControlTemplate>
@@ -214,7 +215,8 @@ TextBlock.Foreground="{TemplateBinding Foreground}"/>
                 </ControlTemplate>
             </Button.Template>
         </Button>
-
+        
+        <!--底部图片 可配置-->
         <Image x:Name="bottom" Grid.Row="2" Grid.ColumnSpan="2" Stretch="None"/>
        
     </Grid>
