@@ -383,5 +383,15 @@ namespace E_Poster
         {
 
         }
+
+        private void TxtSearch_GotFocus(object sender, RoutedEventArgs e)
+        {
+            InputPanel.ShowInputPanel();
+        }
+
+        private void TxtSearch_LostFocus(object sender, RoutedEventArgs e)
+        {
+            InputPanel.HideInputPanel();
+        }
     }
 }

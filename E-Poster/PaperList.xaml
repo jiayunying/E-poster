@@ -111,9 +111,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Background="#2B323A" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                     <StackPanel.Effect>
-                        <DropShadowEffect x:Name="shadow" Color="#404851" Direction="0" ShadowDepth="10" Opacity="0.5">
-                           
-                        </DropShadowEffect>
+                        <DropShadowEffect x:Name="shadow" Color="#2b323a" Direction="0" ShadowDepth="10" Opacity="0.1"/>
                     </StackPanel.Effect>
                     <Grid Name="type_grid">
                         <Grid.RowDefinitions>
@@ -121,21 +119,22 @@
                             <RowDefinition Height="160"/>
                             <RowDefinition Height="1520"/>
                         </Grid.RowDefinitions>
-                        <TextBox Background="Transparent">
-                            
-                            
-                        </TextBox>
-
-                        <!--<StackPanel  HorizontalAlignment="Stretch">
-                    
-                    <Canvas Margin="10,10,10,10">
-                        <Border BorderBrush="#0DBCCD" BorderThickness="1,1,1,1">
- <TextBox  x:Name="txt_search" Tag="{DynamicResource txt_search}"  FontSize="28px" Background="Transparent"  BorderThickness="0,0,0,0" Foreground="#999999" GotFocus="Search_GotFocus" LostFocus="Search_LostFocus" />
-                                <Image  Source="pack://application:,,,/resources/search.png" Width="37" Height="37"  GotFocus="Image_GotFocus"></Image>
+                        <Border Width="514" Height="73" Grid.Row="0" VerticalAlignment="Bottom" BorderThickness="4,4,4,4" >
+                            <Border.BorderBrush>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Color="#0DBCCD" Offset="1"/>
+                                    <GradientStop Color="#72EDF8" Offset="0"/>
+                                </LinearGradientBrush>
+                            </Border.BorderBrush>
+                            <Grid  Grid.Row="0" HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="440"/>
+                                    <ColumnDefinition Width="74"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Background="Transparent" Grid.Column="0" VerticalAlignment="Center"  Text="搜索" FontSize="28" HorizontalAlignment="Center" Foreground="#999999" BorderThickness="0,0,0,0" GotFocus="TxtSearch_GotFocus" LostFocus="TxtSearch_LostFocus"/>
+                                <Image Grid.Column="1"  Source="pack://application:,,,/resources/search.png" Width="37" Height="37"  GotFocus="Image_GotFocus"></Image>
+                            </Grid>
                         </Border>
-                    </Canvas>
-                </StackPanel>-->
-
                         <TextBlock Text="{DynamicResource txt_type}" Foreground="White" Margin="60,20" VerticalAlignment="Center" FontSize="36" Grid.Row="1"/>
                         <ListBox Name="typeList" Grid.Row="2"  DisplayMemberPath="t_name" SelectedValuePath="t-id"  Background="Transparent" Foreground="White" BorderThickness="0,0,0,0" GotFocus="TypeList_GotFocus" FontSize="24">
                             <ListBox.ItemContainerStyle>
