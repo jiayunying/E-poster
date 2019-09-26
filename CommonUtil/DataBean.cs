@@ -16,6 +16,9 @@ namespace CommonUtil
         public string t_name { get; set; }
 
         public int p_count { get; set; }
+        public string t_en_name { get; set; }
+        public int p_en_count { get; set; }
+
     }
 
     public  class Paper{

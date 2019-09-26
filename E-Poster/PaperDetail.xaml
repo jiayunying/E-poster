@@ -7,6 +7,19 @@
       mc:Ignorable="d" 
       d:DesignHeight="1920" d:DesignWidth="1080"
       Title="PaperDetail">
+    <Page.Triggers>
+        <EventTrigger RoutedEvent="Page.Loaded">
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard>
+                        <!--<ThicknessAnimation Duration="0:0:.85" Storyboard.TargetProperty="Margin" From="900,0,-900,0" To="0" DecelerationRatio=".9" />-->
+                        <ThicknessAnimation Duration="0:0:.45" Storyboard.TargetProperty="Margin" From="50,0,-50,0" To="0" DecelerationRatio=".9" />
+                        <DoubleAnimation Duration="0:0:.35" Storyboard.TargetProperty="Opacity" From="0" To="1" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+        </EventTrigger>
+    </Page.Triggers>
     <Page.Resources>
         <Style TargetType="{x:Type Button}" x:Key="DefaultButton">
             <Setter Property="IsEnabled" Value="True"/>
@@ -17,46 +30,47 @@
         </Style>
        
     </Page.Resources>
-
-    <Grid>
-        <Viewbox Stretch="Fill">
-            <Image HorizontalAlignment="Center" VerticalAlignment="Center"  Name="imgViewer"/>
-        </Viewbox>
-        <!-- 上一页 -->
-        <Button x:Name="Last" Style="{StaticResource DefaultButton}"  Margin="0,190,26,0" Click="Last_Click">
-            <Button.Template>
-                <ControlTemplate>
-                    <Rectangle Margin="2">
-                        <Rectangle.Fill>
-                            <ImageBrush x:Name="Last_Imgbrush" ImageSource="pack://application:,,,/resources/last.png" Opacity="0.4"/>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
-        <!-- 下一页 -->
-        <Button x:Name="Next" Style="{StaticResource DefaultButton}"  Margin="0,380,26,0" Click="Next_Click">
-            <Button.Template>
-                <ControlTemplate>
-                    <Rectangle Margin="2">
-                        <Rectangle.Fill>
-                            <ImageBrush x:Name="Next_Imgbrush" ImageSource="pack://application:,,,/resources/next.png" Opacity="0.4"/>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
-        <!-- 返回列表页 -->
-        <Button x:Name="Return" Style="{StaticResource DefaultButton}"  Margin="0,570,26,0" Click="Return_Click">
-            <Button.Template>
-                <ControlTemplate>
-                    <Rectangle Margin="2">
-                        <Rectangle.Fill>
-                            <ImageBrush x:Name="Return_Imgbrush" ImageSource="pack://application:,,,/resources/return.png" Opacity="0.4"/>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
-    </Grid>
+    <Viewbox>
+        <Grid Width="1080" Height="1920">
+            <Viewbox Stretch="Fill">
+                <Image HorizontalAlignment="Center" VerticalAlignment="Center"  Name="imgViewer"/>
+            </Viewbox>
+            <!-- 上一页 -->
+            <Button x:Name="Last" Style="{StaticResource DefaultButton}"  Margin="0,190,26,0" Click="Last_Click">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Rectangle Margin="2">
+                            <Rectangle.Fill>
+                                <ImageBrush x:Name="Last_Imgbrush" ImageSource="pack://application:,,,/resources/last.png" Opacity="0.4"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <!-- 下一页 -->
+            <Button x:Name="Next" Style="{StaticResource DefaultButton}"  Margin="0,380,26,0" Click="Next_Click">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Rectangle Margin="2">
+                            <Rectangle.Fill>
+                                <ImageBrush x:Name="Next_Imgbrush" ImageSource="pack://application:,,,/resources/next.png" Opacity="0.4"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <!-- 返回列表页 -->
+            <Button x:Name="Return" Style="{StaticResource DefaultButton}"  Margin="0,570,26,0" Click="Return_Click">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Rectangle Margin="2">
+                            <Rectangle.Fill>
+                                <ImageBrush x:Name="Return_Imgbrush" ImageSource="pack://application:,,,/resources/return.png" Opacity="0.4"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Grid>
+    </Viewbox>
 </Page>

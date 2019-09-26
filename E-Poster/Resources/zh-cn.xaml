@@ -5,7 +5,7 @@
     <s:String x:Key="txt_search">搜索</s:String>
     <s:String x:Key="txt_type">论文分类</s:String>
     <s:String x:Key="all_type">全部分类</s:String>
-    <s:String x:Key="first_author">第一作者</s:String>
-    <s:String x:Key="first_author_org">单位</s:String>
+    <s:String x:Key="first_author">第一作者：</s:String>
+    <s:String x:Key="first_author_org">单位：</s:String>
 
 </ResourceDictionary>

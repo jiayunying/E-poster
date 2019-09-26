@@ -25,9 +25,6 @@ namespace E_Poster
     public partial class PaperList : Page
     {
 
-
-        DispatcherTimer timer;
-
         public PaperList()
         {
             InitializeComponent();
@@ -36,26 +33,35 @@ namespace E_Poster
             InitPaperList();
             
             ImageInit();
-            TypeListInit();
+            this.typeList.ItemsSource = CommonData.PaperTypes;
             ButtomAnimation();
+
         }
 
         /// <summary>
         /// 初始化论文列表
         /// </summary>
         private void InitPaperList() {
-            string str_papers = "{\"paper_list\": [{\"paper_id\": 1,\"paper_title\":\"电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响\",\"first_author\": \"张春萍\",\"first_author_org\": \"北京大学医学部\",\"keyword\": \"关节，疼痛\"," +
-"\"filename\": \"电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响.jpg\",\"hot\": 34}," +
-        "{\"paper_id\": 2,\"paper_title\": \"冲击波治疗关节疼痛的疗效观察\",\"first_author\": \"薛毅\",\"first_author_org\": \"北京大学医学部\",\"keyword\": \"冲击波，疼痛\",\"filename\": \"冲击波治疗关节疼痛的疗效观察.jpg\",\"hot\": 5}," +
-        "{\"paper_id\": 1,\"paper_title\": \" 浅谈自闭症儿童正面干预的策略\",\"first_author\": \"刘锡\",\"first_author_org\": \"北京大学医学部\",\"keyword\": \"自闭症\",\"filename\": \"浅谈自闭症儿童正面干预的策略.jpg\",\"hot\": 2}]}";
+
+            //TODO:1、给类型列表控件绑定数据源
+
+            //TODO:2、加载默认条件第一页论文数据  若公共静态变量为空 赋值给公共静态变量，否则直接取公共静态变量
+
+            if (CommonData.PaperList==null||CommonData.PaperList.Count<1)
+            {
+
+                string str_papers = "{\"paper_list\": [{\"paper_id\": 1,\"paper_title\":\"电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响\",\"first_author\": \"张春萍\",\"first_author_org\": \"北京大学医学部\",\"keyword\": \"关节，疼痛\"," +
+    "\"filename\": \"电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响.jpg\",\"hot\": 34}," +
+            "{\"paper_id\": 2,\"paper_title\": \"冲击波治疗关节疼痛的疗效观察\",\"first_author\": \"薛毅\",\"first_author_org\": \"北京大学医学部北京大学医学部北京大学医学部\",\"keyword\": \"冲击波，疼痛\",\"filename\": \"冲击波治疗关节疼痛的疗效观察.jpg\",\"hot\": 5}," +
+            "{\"paper_id\": 1,\"paper_title\": \" 浅谈自闭症儿童正面干预的策略\",\"first_author\": \"刘锡\",\"first_author_org\": \"北京大学医学部\",\"keyword\": \"自闭症\",\"filename\": \"浅谈自闭症儿童正面干预的策略.jpg\",\"hot\": 2}]}";
 
                 JObject jo = (JObject)JsonConvert.DeserializeObject(str_papers);
-                //TODO：调接口查询论文类型
-               
+                //TODO：调接口查询论文列表
+
                 String record = jo["paper_list"].ToString();
                 JArray array = (JArray)JsonConvert.DeserializeObject(record);
 
-                if (array.Count< 1) return;
+                if (array.Count < 1) return;
                 else
                 {
                     foreach (JToken token in array)
@@ -65,19 +71,20 @@ namespace E_Poster
                             paper_id = (int)token["paper_id"],
                             paper_title = (string)token["paper_title"],
                             first_author = (string)token["first_author"],
-                            first_author_org=(string)token["first_author_org"],
-                            keyword=(string)token["keyword"],
-                            filename=(string)token["filename"],
-                            hot=(int)token["hot"]
+                            first_author_org = (string)token["first_author_org"],
+                            keyword = (string)token["keyword"],
+                            filename = (string)token["filename"],
+                            hot = (int)token["hot"]
                         };
-                    MainWindow.paperlist.Add(p);
+                        CommonData.PaperList.Add(p);
                     }
-                 }
-            this.listBox1.ItemsSource = MainWindow.paperlist;
+                }
+            }
+            this.paperList.ItemsSource = CommonData.PaperList;
          }
 
         /// <summary>
-        /// 初始化论文类型列表
+        /// 初始化论文类型列表；这个方法应该放到登录事件中
         /// </summary>
         private void TypeListInit()
             {
@@ -174,6 +181,7 @@ namespace E_Poster
         /// 初始化banner图和bottom图
         /// </summary>
         private void ImageInit() {
+
             SystemConfig sc = new SystemConfig();
             string uri_banner = sc.GetValue("image.banner");
             string uri_bottom = sc.GetValue("image.bottom");
@@ -198,31 +206,21 @@ namespace E_Poster
 
         }
 
-        private void ListBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        /// <summary>
+        /// 选中某壁报信息
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void paperList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //TODO:调接口增加浏览量HOT字段
+
             //TODO：根据选择项跳转详情页
 
-            //this.NavigationService.Navigate(new PaperDetail());
             this.NavigationService.Navigate(new Uri("/PaperDetail.xaml", UriKind.Relative));
 
         }
 
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            //开启定时器
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(1000);
-            timer.Tick += timer1_Tick;
-            timer.Start();
-        }
-        /// <summary>
-        /// 定时器事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void timer1_Tick(object sender, EventArgs e) {
-
-        }
         /// <summary>
         /// 输入框获得焦点时
         /// </summary>
@@ -230,8 +228,6 @@ namespace E_Poster
         /// <param name="e"></param>
         private void Search_GotFocus(object sender, RoutedEventArgs e)
         {
-            txt_search.Text = "";
-            //System.Diagnostics.Process.Start("osk.exe");
             InputPanel.ShowInputPanel();
         }
         /// <summary>
@@ -241,10 +237,6 @@ namespace E_Poster
         /// <param name="e"></param>
         private void Search_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (String.IsNullOrEmpty(txt_search.Text))
-            {
-                txt_search.Text = "搜索";
-            }
             InputPanel.HideInputPanel();
         }
 
@@ -253,7 +245,8 @@ namespace E_Poster
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Cn_Click(object sender, RoutedEventArgs e) {
+        private void CnEn_Click(object sender, RoutedEventArgs e) {
+            //切换字典资源
             var btn = sender as RadioButton;
             string requestedCulture= @"Resources\zh-cn.xaml";
             if (btn.Name.Equals("btn_en"))
@@ -274,19 +267,33 @@ namespace E_Poster
             ResourceDictionary resourceDictionary = dictionaries.FirstOrDefault(d => d.Source.OriginalString.Equals(requestedCulture));
             Application.Current.Resources.MergedDictionaries.Remove(resourceDictionary);
             Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
+            
+            //TODO:切换论文类型控件的数据源
 
             //TODO:调接口获取论文列表（按中/英文排序）
         }
 
+        private void APP_Closed(object sender, RoutedEventArgs e) {
+            //TODO:需输入会议校验码校验正确方可关闭程序
+
+            DependencyObject currParent = VisualTreeHelper.GetParent(this);
+            Window mainwindow = null;
+            //循环取节点树中this的父节点直到取到window
+            while (currParent != null && mainwindow == null)
+            {
+                mainwindow = currParent as Window;
+                currParent = VisualTreeHelper.GetParent(currParent);
+            }
+            // Change the page of the frame.
+            mainwindow.Close();
+
+        }
         #region 抽屉效果
         private bool _Expand = false;
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             Expand = !_Expand;
-            if (this.typeList.SelectedItem != null) { 
-            this.typeList.SelectedItem.ToString();
-            }
         }
 
         public bool Expand
@@ -296,7 +303,7 @@ namespace E_Poster
             {
                 _Expand = value;
 
-                Duration duration = new Duration(TimeSpan.FromSeconds(1));
+                Duration duration = new Duration(TimeSpan.FromSeconds(0.5));
                 FillBehavior behavior = FillBehavior.HoldEnd;
 
                 DoubleAnimation translateAnim = new DoubleAnimation();
@@ -335,5 +342,46 @@ namespace E_Poster
         }
         #endregion
 
+        private void Image_GotFocus(object sender, RoutedEventArgs e)
+        {
+            //if (String.IsNullOrEmpty(this.txt_search.Text))
+            //{
+            //    //TODO:调接口按输入条件查询
+            //}
+
+            Button_Click_1(sender, e);
+
+        }
+        /// <summary>
+        /// 选择类型
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TypeList_GotFocus(object sender, RoutedEventArgs e)
+        {
+            //TODO:调接口获取论文列表并赋值给全局静态变量
+
+            Button_Click_1(sender, e);
+        }
+
+        /// <summary>
+        /// 上一页列表
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Left_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// 下一页列表
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Right_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

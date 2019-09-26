@@ -94,7 +94,7 @@ namespace E_Poster
         /// <param name="e"></param>
         private void Next_Click(object sender, RoutedEventArgs e)
         {
-            List<Paper> list = MainWindow.paperlist;
+           
         }
         /// <summary>
         /// 向上翻页

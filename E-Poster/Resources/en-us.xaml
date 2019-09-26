@@ -5,6 +5,6 @@
     <s:String x:Key="txt_search">Search</s:String>
     <s:String x:Key="txt_type">Paper Types</s:String>
     <s:String x:Key="all_type">ALL Types</s:String>
-    <s:String x:Key="first_author">First Author</s:String>
-    <s:String x:Key="first_author_org">Organization</s:String>
+    <s:String x:Key="first_author">First Author：</s:String>
+    <s:String x:Key="first_author_org">Organization：</s:String>
 </ResourceDictionary>

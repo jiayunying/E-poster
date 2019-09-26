@@ -20,13 +20,6 @@ namespace E_Poster
     /// </summary>
     public partial class MainWindow : Window
     {
-        /// <summary>
-        /// 全局静态变量：论文列表
-        /// </summary>
-        public static List<Paper> paperlist = new List<Paper>();
-
-        public string request_filter = "";
-
         public MainWindow()
         {
             InitializeComponent();
