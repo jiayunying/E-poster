@@ -75,6 +75,7 @@ namespace E_Poster
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void Text_GotFocus(object sender, RoutedEventArgs e) {
+            (sender as TextBox).Text = null;
             //System.Diagnostics.Process.Start("osk.exe");
             InputPanel.ShowInputPanel();
         }

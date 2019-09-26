@@ -10,16 +10,13 @@
     <Page.Resources>
         <Style x:Key="TextBoxStyle" TargetType="TextBox">
             <Setter Property="Control.FontFamily" Value="Time New Roman"/>
-            <Setter Property="Control.FontSize" Value="20"/>
-            <Setter Property="Control.Height" Value="60"/>
-            <Setter Property="Control.MaxWidth" Value="500"/>
+            <Setter Property="Control.FontSize" Value="26"/>
+            <Setter Property="Control.Height" Value="70"/>
+            <!--<Setter Property="Control.MaxWidth" Value="500"/>-->
             <Setter Property="Control.Foreground" Value="#2A49B6"/>
-            <Setter Property="Control.Padding" Value="30,30,0,5"/>
-            <Setter Property="BorderThickness" Value="0,0,0,1"/>
-            <Setter Property="BorderBrush" Value="#2A49B6"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="FontSize" Value="26"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Control.Padding" Value="100,30,0,0"/>
+            <Setter Property="Control.BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Control.BorderBrush" Value="#2A49B6"/>
         </Style>
     </Page.Resources>
     <Viewbox Stretch="Uniform">
@@ -37,9 +34,20 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Image Grid.Row="1" Grid.Column="1" Source="pack://application:,,,/resources/title.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="585" Height="63" />
-            <StackPanel Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
-                <TextBox Name="mettingId"  Style="{StaticResource TextBoxStyle}" Text="会议ID" GotFocus="Text_GotFocus" LostFocus="Text_LostFocus"  Margin="0,0,0,90"/>
-                <TextBox Name="checksum"   Style="{StaticResource TextBoxStyle}" Text="校验码" GotFocus="Text_GotFocus" LostFocus="Text_LostFocus" />
+            <StackPanel Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" MaxWidth="700">
+
+                <TextBox Name="mettingId" Style="{StaticResource TextBoxStyle}" Text="会议ID" GotFocus="Text_GotFocus" LostFocus="Text_LostFocus"  Margin="0,0,0,90" >
+                    <TextBox.Background>
+                        <ImageBrush ImageSource="pack://application:,,,/resources/mettingID.png" Stretch="Uniform" AlignmentX="Left" AlignmentY="Center" TileMode="FlipXY"/>
+                    </TextBox.Background>
+                </TextBox>
+
+                <TextBox Name="checksum"   Style="{StaticResource TextBoxStyle}" Text="校验码" GotFocus="Text_GotFocus" LostFocus="Text_LostFocus">
+                    <TextBox.Background>
+                        <ImageBrush ImageSource="pack://application:,,,/resources/checknum.png" Stretch="Uniform" AlignmentX="Left" />
+                    </TextBox.Background>
+                </TextBox>
+
             </StackPanel>
 
             <Button Grid.Row="3" Grid.Column="1" Name="login"  Click="Login_Click" Width="807" Height="117" VerticalAlignment="Center" Foreground="White" FontSize="42px" FontWeight="Bold" Content="登  录" >

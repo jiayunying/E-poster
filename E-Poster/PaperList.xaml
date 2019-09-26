@@ -131,7 +131,7 @@
                                     <ColumnDefinition Width="440"/>
                                     <ColumnDefinition Width="74"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Background="Transparent" Grid.Column="0" VerticalAlignment="Center"  Text="搜索" FontSize="28" HorizontalAlignment="Center" Foreground="#999999" BorderThickness="0,0,0,0" GotFocus="TxtSearch_GotFocus" LostFocus="TxtSearch_LostFocus"/>
+                                <TextBox Background="Transparent" Grid.Column="0" VerticalAlignment="Center"  Text="{DynamicResource txt_search}" FontSize="28" Width="440" HorizontalContentAlignment="Center" Foreground="#999999" BorderThickness="0,0,0,0" GotFocus="TxtSearch_GotFocus" LostFocus="TxtSearch_LostFocus"/>
                                 <Image Grid.Column="1"  Source="pack://application:,,,/resources/search.png" Width="37" Height="37"  GotFocus="Image_GotFocus"></Image>
                             </Grid>
                         </Border>
