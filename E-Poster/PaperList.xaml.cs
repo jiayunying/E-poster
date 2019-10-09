@@ -49,6 +49,17 @@ namespace E_Poster
 
             if (CommonData.PaperList==null||CommonData.PaperList.Count<1)
             {
+                JObject a = JObject.FromObject(CommonData.JsonFilters);
+                a.Add("cid", CommonData.cid);
+                a.Add("poster_result_id", CommonData.poster_result_id);
+
+                string json_req = JsonConvert.SerializeObject(
+                    a
+                );
+
+                //string response = ServiceRequest.HttpPost(CommonData.pre_url + "/paperlist", json_req);
+
+
 
                 string str_papers = "{\"paper_list\": [{\"paper_id\": 1,\"paper_title\":\"电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响\",\"first_author\": \"张春萍\",\"first_author_org\": \"北京大学医学部\",\"keyword\": \"关节，疼痛\"," +
     "\"filename\": \"电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响.jpg\",\"hot\": 34}," +
@@ -66,14 +77,26 @@ namespace E_Poster
                 {
                     foreach (JToken token in array)
                     {
+                        //string first_author = ((JObject)((JObject)token["firstAuthor"])["author"])["uName"].ToString();
+                        //string first_author_org = ((JObject)((JObject)token["firstAuthor"])["author"])["uOrg"].ToString();
+                        //string filename = ((JObject)token["files"])["fileName"].ToString();
                         Paper p = new Paper()
                         {
+                            //paper_id = (int)token["paperId"],
+                            //paper_title = (string)token["paperTitle"],
+                            //first_author = first_author,
+                            //first_author_org = first_author_org,
+                            //keyword = (string)token["paperKeyword"],
+                            //filename = filename,
+                            //paper_title_en= (string)token["paperTitleEn"],
+                            //hot = (int)token["hot"]
                             paper_id = (int)token["paper_id"],
                             paper_title = (string)token["paper_title"],
-                            first_author = (string)token["first_author"],
+                            first_author = (string)token["first_author"] ,
                             first_author_org = (string)token["first_author_org"],
                             keyword = (string)token["keyword"],
                             filename = (string)token["filename"],
+                            paper_title_en = "test",
                             hot = (int)token["hot"]
                         };
                         CommonData.PaperList.Add(p);
@@ -314,24 +337,24 @@ namespace E_Poster
                 clipAnim.Duration = duration;
                 clipAnim.FillBehavior = behavior;
 
-                double delta = this.ActualWidth/2+shadow.ShadowDepth; //收缩的大小
+                double delta = this.ActualWidth/2; //收缩的大小  +shadow.ShadowDepth
 
                 if (_Expand) // Expand
                 {
-                    translateAnim.From = -delta;
+                    translateAnim.From = -550;
                     translateAnim.To = 0;
 
-                    clipAnim.From = new Rect(delta, 0, Thumb1.ActualWidth, Thumb1.ActualHeight);
+                    clipAnim.From = new Rect(550, 0, Thumb1.ActualWidth, Thumb1.ActualHeight);
                     clipAnim.To = new Rect(0, 0, Thumb1.ActualWidth, Thumb1.ActualHeight);
                     mengban.Visibility = Visibility.Visible;
                 }
                 else  //Shrink
                 {
                     translateAnim.From = 0;
-                    translateAnim.To = -delta;
+                    translateAnim.To = -550;
 
                     clipAnim.From = new Rect(0, 0, Thumb1.ActualWidth, Thumb1.ActualHeight);
-                    clipAnim.To = new Rect(delta, 0, Thumb1.ActualWidth, Thumb1.ActualHeight);
+                    clipAnim.To = new Rect(550, 0, Thumb1.ActualWidth, Thumb1.ActualHeight);
                     mengban.Visibility = Visibility.Hidden;
                 }
 

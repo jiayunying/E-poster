@@ -17,7 +17,6 @@ namespace CommonUtil
 
         public int p_count { get; set; }
         public string t_en_name { get; set; }
-        public int p_en_count { get; set; }
 
     }
 
@@ -37,6 +36,7 @@ namespace CommonUtil
         public string keyword { get; set; }
 
         public string filename { get; set; }
+        public string paper_title_en { get; set; }
 
         public int hot { get; set; }
     }

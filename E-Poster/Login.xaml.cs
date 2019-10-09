@@ -37,13 +37,24 @@ namespace E_Poster
 
             //TODO:校验失败提示失败
 
-            //TODO：校验成功，调接口查询中英文论文分类分别保存至静态变量;
+            //校验成功，
+            
+            //将会议ID和校验码存到配置文件中
+            CommonData.cid = int.Parse(this.mettingId.Text);
+            string json_req = JsonConvert.SerializeObject(new
+            {
+                cid = CommonData.cid,
+                poster_result_id= CommonData.poster_result_id
+            });
 
-            //string response = ServiceRequest.HttpPost("调查询论文类型的接口", null);
-            string response = "{\"code\": 0,\"msg\": \"\",\"paper_type\": [{\"t_id\": 1,\"t_name\": \"康复医学基础研究\",\"p_count\": 39,\"t_en_name\": \"Rehabilitation medicine researc\",\"p_en_count\": 39}, {\"t_id\": 2,\"t_name\": \"康复医学临床研究\",\"p_count\": 78,\"t_en_name\": \"Rehabilitation medicine researc\",\"p_en_count\": 39}, {\"t_id\": 3,\"t_name\": \"骨关节疼痛研究\",\"p_count\": 113,\"t_en_name\": \"Rehabilitation medicine researc\",\"p_en_count\": 39}]}";
+            ////查询条件的object更新
+            //CommonData.JsonFilters.
+
+            //调接口查询中英文论文分类分别保存至静态变量;
+            string response = ServiceRequest.HttpPost(CommonData.pre_url + "/typelist", json_req);
 
             JObject jo = (JObject)JsonConvert.DeserializeObject(response);
-            String record = jo["paper_type"].ToString();
+            String record = jo["typelist"].ToString();
             JArray array = (JArray)JsonConvert.DeserializeObject(record);
 
             if (array.Count < 1) return;
@@ -53,11 +64,10 @@ namespace E_Poster
                 {
                     PaperType pt = new PaperType()
                     {
-                        t_id = (int)token["t_id"],
-                        t_name = (string)token["t_name"] + "(" + (string)token["p_count"] + "篇)",
-                        p_count = (int)token["p_count"],
-                        t_en_name= (string)token["t_en_name"] + "(" + (string)token["p_count"] + "篇)",
-                        p_en_count = (int)token["p_en_count"]
+                        t_id = (int)token["typeId"],
+                        t_name = (string)token["typeName"] + "(" + (string)token["count"] + "篇)",
+                        p_count = (int)token["count"],
+                        t_en_name= (string)token["typeEnName"] + "(" + (string)token["count"] + "篇)",
                     };
                     CommonData.PaperTypes.Add(pt);
                 }
@@ -65,7 +75,7 @@ namespace E_Poster
 
             //跳转列表页
             this.NavigationService.Navigate(new Uri("/PaperList.xaml", UriKind.Relative));
-            //TODO:将会议ID和校验码存到配置文件中
+           
         }
 
 

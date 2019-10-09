@@ -20,8 +20,8 @@ namespace CommonUtil
             request.KeepAlive = false;
             request.Method = "POST";
             request.ContentType = "application/json";
-            request.Headers.Add("log_entid", "1");
-            request.Headers.Add("log_phone","13231128007");
+            //request.Headers.Add("log_entid", "1");
+            //request.Headers.Add("log_phone","13231128007");
             //request.ContentLength = postDataStr.Length;
             //StreamWriter writer = new StreamWriter(request.GetRequestStream(),Encoding.ASCII); 
 
