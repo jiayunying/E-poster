@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -31,7 +32,7 @@ namespace E_Poster
             InitializeComponent();
             //初始化paperdata数据
 
-            InitPaperList();
+            RefreshList();
             
             ImageInit();
             this.typeList.ItemsSource = CommonData.PaperTypes;
@@ -40,24 +41,10 @@ namespace E_Poster
         }
 
         /// <summary>
-        /// 初始化论文列表
-        /// </summary>
-        private void InitPaperList() {
-
-            //TODO:1、给类型列表控件绑定数据源
-
-            //TODO:2、加载默认条件第一页论文数据  若公共静态变量为空 赋值给公共静态变量，否则直接取公共静态变量
-
-
-                refreshList();
-
-        }
-
-        /// <summary>
         /// 刷新论文列表
         /// </summary>
-        public void refreshList() {
-            ;
+        public void RefreshList() {
+            Papers.Clear();
             string json_req = JsonConvert.SerializeObject(
                 CommonData.jsonFilters
             );
@@ -74,9 +61,7 @@ namespace E_Poster
             String record = jo["papers"].ToString();
             JArray array = (JArray)JsonConvert.DeserializeObject(record);
 
-            if (array.Count < 1) return;
-            else
-            {
+
                 foreach (JToken token in array)
                 {
                     string first_author = ((JObject)((JObject)token["firstAuthor"])["author"])["uName"].ToString();
@@ -96,9 +81,9 @@ namespace E_Poster
                     };
                    Papers.Add(p);
                 }
-            }
+    
             //this.paperList.ItemsSource = null;
-            this.paperList.ItemsSource = Papers;
+            this.paperList.ItemsSource = new ObservableCollection<Paper>(Papers);
         }
 
         /// <summary>
@@ -292,7 +277,7 @@ namespace E_Poster
             //TODO:切换论文类型控件的数据源
 
             //TODO:调接口获取论文列表（按中/英文排序）
-            refreshList();
+            RefreshList();
         }
 
         private void APP_Closed(object sender, RoutedEventArgs e) {
@@ -373,7 +358,7 @@ namespace E_Poster
         {
             //TODO:调接口获取论文列表并赋值给全局静态变量
             CommonData.jsonFilters.type = CommonData.PaperTypes[typeList.SelectedIndex].t_id;
-            refreshList();
+            RefreshList();
             Button_Click_1(sender, e);
         }
 
@@ -387,7 +372,7 @@ namespace E_Poster
             if (CommonData.jsonFilters.offset > 1)
             {
                 CommonData.jsonFilters.offset -= 1;
-                refreshList();
+                RefreshList();
             }
             else {
                 MessageBox.Show("已经是第一页了!");
@@ -403,7 +388,7 @@ namespace E_Poster
         private void Right_Click(object sender, RoutedEventArgs e)
         {
                 CommonData.jsonFilters.offset += 1;
-            refreshList();
+            RefreshList();
             if (Papers.Count < 1) {
                 MessageBox.Show("没有数据了!");
             }
@@ -424,7 +409,7 @@ namespace E_Poster
         private void Btn_Search_Click(object sender, RoutedEventArgs e)
         {
             CommonData.jsonFilters.keyword = txt_keyword.Text.Trim();
-            refreshList();
+            RefreshList();
             Button_Click_1(sender, e);
         }
     }
