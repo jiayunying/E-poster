@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:E_Poster"
+      xmlns:util="clr-namespace:CommonUtil;assembly=CommonUtil"
       mc:Ignorable="d" 
       d:DesignHeight="1920" d:DesignWidth="1080"
       Title="PaperList">
@@ -131,12 +132,14 @@
                                     <ColumnDefinition Width="440"/>
                                     <ColumnDefinition Width="74"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Background="Transparent" Grid.Column="0" VerticalAlignment="Center"  Text="{DynamicResource txt_search}" FontSize="28" Width="440" HorizontalContentAlignment="Center" Foreground="#999999" BorderThickness="0,0,0,0" GotFocus="TxtSearch_GotFocus" LostFocus="TxtSearch_LostFocus"/>
-                                <Image Grid.Column="1"  Source="pack://application:,,,/resources/search.png" Width="37" Height="37"  GotFocus="Image_GotFocus"></Image>
+                                <TextBox Name="txt_keyword" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"  Text="{DynamicResource txt_search}" FontSize="28" Width="440" HorizontalContentAlignment="Center" Foreground="#999999" BorderThickness="0,0,0,0" GotFocus="TxtSearch_GotFocus" LostFocus="TxtSearch_LostFocus"/>
+                                <Button Name="btn_search" Width="37" Height="37" Background="Transparent" Grid.Column="1" BorderThickness="0,0,0,0" Click="Btn_Search_Click">
+                                    <Image   Source="pack://application:,,,/resources/search.png"></Image>
+                                </Button>
                             </Grid>
                         </Border>
                         <TextBlock Text="{DynamicResource txt_type}" Foreground="White" Margin="60,20" VerticalAlignment="Center" FontSize="36" Grid.Row="1"/>
-                        <ListBox Name="typeList" Grid.Row="2"  DisplayMemberPath="t_name" SelectedValuePath="t-id"  Background="Transparent" Foreground="White" BorderThickness="0,0,0,0" GotFocus="TypeList_GotFocus" FontSize="24">
+                        <ListBox Name="typeList" Grid.Row="2"  DisplayMemberPath="t_name" SelectedValuePath="t_id"  Background="Transparent" Foreground="White" BorderThickness="0,0,0,0" SelectionChanged ="TypeList_GotFocus" FontSize="24">
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
                                     <Setter Property="Template">
@@ -177,8 +180,9 @@ TextBlock.Foreground="{TemplateBinding Foreground}"/>
 
             <!-- 论文列表-->
             <ListBox Grid.Row="1" Name="paperList" Grid.ColumnSpan="2" 
-                Background="Transparent" SelectionChanged="paperList_SelectionChanged"  BorderThickness="0,0,0,0" Padding="39,33,39,0" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                <ListBox.ItemContainerStyle>
+                Background="Transparent" SelectionChanged="paperList_SelectionChanged"  BorderThickness="0,0,0,0" Padding="39,33,39,0" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+                <!--考虑做静态变量的绑定ItemsSource="{Binding Source={x:Static util:CommonData.PaperList}}"-->
+                    <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem" >
                         <Setter Property="Template">
                             <Setter.Value>

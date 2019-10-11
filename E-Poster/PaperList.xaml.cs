@@ -24,6 +24,7 @@ namespace E_Poster
     /// </summary>
     public partial class PaperList : Page
     {
+        public List<Paper> Papers = new List<Paper>() { };
 
         public PaperList()
         {
@@ -47,64 +48,58 @@ namespace E_Poster
 
             //TODO:2、加载默认条件第一页论文数据  若公共静态变量为空 赋值给公共静态变量，否则直接取公共静态变量
 
-            if (CommonData.PaperList==null||CommonData.PaperList.Count<1)
+
+                refreshList();
+
+        }
+
+        /// <summary>
+        /// 刷新论文列表
+        /// </summary>
+        public void refreshList() {
+            ;
+            string json_req = JsonConvert.SerializeObject(
+                CommonData.jsonFilters
+            );
+            string response = ServiceRequest.HttpPost(CommonData.pre_url + "/paperlist", json_req);
+
+            //            string str_papers = "{\"paper_list\": [{\"paper_id\": 1,\"paper_title\":\"电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响\",\"first_author\": \"张春萍\",\"first_author_org\": \"北京大学医学部\",\"keyword\": \"关节，疼痛\"," +
+            //"\"filename\": \"电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响.jpg\",\"hot\": 34}," +
+            //        "{\"paper_id\": 2,\"paper_title\": \"冲击波治疗关节疼痛的疗效观察\",\"first_author\": \"薛毅\",\"first_author_org\": \"北京大学医学部北京大学医学部北京大学医学部\",\"keyword\": \"冲击波，疼痛\",\"filename\": \"冲击波治疗关节疼痛的疗效观察.jpg\",\"hot\": 5}," +
+            //        "{\"paper_id\": 1,\"paper_title\": \" 浅谈自闭症儿童正面干预的策略\",\"first_author\": \"刘锡\",\"first_author_org\": \"北京大学医学部\",\"keyword\": \"自闭症\",\"filename\": \"浅谈自闭症儿童正面干预的策略.jpg\",\"hot\": 2}]}";
+
+            JObject jo = (JObject)JsonConvert.DeserializeObject(response);
+            //TODO：调接口查询论文列表
+
+            String record = jo["papers"].ToString();
+            JArray array = (JArray)JsonConvert.DeserializeObject(record);
+
+            if (array.Count < 1) return;
+            else
             {
-                JObject a = JObject.FromObject(CommonData.JsonFilters);
-                a.Add("cid", CommonData.cid);
-                a.Add("poster_result_id", CommonData.poster_result_id);
-
-                string json_req = JsonConvert.SerializeObject(
-                    a
-                );
-
-                //string response = ServiceRequest.HttpPost(CommonData.pre_url + "/paperlist", json_req);
-
-
-
-                string str_papers = "{\"paper_list\": [{\"paper_id\": 1,\"paper_title\":\"电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响\",\"first_author\": \"张春萍\",\"first_author_org\": \"北京大学医学部\",\"keyword\": \"关节，疼痛\"," +
-    "\"filename\": \"电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响.jpg\",\"hot\": 34}," +
-            "{\"paper_id\": 2,\"paper_title\": \"冲击波治疗关节疼痛的疗效观察\",\"first_author\": \"薛毅\",\"first_author_org\": \"北京大学医学部北京大学医学部北京大学医学部\",\"keyword\": \"冲击波，疼痛\",\"filename\": \"冲击波治疗关节疼痛的疗效观察.jpg\",\"hot\": 5}," +
-            "{\"paper_id\": 1,\"paper_title\": \" 浅谈自闭症儿童正面干预的策略\",\"first_author\": \"刘锡\",\"first_author_org\": \"北京大学医学部\",\"keyword\": \"自闭症\",\"filename\": \"浅谈自闭症儿童正面干预的策略.jpg\",\"hot\": 2}]}";
-
-                JObject jo = (JObject)JsonConvert.DeserializeObject(str_papers);
-                //TODO：调接口查询论文列表
-
-                String record = jo["paper_list"].ToString();
-                JArray array = (JArray)JsonConvert.DeserializeObject(record);
-
-                if (array.Count < 1) return;
-                else
+                foreach (JToken token in array)
                 {
-                    foreach (JToken token in array)
+                    string first_author = ((JObject)((JObject)token["firstAuthor"])["author"])["uName"].ToString();
+                    string first_author_org = ((JObject)((JObject)token["firstAuthor"])["author"])["uOrg"].ToString();
+                    string filename = ((JObject)((JArray)token["files"])[0])["fileName"].ToString();
+                    Paper p = new Paper()
                     {
-                        //string first_author = ((JObject)((JObject)token["firstAuthor"])["author"])["uName"].ToString();
-                        //string first_author_org = ((JObject)((JObject)token["firstAuthor"])["author"])["uOrg"].ToString();
-                        //string filename = ((JObject)token["files"])["fileName"].ToString();
-                        Paper p = new Paper()
-                        {
-                            //paper_id = (int)token["paperId"],
-                            //paper_title = (string)token["paperTitle"],
-                            //first_author = first_author,
-                            //first_author_org = first_author_org,
-                            //keyword = (string)token["paperKeyword"],
-                            //filename = filename,
-                            //paper_title_en= (string)token["paperTitleEn"],
-                            //hot = (int)token["hot"]
-                            paper_id = (int)token["paper_id"],
-                            paper_title = (string)token["paper_title"],
-                            first_author = (string)token["first_author"] ,
-                            first_author_org = (string)token["first_author_org"],
-                            keyword = (string)token["keyword"],
-                            filename = (string)token["filename"],
-                            paper_title_en = "test",
-                            hot = (int)token["hot"]
-                        };
-                        CommonData.PaperList.Add(p);
-                    }
+                        paper_id = (int)token["paperId"],
+                        paper_title = (string)token["paperTitle"],
+                        first_author = first_author,
+                        first_author_org = first_author_org,
+                        keyword = token["paperKeyword"].ToString(),
+                        filename = filename,
+                        paper_title_en = token["paperTitleEn"].ToString(),
+                        hot = (int)token["paperEposterHot"]
+
+                    };
+                   Papers.Add(p);
                 }
             }
-            this.paperList.ItemsSource = CommonData.PaperList;
-         }
+            //this.paperList.ItemsSource = null;
+            this.paperList.ItemsSource = Papers;
+        }
 
         /// <summary>
         /// 初始化论文类型列表；这个方法应该放到登录事件中
@@ -275,10 +270,13 @@ namespace E_Poster
             if (btn.Name.Equals("btn_en"))
             {
                 requestedCulture = @"Resources\en-us.xaml";
+                CommonData.jsonFilters.language = "en";
             }
             if(btn.Name.Equals("btn_cn"))
             {
                 requestedCulture = @"Resources\zh-cn.xaml";
+                CommonData.jsonFilters.language = "cn";
+
             }
 
             List<ResourceDictionary> dictionaries = new List<ResourceDictionary>();
@@ -290,10 +288,11 @@ namespace E_Poster
             ResourceDictionary resourceDictionary = dictionaries.FirstOrDefault(d => d.Source.OriginalString.Equals(requestedCulture));
             Application.Current.Resources.MergedDictionaries.Remove(resourceDictionary);
             Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
-            
+
             //TODO:切换论文类型控件的数据源
 
             //TODO:调接口获取论文列表（按中/英文排序）
+            refreshList();
         }
 
         private void APP_Closed(object sender, RoutedEventArgs e) {
@@ -365,16 +364,6 @@ namespace E_Poster
         }
         #endregion
 
-        private void Image_GotFocus(object sender, RoutedEventArgs e)
-        {
-            //if (String.IsNullOrEmpty(this.txt_search.Text))
-            //{
-            //    //TODO:调接口按输入条件查询
-            //}
-
-            Button_Click_1(sender, e);
-
-        }
         /// <summary>
         /// 选择类型
         /// </summary>
@@ -383,7 +372,8 @@ namespace E_Poster
         private void TypeList_GotFocus(object sender, RoutedEventArgs e)
         {
             //TODO:调接口获取论文列表并赋值给全局静态变量
-
+            CommonData.jsonFilters.type = CommonData.PaperTypes[typeList.SelectedIndex].t_id;
+            refreshList();
             Button_Click_1(sender, e);
         }
 
@@ -394,7 +384,15 @@ namespace E_Poster
         /// <param name="e"></param>
         private void Left_Click(object sender, RoutedEventArgs e)
         {
-
+            if (CommonData.jsonFilters.offset > 1)
+            {
+                CommonData.jsonFilters.offset -= 1;
+                refreshList();
+            }
+            else {
+                MessageBox.Show("已经是第一页了!");
+            }
+            
         }
 
         /// <summary>
@@ -404,6 +402,12 @@ namespace E_Poster
         /// <param name="e"></param>
         private void Right_Click(object sender, RoutedEventArgs e)
         {
+                CommonData.jsonFilters.offset += 1;
+            refreshList();
+            if (Papers.Count < 1) {
+                MessageBox.Show("没有数据了!");
+            }
+                
 
         }
 
@@ -415,6 +419,13 @@ namespace E_Poster
         private void TxtSearch_LostFocus(object sender, RoutedEventArgs e)
         {
             InputPanel.HideInputPanel();
+        }
+
+        private void Btn_Search_Click(object sender, RoutedEventArgs e)
+        {
+            CommonData.jsonFilters.keyword = txt_keyword.Text.Trim();
+            refreshList();
+            Button_Click_1(sender, e);
         }
     }
 }

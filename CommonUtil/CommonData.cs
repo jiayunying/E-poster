@@ -9,7 +9,7 @@ namespace CommonUtil
 {
     public static class CommonData
     {
-        public static List<Paper> PaperList = new List<Paper>() { };
+
 
         public static Paper CurrentPaper = new Paper();
 
@@ -23,17 +23,18 @@ namespace CommonUtil
            }
         };
 
-        public static Object JsonFilters = new
+        public static JsonFilters jsonFilters = new JsonFilters
         {
+            cid = -1,
+            poster_result_id = -1,
             language = "cn",
-            limit= 12,
-            offset=1,
-            typeid = -1,
-            keyword = ""
+            keyword = null,
+            limit = 8,
+            offset = 1,
+            type= -1
+
         };
 
-        public static JObject test = JObject.FromObject(JsonFilters);
-        
 
         public static int cid = -1;
         //从配置文件中读取本次会议配置的评审结果为电子壁报的结果id:case_result_config.crc_id
@@ -41,6 +42,25 @@ namespace CommonUtil
 
         public static string pre_url = (new SystemConfig()).GetValue("http.url");
 
+
+    }
+
+    public  class JsonFilters
+    {
+        public int cid { get; set; }
+        public int poster_result_id { get; set; }
+        /// <summary>
+        /// 语言
+        /// </summary>
+        public string language { get; set; }
+
+        public  int limit { get; set; }
+
+        public  int offset { get; set; }
+
+        public  int type { get; set; }
+
+        public  string keyword { get; set; }
 
     }
 }
