@@ -182,6 +182,7 @@ TextBlock.Foreground="{TemplateBinding Foreground}"/>
             <ListBox Grid.Row="1" Name="paperList" Grid.ColumnSpan="2" 
                 Background="Transparent" SelectionChanged="paperList_SelectionChanged"  BorderThickness="0,0,0,0" Padding="39,33,39,0" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
                 <!--考虑做静态变量的绑定ItemsSource="{Binding Source={x:Static util:CommonData.PaperList}}"-->
+                <!--ItemsSource="{Binding PaperList, Mode=OneWay}"-->
                     <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem" >
                         <Setter Property="Template">
