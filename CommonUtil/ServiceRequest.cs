@@ -58,7 +58,7 @@ namespace CommonUtil
             string jsonstr = JsonConvert.SerializeObject(obj);
             string response = HttpPost(url, jsonstr);
 
-            string Typelist = "{\"code\": 0,\"msg\": \"\",\"paper_type\": [{\"t_id\": 1,\"t_name\": \"康复医学基础研究\",\"p_count\": 39}, {\"t_id\": 2,\"t_name\": \"康复医学临床研究\",\"p_count\": 78}, {\"t_id\": 3,\"t_name\": \"骨关节疼痛研究\",\"p_count\": 113}]}";
+            //string Typelist = "{\"code\": 0,\"msg\": \"\",\"paper_type\": [{\"t_id\": 1,\"t_name\": \"康复医学基础研究\",\"p_count\": 39}, {\"t_id\": 2,\"t_name\": \"康复医学临床研究\",\"p_count\": 78}, {\"t_id\": 3,\"t_name\": \"骨关节疼痛研究\",\"p_count\": 113}]}";
 
             JObject jo = (JObject)JsonConvert.DeserializeObject(response);
             //TODO：调接口查询论文类型

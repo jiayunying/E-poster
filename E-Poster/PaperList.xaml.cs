@@ -219,7 +219,7 @@ namespace E_Poster
             {
                 CommonData.CurrentPaper = CommonData.Papers[paperList.SelectedIndex];
             }
-                //TODO:调接口增加浏览量HOT字段
+                //TODO:监测currentPaper改变时调接口增加浏览量HOT字段
 
                 //TODO：根据选择项跳转详情页
 

@@ -33,10 +33,10 @@
     <Viewbox>
         <Grid Width="1080" Height="1920">
             <Viewbox Stretch="Fill">
-                <Image HorizontalAlignment="Center" VerticalAlignment="Center"  Name="imgViewer"/>
+                <Image HorizontalAlignment="Center" VerticalAlignment="Center"  Name="imgViewer" Source="{Binding Path=CurImg,Mode=OneWay}"/>
             </Viewbox>
             <!-- 上一页 -->
-            <Button x:Name="Last" Style="{StaticResource DefaultButton}"  Margin="0,190,26,0" Click="Last_Click">
+            <Button x:Name="Last" Style="{StaticResource DefaultButton}"  Margin="0,190,26,0" Command="{Binding LastClickCommand}">
                 <Button.Template>
                     <ControlTemplate>
                         <Rectangle Margin="2">
@@ -48,7 +48,7 @@
                 </Button.Template>
             </Button>
             <!-- 下一页 -->
-            <Button x:Name="Next" Style="{StaticResource DefaultButton}"  Margin="0,380,26,0" Click="Next_Click">
+            <Button x:Name="Next" Style="{StaticResource DefaultButton}"  Margin="0,380,26,0" Command="{Binding NextClickCommand}">
                 <Button.Template>
                     <ControlTemplate>
                         <Rectangle Margin="2">

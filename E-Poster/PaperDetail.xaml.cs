@@ -15,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Path = System.IO.Path;
+
 
 namespace E_Poster
 {
@@ -31,14 +33,60 @@ namespace E_Poster
         public PaperDetail()
         {
             InitializeComponent();
-            InitList();
 
-            CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
-            BackgroundWorker bw = new BackgroundWorker();
-            bw.DoWork += new DoWorkEventHandler(bw_DoWork);
-            bw.RunWorkerAsync();
+            this.ViewModel = new PaperDetailModelView();
+            this.ViewModel.View = this;
+
+            //暂时不用
+            //InitList();
+            //CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
+            //BackgroundWorker bw = new BackgroundWorker();
+            //bw.DoWork += new DoWorkEventHandler(bw_DoWork);
+            //bw.RunWorkerAsync();
+        }
+        public PaperDetailModelView ViewModel
+        {
+            get
+            {
+                return this.DataContext as PaperDetailModelView;
+            }
+            set
+            {
+                this.DataContext = value;
+            }
         }
 
+        /// <summary>
+        /// 向下翻页
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Next_Click(object sender, RoutedEventArgs e)
+        {
+           
+        }
+        /// <summary>
+        /// 向上翻页
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Last_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+        /// <summary>
+        /// 返回列表页
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Return_Click(object sender, RoutedEventArgs e)
+        {
+            ////TODO:调接口进行权限校验
+            NavigationService.GetNavigationService(this).GoBack(); //向前转
+            this.NavigationService.Navigate(new Uri("/PaperList.xaml", UriKind.Relative));
+        }
+
+        #region  暂时不用
         public void InitList()
         {
             bmList = new ObservableCollection<BitmapImage>();
@@ -48,7 +96,8 @@ namespace E_Poster
             int length = files.Length;
             foreach (FileInfo file in files)
             {
-                if (file.Name.EndsWith(".jpg") || file.Name.EndsWith(".jpeg")) {
+                if (file.Name.EndsWith(".jpg") || file.Name.EndsWith(".jpeg"))
+                {
                     BitmapImage bmImg = new BitmapImage(new Uri(System.Environment.CurrentDirectory + @"\ydt-mettings\1103\posters\" + file.Name));
                     bmList.Add(bmImg);
                 }
@@ -87,34 +136,71 @@ namespace E_Poster
                 isRendering = false;
             }
         }
-        /// <summary>
-        /// 向下翻页
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Next_Click(object sender, RoutedEventArgs e)
-        {
-           
-        }
-        /// <summary>
-        /// 向上翻页
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Last_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-        /// <summary>
-        /// 返回列表页
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Return_Click(object sender, RoutedEventArgs e)
-        {
-            ////TODO:调接口进行权限校验
-            NavigationService.GetNavigationService(this).GoBack(); //向前转
-            this.NavigationService.Navigate(new Uri("/PaperList.xaml", UriKind.Relative));
-        }
+        #endregion
     }
+
+    public class PaperDetailModelView : INotifyPropertyChanged {
+
+        public PaperDetailModelView() {
+            this.CurImg = RefreshImg();
+            //LastClickCommand=new DelegateCommand<object>(OnClick, arg => true);
+        }
+
+        BitmapImage RefreshImg() {
+            DirectoryInfo dirInfo = new DirectoryInfo(System.Environment.CurrentDirectory + @"\ydt-mettings\1103\posters");
+            FileInfo[] files = dirInfo.GetFiles();
+            int length = files.Length;
+            foreach (FileInfo file in files)
+            {
+                if (file.Extension.Equals(".jpg") || file.Extension.Equals(".jpeg"))
+                {
+                    if (Path.GetFileNameWithoutExtension(CommonData.CurrentPaper.filename).Equals(Path.GetFileNameWithoutExtension(file.Name))) {
+                        return new BitmapImage(new Uri(System.Environment.CurrentDirectory + @"\ydt-mettings\1103\posters\" + file.Name));
+                    }
+                }
+            }
+            return null;
+        }
+        public PaperDetail View { get; set; }
+        void LastClick(object obj) {
+            //需要记录一个当前index
+            //CommonData.Papers.
+        }
+
+        public ICommand LastClickCommand { get; set; }
+        public ICommand NextClickCommand { get; set; }
+
+        private BitmapImage curImg;
+        public BitmapImage CurImg{
+            get
+            {
+                return this.curImg;
+            }
+            set
+            {
+                if (this.curImg != value)
+                {
+                    this.curImg = value;
+                    OnPropertyChanged("CurImg");
+                }
+            }
+        }
+
+        #region INotifyPropertyChanged Members
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = this.PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        #endregion
+    }
+
+
 }
