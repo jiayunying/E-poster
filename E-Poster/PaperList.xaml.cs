@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -26,47 +25,24 @@ namespace E_Poster
     /// </summary>
     public partial class PaperList : Page
     {
-        public List<Paper> Papers = new List<Paper>() { };
-
         public PaperList()
         {
             InitializeComponent();
+            //初始化paperdata数据
+
+            RefreshList();
+            
             ImageInit();
             this.typeList.ItemsSource = CommonData.PaperTypes;
             ButtomAnimation();
-            //初始化paperdata数据
-            InitPaperList();
-        }
-        public PaperListViewModel ViewModel
-        {
-            get
-            {
-                return this.DataContext as PaperListViewModel;
-            }
-            set
-            {
-                this.DataContext = value;
-            }
-        }
-        /// <summary>
-        /// 初始化论文列表
-        /// </summary>
-        private void InitPaperList() {
-
-            //TODO:1、给类型列表控件绑定数据源
-
-            //TODO:2、加载默认条件第一页论文数据  若公共静态变量为空 赋值给公共静态变量，否则直接取公共静态变量
-
-
-                refreshList();
 
         }
 
         /// <summary>
         /// 刷新论文列表
         /// </summary>
-        public void refreshList() {
-            Papers.Clear();
+        public void RefreshList() {
+            CommonData.Papers.Clear();
             string json_req = JsonConvert.SerializeObject(
                 CommonData.jsonFilters
             );
@@ -83,9 +59,7 @@ namespace E_Poster
             String record = jo["papers"].ToString();
             JArray array = (JArray)JsonConvert.DeserializeObject(record);
 
-            if (array.Count < 1) return;
-            else
-            {
+
                 foreach (JToken token in array)
                 {
                     string first_author = ((JObject)((JObject)token["firstAuthor"])["author"])["uName"].ToString();
@@ -103,11 +77,11 @@ namespace E_Poster
                         hot = (int)token["paperEposterHot"]
 
                     };
-                   Papers.Add(p);
+                CommonData.Papers.Add(p);
                 }
-            }
+    
             //this.paperList.ItemsSource = null;
-            this.paperList.ItemsSource = new ObservableCollection<Paper>(Papers);
+            this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
         }
 
         /// <summary>
@@ -240,11 +214,16 @@ namespace E_Poster
         /// <param name="e"></param>
         private void paperList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //TODO:调接口增加浏览量HOT字段
+            //1、获取当前选中的壁报信息
+            if (paperList.SelectedIndex > 0)
+            {
+                CommonData.CurrentPaper = CommonData.Papers[paperList.SelectedIndex];
+            }
+                //TODO:调接口增加浏览量HOT字段
 
-            //TODO：根据选择项跳转详情页
+                //TODO：根据选择项跳转详情页
 
-            this.NavigationService.Navigate(new Uri("/PaperDetail.xaml", UriKind.Relative));
+                this.NavigationService.Navigate(new Uri("/PaperDetail.xaml", UriKind.Relative));
 
         }
 
@@ -301,7 +280,7 @@ namespace E_Poster
             //TODO:切换论文类型控件的数据源
 
             //TODO:调接口获取论文列表（按中/英文排序）
-            refreshList();
+            RefreshList();
         }
 
         private void APP_Closed(object sender, RoutedEventArgs e) {
@@ -382,7 +361,7 @@ namespace E_Poster
         {
             //TODO:调接口获取论文列表并赋值给全局静态变量
             CommonData.jsonFilters.type = CommonData.PaperTypes[typeList.SelectedIndex].t_id;
-            refreshList();
+            RefreshList();
             Button_Click_1(sender, e);
         }
 
@@ -396,7 +375,7 @@ namespace E_Poster
             if (CommonData.jsonFilters.offset > 1)
             {
                 CommonData.jsonFilters.offset -= 1;
-                refreshList();
+                RefreshList();
             }
             else {
                 MessageBox.Show("已经是第一页了!");
@@ -412,8 +391,8 @@ namespace E_Poster
         private void Right_Click(object sender, RoutedEventArgs e)
         {
                 CommonData.jsonFilters.offset += 1;
-            refreshList();
-            if (Papers.Count < 1) {
+            RefreshList();
+            if (CommonData.Papers.Count < 1) {
                 MessageBox.Show("没有数据了!");
             }
                 
@@ -433,134 +412,8 @@ namespace E_Poster
         private void Btn_Search_Click(object sender, RoutedEventArgs e)
         {
             CommonData.jsonFilters.keyword = txt_keyword.Text.Trim();
-            refreshList();
+            RefreshList();
             Button_Click_1(sender, e);
-        }
-    }
-
-    public class PaperListViewModel : INotifyPropertyChanged {
-        public PaperListViewModel() {
-            this.PaperList = new ObservableCollection<Paper>(refreshList());
-        }
-
-        private  List<Paper> refreshList()
-        {
-            List<Paper> papers = new List<Paper>();
-            string json_req = JsonConvert.SerializeObject(
-                CommonData.jsonFilters
-            );
-            string response = ServiceRequest.HttpPost(CommonData.pre_url + "/paperlist", json_req);
-
-            //            string str_papers = "{\"paper_list\": [{\"paper_id\": 1,\"paper_title\":\"电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响\",\"first_author\": \"张春萍\",\"first_author_org\": \"北京大学医学部\",\"keyword\": \"关节，疼痛\"," +
-            //"\"filename\": \"电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响.jpg\",\"hot\": 34}," +
-            //        "{\"paper_id\": 2,\"paper_title\": \"冲击波治疗关节疼痛的疗效观察\",\"first_author\": \"薛毅\",\"first_author_org\": \"北京大学医学部北京大学医学部北京大学医学部\",\"keyword\": \"冲击波，疼痛\",\"filename\": \"冲击波治疗关节疼痛的疗效观察.jpg\",\"hot\": 5}," +
-            //        "{\"paper_id\": 1,\"paper_title\": \" 浅谈自闭症儿童正面干预的策略\",\"first_author\": \"刘锡\",\"first_author_org\": \"北京大学医学部\",\"keyword\": \"自闭症\",\"filename\": \"浅谈自闭症儿童正面干预的策略.jpg\",\"hot\": 2}]}";
-
-            JObject jo = (JObject)JsonConvert.DeserializeObject(response);
-            //TODO：调接口查询论文列表
-
-            String record = jo["papers"].ToString();
-            JArray array = (JArray)JsonConvert.DeserializeObject(record);
-
-            if (array.Count < 1) return null;
-            else
-            {
-                foreach (JToken token in array)
-                {
-                    string first_author = ((JObject)((JObject)token["firstAuthor"])["author"])["uName"].ToString();
-                    string first_author_org = ((JObject)((JObject)token["firstAuthor"])["author"])["uOrg"].ToString();
-                    string filename = ((JObject)((JArray)token["files"])[0])["fileName"].ToString();
-                    Paper p = new Paper()
-                    {
-                        paper_id = (int)token["paperId"],
-                        paper_title = (string)token["paperTitle"],
-                        first_author = first_author,
-                        first_author_org = first_author_org,
-                        keyword = token["paperKeyword"].ToString(),
-                        filename = filename,
-                        paper_title_en = token["paperTitleEn"].ToString(),
-                        hot = (int)token["paperEposterHot"]
-
-                    };
-                    papers.Add(p);
-                }
-                return papers;
-            }
-        }
-        public ObservableCollection<Paper> PaperList { get; set; }
-        public PaperList View { get; set; }
-        #region INotifyPropertyChanged Members
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChangedEventHandler handler = this.PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        #endregion
-
-    }
-
-    public class PaperListService {
-        public static List<Paper> PaperList;
-
-        static PaperListService() {
-            refreshList();
-        }
-
-        /// <summary>
-        /// 刷新论文列表
-        /// </summary>
-        private static void refreshList()
-        {
-            string json_req = JsonConvert.SerializeObject(
-                CommonData.jsonFilters
-            );
-            string response = ServiceRequest.HttpPost(CommonData.pre_url + "/paperlist", json_req);
-
-            //            string str_papers = "{\"paper_list\": [{\"paper_id\": 1,\"paper_title\":\"电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响\",\"first_author\": \"张春萍\",\"first_author_org\": \"北京大学医学部\",\"keyword\": \"关节，疼痛\"," +
-            //"\"filename\": \"电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响.jpg\",\"hot\": 34}," +
-            //        "{\"paper_id\": 2,\"paper_title\": \"冲击波治疗关节疼痛的疗效观察\",\"first_author\": \"薛毅\",\"first_author_org\": \"北京大学医学部北京大学医学部北京大学医学部\",\"keyword\": \"冲击波，疼痛\",\"filename\": \"冲击波治疗关节疼痛的疗效观察.jpg\",\"hot\": 5}," +
-            //        "{\"paper_id\": 1,\"paper_title\": \" 浅谈自闭症儿童正面干预的策略\",\"first_author\": \"刘锡\",\"first_author_org\": \"北京大学医学部\",\"keyword\": \"自闭症\",\"filename\": \"浅谈自闭症儿童正面干预的策略.jpg\",\"hot\": 2}]}";
-
-            JObject jo = (JObject)JsonConvert.DeserializeObject(response);
-            //TODO：调接口查询论文列表
-
-            String record = jo["papers"].ToString();
-            JArray array = (JArray)JsonConvert.DeserializeObject(record);
-
-            if (array.Count < 1) return;
-            else
-            {
-                foreach (JToken token in array)
-                {
-                    string first_author = ((JObject)((JObject)token["firstAuthor"])["author"])["uName"].ToString();
-                    string first_author_org = ((JObject)((JObject)token["firstAuthor"])["author"])["uOrg"].ToString();
-                    string filename = ((JObject)((JArray)token["files"])[0])["fileName"].ToString();
-                    Paper p = new Paper()
-                    {
-                        paper_id = (int)token["paperId"],
-                        paper_title = (string)token["paperTitle"],
-                        first_author = first_author,
-                        first_author_org = first_author_org,
-                        keyword = token["paperKeyword"].ToString(),
-                        filename = filename,
-                        paper_title_en = token["paperTitleEn"].ToString(),
-                        hot = (int)token["paperEposterHot"]
-
-                    };
-                    PaperList.Add(p);
-                }
-            }
-        }
-
-        public static List<Paper> RetrievePaperList() {
-            return PaperList;
         }
     }
 }
