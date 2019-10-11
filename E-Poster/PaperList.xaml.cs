@@ -30,11 +30,12 @@ namespace E_Poster
             InitializeComponent();
             //初始化paperdata数据
 
-            RefreshList();
             
             ImageInit();
             this.typeList.ItemsSource = CommonData.PaperTypes;
             ButtomAnimation();
+            RefreshList();
+
 
         }
 
