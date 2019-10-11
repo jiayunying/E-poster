@@ -25,8 +25,6 @@ namespace E_Poster
     /// </summary>
     public partial class PaperList : Page
     {
-        public List<Paper> Papers = new List<Paper>() { };
-
         public PaperList()
         {
             InitializeComponent();
@@ -44,7 +42,7 @@ namespace E_Poster
         /// 刷新论文列表
         /// </summary>
         public void RefreshList() {
-            Papers.Clear();
+            CommonData.Papers.Clear();
             string json_req = JsonConvert.SerializeObject(
                 CommonData.jsonFilters
             );
@@ -79,11 +77,11 @@ namespace E_Poster
                         hot = (int)token["paperEposterHot"]
 
                     };
-                   Papers.Add(p);
+                CommonData.Papers.Add(p);
                 }
     
             //this.paperList.ItemsSource = null;
-            this.paperList.ItemsSource = new ObservableCollection<Paper>(Papers);
+            this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
         }
 
         /// <summary>
@@ -216,11 +214,16 @@ namespace E_Poster
         /// <param name="e"></param>
         private void paperList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //TODO:调接口增加浏览量HOT字段
+            //1、获取当前选中的壁报信息
+            if (paperList.SelectedIndex > 0)
+            {
+                CommonData.CurrentPaper = CommonData.Papers[paperList.SelectedIndex];
+            }
+                //TODO:调接口增加浏览量HOT字段
 
-            //TODO：根据选择项跳转详情页
+                //TODO：根据选择项跳转详情页
 
-            this.NavigationService.Navigate(new Uri("/PaperDetail.xaml", UriKind.Relative));
+                this.NavigationService.Navigate(new Uri("/PaperDetail.xaml", UriKind.Relative));
 
         }
 
@@ -389,7 +392,7 @@ namespace E_Poster
         {
                 CommonData.jsonFilters.offset += 1;
             RefreshList();
-            if (Papers.Count < 1) {
+            if (CommonData.Papers.Count < 1) {
                 MessageBox.Show("没有数据了!");
             }
                 
