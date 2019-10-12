@@ -215,7 +215,7 @@ namespace E_Poster
         private void paperList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //1、获取当前选中的壁报信息
-            if (paperList.SelectedIndex > 0)
+            if (paperList.SelectedIndex >= 0)
             {
                 CommonData.CurrentPaper = CommonData.Papers[paperList.SelectedIndex];
             }

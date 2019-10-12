@@ -10,7 +10,7 @@ namespace CommonUtil
     public static class CommonData
     {
 
-        public static List<Paper> Papers;
+        public static List<Paper> Papers=new List<Paper>();
         public static Paper CurrentPaper = new Paper();
 
         public static List<PaperType> PaperTypes = new List<PaperType>
