@@ -33,6 +33,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -97,6 +100,7 @@
     <Compile Include="PaperDetail.xaml.cs">
       <DependentUpon>PaperDetail.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PaperDetailModelView.cs" />
     <Compile Include="PaperList.xaml.cs">
       <DependentUpon>PaperList.xaml</DependentUpon>
     </Compile>
@@ -161,6 +165,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

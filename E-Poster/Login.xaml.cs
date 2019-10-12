@@ -47,6 +47,7 @@ namespace E_Poster
                 //将会议ID和校验码存到配置文件中
                 CommonData.cid = int.Parse(this.mettingId.Text);
                 CommonData.jsonFilters.cid = CommonData.cid;
+                CommonData.jsonFilters.limit = CommonData.PageSize;
                 CommonData.jsonFilters.poster_result_id = CommonData.poster_result_id;
                 string json_req = JsonConvert.SerializeObject(new
                 {

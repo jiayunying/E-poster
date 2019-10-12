@@ -40,4 +40,23 @@ namespace CommonUtil
 
         public int hot { get; set; }
     }
+
+    public class JsonFilters
+    {
+        public int cid { get; set; }
+        public int poster_result_id { get; set; }
+        /// <summary>
+        /// 语言
+        /// </summary>
+        public string language { get; set; }
+
+        public int limit { get; set; }
+
+        public int offset { get; set; }
+
+        public int type { get; set; }
+
+        public string keyword { get; set; }
+
+    }
 }

@@ -31,14 +31,61 @@ namespace E_Poster
         public PaperDetail()
         {
             InitializeComponent();
-            InitList();
-
-            CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
-            BackgroundWorker bw = new BackgroundWorker();
-            bw.DoWork += new DoWorkEventHandler(bw_DoWork);
-            bw.RunWorkerAsync();
+            this.ViewModel = new PaperDetailModelView();
+            this.ViewModel.View = this;
+            //暂时不用
+            //InitList();
+            //CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
+            //BackgroundWorker bw = new BackgroundWorker();
+            //bw.DoWork += new DoWorkEventHandler(bw_DoWork);
+            //bw.RunWorkerAsync();
+        }
+        public PaperDetailModelView ViewModel
+        {
+            get
+            {
+                return this.DataContext as PaperDetailModelView;
+            }
+            set
+            {
+                this.DataContext = value;
+            }
         }
 
+        /// <summary>
+        /// 下一篇壁报
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Next_Click(object sender, RoutedEventArgs e)
+        {
+            CommonData.CurrentIndex += 1;
+            CommonData.CurrentPaper = CommonData.Papers[CommonData.CurrentIndex.Value];
+        }
+        /// <summary>
+        ///上一篇壁报
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Last_Click(object sender, RoutedEventArgs e)
+        {
+            CommonData.CurrentIndex -= 1;
+            CommonData.CurrentPaper = CommonData.Papers[CommonData.CurrentIndex.Value];
+        }
+        /// <summary>
+        /// 返回列表页
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Return_Click(object sender, RoutedEventArgs e)
+        {
+            ////TODO:调接口进行权限校验
+            NavigationService.GetNavigationService(this).GoBack(); //向前转
+            this.NavigationService.Navigate(new Uri("/PaperList.xaml", UriKind.Relative));
+            CommonData.CurrentPaper = null;
+            CommonData.CurrentIndex = null;
+        }
+        #region 暂时不用的代码 与自动播放相关
         public void InitList()
         {
             bmList = new ObservableCollection<BitmapImage>();
@@ -48,7 +95,8 @@ namespace E_Poster
             int length = files.Length;
             foreach (FileInfo file in files)
             {
-                if (file.Name.EndsWith(".jpg") || file.Name.EndsWith(".jpeg")) {
+                if (file.Name.EndsWith(".jpg") || file.Name.EndsWith(".jpeg"))
+                {
                     BitmapImage bmImg = new BitmapImage(new Uri(System.Environment.CurrentDirectory + @"\ydt-mettings\1103\posters\" + file.Name));
                     bmList.Add(bmImg);
                 }
@@ -87,34 +135,6 @@ namespace E_Poster
                 isRendering = false;
             }
         }
-        /// <summary>
-        /// 向下翻页
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Next_Click(object sender, RoutedEventArgs e)
-        {
-           
-        }
-        /// <summary>
-        /// 向上翻页
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Last_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-        /// <summary>
-        /// 返回列表页
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Return_Click(object sender, RoutedEventArgs e)
-        {
-            ////TODO:调接口进行权限校验
-            NavigationService.GetNavigationService(this).GoBack(); //向前转
-            this.NavigationService.Navigate(new Uri("/PaperList.xaml", UriKind.Relative));
-        }
+        #endregion
     }
 }
