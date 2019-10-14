@@ -95,7 +95,7 @@ namespace E_Poster
         private void ButtomAnimation() {
             Storyboard s_left = new Storyboard();
             DoubleAnimation da_opacity = new DoubleAnimation();
-            da_opacity.From = 0.3;
+            da_opacity.From = 0.5;
             da_opacity.To = 1;
 
             //DoubleAnimation da_width= new DoubleAnimation();
@@ -231,12 +231,16 @@ namespace E_Poster
             {
                 requestedCulture = @"Resources\en-us.xaml";
                 CommonData.jsonFilters.language = "en";
+                //TODO:切换论文类型控件的数据源
+                typeList.DisplayMemberPath = "t_en_name";
+                 
             }
             if(btn.Name.Equals("btn_cn"))
             {
                 requestedCulture = @"Resources\zh-cn.xaml";
                 CommonData.jsonFilters.language = "cn";
-
+                //TODO:切换论文类型控件的数据源
+                typeList.DisplayMemberPath = "t_name";
             }
 
             List<ResourceDictionary> dictionaries = new List<ResourceDictionary>();
@@ -249,7 +253,6 @@ namespace E_Poster
             Application.Current.Resources.MergedDictionaries.Remove(resourceDictionary);
             Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
 
-            //TODO:切换论文类型控件的数据源
 
             //TODO:调接口获取论文列表（按中/英文排序）
             CommonData.jsonFilters.offset = 1;
@@ -334,6 +337,19 @@ namespace E_Poster
         /// <param name="e"></param>
         private void TypeList_GotFocus(object sender, RoutedEventArgs e)
         {
+            if (typeList.SelectedIndex == 0) {
+                //选中全部时，清空搜索框关键字
+                switch (CommonData.jsonFilters.language) {
+                    case "cn":
+                        txt_keyword.Text = "搜索";
+                        break;
+                    case "en:":
+                        txt_keyword.Text = "Search";
+                        break;
+                }
+
+                CommonData.jsonFilters.keyword = "";
+            }
             //TODO:调接口获取论文列表并赋值给全局静态变量
             CommonData.jsonFilters.type = CommonData.PaperTypes[typeList.SelectedIndex].t_id;
             ServiceRequest.RefreshList();
@@ -382,6 +398,7 @@ namespace E_Poster
 
         private void TxtSearch_GotFocus(object sender, RoutedEventArgs e)
         {
+            txt_keyword.Text = "";
             InputPanel.ShowInputPanel();
         }
 
