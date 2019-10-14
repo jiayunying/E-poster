@@ -36,11 +36,13 @@ namespace E_Poster
             ButtomAnimation();
             if (CommonData.Papers.Count==0) {
                 ServiceRequest.RefreshList();
+                this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
             }
             this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
 
         }
 
+        
         /// <summary>
         /// 刷新论文列表
         /// </summary>
@@ -59,7 +61,7 @@ namespace E_Poster
         //    JObject jo = (JObject)JsonConvert.DeserializeObject(response);
         //    //TODO：调接口查询论文列表
         //    if (jo["code"].ToString().Equals("0")) {
-            
+
         //        String record = jo["papers"].ToString();
         //        JArray array = (JArray)JsonConvert.DeserializeObject(record);
 
@@ -83,7 +85,7 @@ namespace E_Poster
         //                };
         //            CommonData.Papers.Add(p);
         //            }
-    
+
         //        //this.paperList.ItemsSource = null;
         //        this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
         //    }
@@ -257,6 +259,8 @@ namespace E_Poster
             //TODO:调接口获取论文列表（按中/英文排序）
             CommonData.jsonFilters.offset = 1;
             ServiceRequest.RefreshList();
+            this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
+
             this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
 
         }
@@ -278,7 +282,6 @@ namespace E_Poster
         }
         #region 抽屉效果
         private bool _Expand = false;
-
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             Expand = !_Expand;
@@ -347,12 +350,15 @@ namespace E_Poster
                         txt_keyword.Text = "Search";
                         break;
                 }
-
                 CommonData.jsonFilters.keyword = "";
             }
+            CommonData.jsonFilters.offset = 1;
+
             //TODO:调接口获取论文列表并赋值给全局静态变量
             CommonData.jsonFilters.type = CommonData.PaperTypes[typeList.SelectedIndex].t_id;
             ServiceRequest.RefreshList();
+            this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
+
             this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
 
             Button_Click_1(sender, e);
@@ -368,14 +374,17 @@ namespace E_Poster
             if (CommonData.jsonFilters.offset > 1)
             {
                 CommonData.jsonFilters.offset -= 1;
-                ServiceRequest.RefreshList();
+               ServiceRequest.RefreshList();
+                this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
+
                 this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
 
             }
-            else {
-                MessageBox.Show("已经是第一页了!");
+            else
+            {
+                MessageBox.Show("当前是第一页了!");
             }
-            
+
         }
 
         /// <summary>
@@ -385,14 +394,16 @@ namespace E_Poster
         /// <param name="e"></param>
         private void Right_Click(object sender, RoutedEventArgs e)
         {
+            if (CommonData.Papers.Count > 0) { 
                 CommonData.jsonFilters.offset += 1;
-            ServiceRequest.RefreshList();
-            this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
-
-            if (CommonData.Papers.Count < 1) {
-                MessageBox.Show("没有数据了!");
+                ServiceRequest.RefreshList();
+                this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
+                this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
             }
-                
+            //if (CommonData.Papers.Count < 1) {
+            //    MessageBox.Show("没有数据了!");
+            //}
+
 
         }
 
@@ -410,10 +421,52 @@ namespace E_Poster
         private void Btn_Search_Click(object sender, RoutedEventArgs e)
         {
             CommonData.jsonFilters.keyword = txt_keyword.Text.Trim();
-            ServiceRequest.RefreshList();
+          ServiceRequest.RefreshList();
+            this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
+
             this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
 
             Button_Click_1(sender, e);
         }
     }
+    public static class ScrollViewerBehavior
+    {
+        public static readonly DependencyProperty HorizontalOffsetProperty = DependencyProperty.RegisterAttached("HorizontalOffset", typeof(double), typeof(ScrollViewerBehavior), new UIPropertyMetadata(0.0, OnHorizontalOffsetChanged));
+        public static void SetHorizontalOffset(FrameworkElement target, double value)
+        {
+            target.SetValue(HorizontalOffsetProperty, value);
+        }
+        public static double GetHorizontalOffset(FrameworkElement target)
+        {
+            return (double)target.GetValue(HorizontalOffsetProperty);
+        }
+        private static void OnHorizontalOffsetChanged(DependencyObject target, DependencyPropertyChangedEventArgs e)
+        {
+            var view = target as ScrollViewer;
+            if (view != null)
+            {
+                view.ScrollToHorizontalOffset((double)e.NewValue+50);
+                
+            }
+        }
+
+        //public static readonly DependencyProperty VerticalOffsetProperty = DependencyProperty.RegisterAttached("VerticalOffset", typeof(double), typeof(ScrollViewerBehavior), new UIPropertyMetadata(0.0, OnVerticalOffsetChanged));
+        //public static void SetVerticalOffset(FrameworkElement target, double value)
+        //{
+        //    target.SetValue(VerticalOffsetProperty, value);
+        //}
+        //public static double GetVerticalOffset(FrameworkElement target)
+        //{
+        //    return (double)target.GetValue(VerticalOffsetProperty);
+        //}
+        //private static void OnVerticalOffsetChanged(DependencyObject target, DependencyPropertyChangedEventArgs e)
+        //{
+        //    var view = target as ScrollViewer;
+        //    if (view != null)
+        //    {
+        //        view.ScrollToVerticalOffset((double)e.NewValue);
+        //    }
+        //}
+    }
+
 }

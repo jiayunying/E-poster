@@ -204,7 +204,7 @@ TextBlock.Foreground="{TemplateBinding Foreground}"/>
                 </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border Name="border_paper" CornerRadius="10" Margin="27,30,30,30">
+                        <Border Name="border_paper" CornerRadius="10" Margin="27,28,30,28">
                             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
@@ -215,7 +215,7 @@ TextBlock.Foreground="{TemplateBinding Foreground}"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Image Source="pack://application:,,,/resources/icon.png" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="0" Width="21" Height="21" Grid.Row="0"/>
-                                <ScrollViewer  HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Center"  Grid.Row="0" Grid.Column="1" >
+                                <!--<ScrollViewer  HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Center"  Grid.Row="0" Grid.Column="1" >
                                     <ItemsControl Name="pTitle" ItemsSource="{Binding display_title}"  Foreground="#000524" FontWeight="Bold" FontSize="26" >
                                         <ItemsControl.ItemsPanel>
                                             <ItemsPanelTemplate>
@@ -230,7 +230,37 @@ TextBlock.Foreground="{TemplateBinding Foreground}"/>
                                             </DataTemplate>
                                         </ItemsControl.ItemTemplate>
                                     </ItemsControl>
+                                </ScrollViewer>-->
+                                <ScrollViewer Name="slv" 
+                                      VerticalScrollBarVisibility="Hidden"
+                                      HorizontalScrollBarVisibility="Hidden"
+                                      HorizontalAlignment="Left" VerticalAlignment="Center"  Grid.Row="0" Grid.Column="1" >
+                                    <Label Content="{Binding display_title, Mode=OneWay}"  
+                                       VerticalContentAlignment="Center" 
+                                       HorizontalContentAlignment="Center" 
+                                           Foreground="#000524" FontWeight="Bold" FontSize="26"
+                                           >
+                                        <Label.Triggers>
+                                            <EventTrigger RoutedEvent="Label.Loaded" >
+                                                <BeginStoryboard HandoffBehavior="Compose">
+                                                    <Storyboard>
+                                                        <DoubleAnimation From="-300" 
+                                                        To="{Binding ElementName=slv,Path=ScrollableWidth}"
+                                                        Duration="0:0:10"
+                                                        Storyboard.TargetName="slv"
+                                                        AutoReverse="False"
+                                                        RepeatBehavior="Forever"
+                                                        BeginTime="0:0:2"
+                                                        Storyboard.TargetProperty="(local:ScrollViewerBehavior.HorizontalOffset)"                 
+                                                        >  
+                                                        </DoubleAnimation>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </Label.Triggers>
+                                    </Label>
                                 </ScrollViewer>
+
 
                                 <Grid  HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1" Margin="0,24,0,0">
                                     <Grid.ColumnDefinitions>
@@ -283,8 +313,8 @@ TextBlock.Foreground="{TemplateBinding Foreground}"/>
 
             <!--底部图片 可配置-->
             <Image x:Name="bottom" Grid.Row="2" Grid.ColumnSpan="2" Stretch="None"/>
-            <Canvas>
-                <Button Name="close" Click="APP_Closed" Content="close" Canvas.Right="20" Canvas.Bottom="20" Background="Transparent"></Button>
+            <Canvas x:Name="nodata" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1" Visibility="Hidden" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="{DynamicResource no_data}" Foreground="#999999" FontSize="26" ></TextBlock>
             </Canvas>
         </Grid>
     </Viewbox>

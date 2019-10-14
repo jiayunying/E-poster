@@ -7,5 +7,5 @@
     <s:String x:Key="all_type">全部分类</s:String>
     <s:String x:Key="first_author">第一作者：</s:String>
     <s:String x:Key="first_author_org">单位：</s:String>
-
+    <s:String x:Key="no_data">未查询到符合条件的数据</s:String>
 </ResourceDictionary>

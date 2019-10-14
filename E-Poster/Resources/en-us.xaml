@@ -7,4 +7,6 @@
     <s:String x:Key="all_type">ALL Types</s:String>
     <s:String x:Key="first_author">First Author：</s:String>
     <s:String x:Key="first_author_org">Organization：</s:String>
+    <s:String x:Key="no_data">No eligible data was queried</s:String>
+
 </ResourceDictionary>
