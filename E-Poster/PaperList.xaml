@@ -14,8 +14,8 @@
                 <BeginStoryboard>
                     <Storyboard>
                         <!--<ThicknessAnimation Duration="0:0:.85" Storyboard.TargetProperty="Margin" From="900,0,-900,0" To="0" DecelerationRatio=".9" />-->
-                        <ThicknessAnimation Duration="0:0:.45" Storyboard.TargetProperty="Margin" From="-50,0,50,0" To="0" DecelerationRatio=".9" />
-                        <DoubleAnimation Duration="0:0:.35" Storyboard.TargetProperty="Opacity" From="0" To="1" />
+                        <ThicknessAnimation Duration="0:0:1" Storyboard.TargetProperty="Margin" From="-50,0,50,0" To="0" DecelerationRatio=".9" />
+                        <DoubleAnimation Duration="0:0:1" Storyboard.TargetProperty="Opacity" From="0" To="1" />
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger.Actions>
@@ -314,7 +314,7 @@ TextBlock.Foreground="{TemplateBinding Foreground}"/>
             <!--底部图片 可配置-->
             <Image x:Name="bottom" Grid.Row="2" Grid.ColumnSpan="2" Stretch="None"/>
             <Canvas x:Name="nodata" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1" Visibility="Hidden" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock Text="{DynamicResource no_data}" Foreground="#999999" FontSize="26" ></TextBlock>
+                <TextBlock Text="{DynamicResource no_data}" Foreground="#999999" FontSize="26"  Margin="-125,0,0,0"></TextBlock>
             </Canvas>
         </Grid>
     </Viewbox>
