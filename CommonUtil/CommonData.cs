@@ -11,7 +11,90 @@ namespace CommonUtil
     {
 
         public static List<Paper> Papers=new List<Paper>();
-        public static Paper CurrentPaper = new Paper();
+
+        private static int? currentIndex = null;
+        public static int? CurrentIndex {
+            get {
+                return currentIndex;
+            }
+            set {
+                if (value == Papers.Count) {
+                    //先判断是最后一页 最后一条；
+                    //向后翻页
+                    if (Papers.Count < PageSize)
+                    {
+                        //如果已经是列表最后一页，则跳转到第一页
+                        jsonFilters.offset = 1;
+                        ServiceRequest.RefreshList();
+
+                    }
+                    else
+                    {
+                        //列表页翻页,刷新列表
+                        jsonFilters.offset += 1;
+                        ServiceRequest.RefreshList();
+                    }
+                    currentIndex = 0;
+                }
+                else if (value >= 0 && value < PageSize) {
+                    currentIndex = value;
+                }
+                else if (value == -1)
+                {
+                    //列表第一条基础上点击上一条
+                    
+                    //向前翻页
+                    if (jsonFilters.offset == 1) {
+                        //如果已经是列表第一页，则不更新列表，只定位到当前页最后一条
+                        currentIndex = Papers.Count - 1;
+                    }
+                    else {
+                        //列表页翻页,刷新列表
+                        jsonFilters.offset -= 1;
+                        ServiceRequest.RefreshList();
+                        currentIndex = 0;
+                    }
+                }
+
+            }
+        }
+        private static Paper currentPaper;
+        public static Paper CurrentPaper
+        {
+            get
+            {
+                return currentPaper;
+            }
+            set
+            {
+                if (currentPaper != value)
+                {
+                    currentPaper = value;
+                    //current值改变之后要增加当前电子壁报的浏览量
+                    if (currentPaper != null)
+                    {
+                        //调接口增加电子壁报浏览量
+                        string json_req = JsonConvert.SerializeObject(
+                          new
+                          {
+                              cid = CommonData.cid,
+                              paperid = currentPaper.paper_id
+                          }
+                         );
+                        string response = ServiceRequest.HttpPost(CommonData.pre_url + "/sethot", json_req);
+                        JObject jo = (JObject)JsonConvert.DeserializeObject(response);
+                        if (!jo["code"].ToString().Equals("0"))
+                        {
+                            //增加浏览量失败怎么办
+                        }
+                    }
+                }
+            }
+        }
+
+
+
+
 
         public static List<PaperType> PaperTypes = new List<PaperType>
         {
@@ -39,28 +122,12 @@ namespace CommonUtil
         public static int cid = -1;
         //从配置文件中读取本次会议配置的评审结果为电子壁报的结果id:case_result_config.crc_id
         public static int poster_result_id = int.Parse((new SystemConfig()).GetValue("result.eposter"));
+        public static int PageSize = int.Parse((new SystemConfig()).GetValue("page.size"));
 
         public static string pre_url = (new SystemConfig()).GetValue("http.url");
 
 
     }
 
-    public  class JsonFilters
-    {
-        public int cid { get; set; }
-        public int poster_result_id { get; set; }
-        /// <summary>
-        /// 语言
-        /// </summary>
-        public string language { get; set; }
-
-        public  int limit { get; set; }
-
-        public  int offset { get; set; }
-
-        public  int type { get; set; }
-
-        public  string keyword { get; set; }
-
-    }
+    
 }

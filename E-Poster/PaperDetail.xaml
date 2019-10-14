@@ -23,8 +23,8 @@
     <Page.Resources>
         <Style TargetType="{x:Type Button}" x:Key="DefaultButton">
             <Setter Property="IsEnabled" Value="True"/>
-            <Setter Property="Width" Value="56"/>
-            <Setter Property="Height" Value="56"/>
+            <Setter Property="Width" Value="65"/>
+            <Setter Property="Height" Value="65"/>
             <Setter Property="HorizontalAlignment" Value="Right"/>
             
         </Style>
@@ -33,7 +33,7 @@
     <Viewbox>
         <Grid Width="1080" Height="1920">
             <Viewbox Stretch="Fill">
-                <Image HorizontalAlignment="Center" VerticalAlignment="Center"  Name="imgViewer" Source="{Binding Path=CurImg,Mode=OneWay}"/>
+                <Image HorizontalAlignment="Center" VerticalAlignment="Center"  Name="imgViewer" Source="{Binding CurImg}"/>
             </Viewbox>
             <!-- 上一页 -->
             <Button x:Name="Last" Style="{StaticResource DefaultButton}"  Margin="0,190,26,0" Command="{Binding LastClickCommand}">
@@ -41,7 +41,7 @@
                     <ControlTemplate>
                         <Rectangle Margin="2">
                             <Rectangle.Fill>
-                                <ImageBrush x:Name="Last_Imgbrush" ImageSource="pack://application:,,,/resources/last.png" Opacity="0.4"/>
+                                <ImageBrush x:Name="Last_Imgbrush" ImageSource="pack://application:,,,/resources/last.png" Opacity="0.6"/>
                             </Rectangle.Fill>
                         </Rectangle>
                     </ControlTemplate>
@@ -53,7 +53,7 @@
                     <ControlTemplate>
                         <Rectangle Margin="2">
                             <Rectangle.Fill>
-                                <ImageBrush x:Name="Next_Imgbrush" ImageSource="pack://application:,,,/resources/next.png" Opacity="0.4"/>
+                                <ImageBrush x:Name="Next_Imgbrush" ImageSource="pack://application:,,,/resources/next.png" Opacity="0.6"/>
                             </Rectangle.Fill>
                         </Rectangle>
                     </ControlTemplate>
