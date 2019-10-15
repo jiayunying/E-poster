@@ -33,63 +33,70 @@ namespace E_Poster
         /// <param name="e"></param>
         private void Login_Click(object sender, RoutedEventArgs e)
         {
-            //调接口进行权限校验(后期可以把配置文件中的相关信息在数据库中建表调接口处理。)
-            string str_login = JsonConvert.SerializeObject(new
+            try
             {
-                cid = int.Parse(mettingId.Text.Trim()),
-                idnt = checksum.Text.Trim()
-            });
-            string res_login = ServiceRequest.HttpPost(CommonData.pre_url + "/login", str_login);
-            JObject jo_check = (JObject)JsonConvert.DeserializeObject(res_login);
-
-            if (jo_check.ContainsKey("code") && jo_check["code"].ToString().Equals("0"))
-            {   //校验成功，
-                //将会议ID和校验码存到配置文件中
-                CommonData.cid = int.Parse(this.mettingId.Text);
-                CommonData.jsonFilters.cid = CommonData.cid;
-                CommonData.jsonFilters.limit = CommonData.PageSize;
-                CommonData.jsonFilters.poster_result_id = CommonData.poster_result_id;
-                string json_req = JsonConvert.SerializeObject(new
+                //调接口进行权限校验(后期可以把配置文件中的相关信息在数据库中建表调接口处理。)
+                string str_login = JsonConvert.SerializeObject(new
                 {
-                    cid = CommonData.cid,
-                    poster_result_id= CommonData.poster_result_id
+                    cid = int.Parse(mettingId.Text.Trim()),
+                    idnt = checksum.Text.Trim()
                 });
-                //调接口查询中英文论文分类分别保存至静态变量;
-                string response = ServiceRequest.HttpPost(CommonData.pre_url + "/typelist", json_req);
+                string res_login = ServiceRequest.HttpPost(CommonData.pre_url + "/login", str_login);
+                JObject jo_check = (JObject)JsonConvert.DeserializeObject(res_login);
 
-                JObject jo = (JObject)JsonConvert.DeserializeObject(response);
-                if (jo.ContainsKey("code") && jo["code"].ToString().Equals("0"))
-                {
-                    String record = jo["typelist"].ToString();
-                    JArray array = (JArray)JsonConvert.DeserializeObject(record);
+                if (jo_check.ContainsKey("code") && jo_check["code"].ToString().Equals("0"))
+                {   //校验成功，
+                    //将会议ID和校验码存到配置文件中
+                    CommonData.cid = int.Parse(this.mettingId.Text);
+                    CommonData.jsonFilters.cid = CommonData.cid;
+                    CommonData.jsonFilters.limit = CommonData.PageSize;
+                    CommonData.jsonFilters.poster_result_id = CommonData.poster_result_id;
+                    string json_req = JsonConvert.SerializeObject(new
+                    {
+                        cid = CommonData.cid,
+                        poster_result_id = CommonData.poster_result_id
+                    });
+                    //调接口查询中英文论文分类分别保存至静态变量;
+                    string response = ServiceRequest.HttpPost(CommonData.pre_url + "/typelist", json_req);
 
-                    if (array.Count < 1) return;
+                    JObject jo = (JObject)JsonConvert.DeserializeObject(response);
+                    if (jo.ContainsKey("code") && jo["code"].ToString().Equals("0"))
+                    {
+                        String record = jo["typelist"].ToString();
+                        JArray array = (JArray)JsonConvert.DeserializeObject(record);
+
+                        if (array.Count < 1) return;
+                        else
+                        {
+                            foreach (JToken token in array)
+                            {
+                                PaperType pt = new PaperType()
+                                {
+                                    t_id = (int)token["typeId"],
+                                    t_name = (string)token["typeName"] + "(" + (string)token["count"] + "篇)",
+                                    p_count = (int)token["count"],
+                                    t_en_name = (string)token["typeEnName"] + "(" + (string)token["count"] + "篇)",
+                                };
+                                CommonData.PaperTypes.Add(pt);
+                            }
+                        }
+
+                        //跳转列表页
+                        this.NavigationService.Navigate(new Uri("/PaperList.xaml", UriKind.Relative));
+                    }
                     else
                     {
-                        foreach (JToken token in array)
-                        {
-                            PaperType pt = new PaperType()
-                            {
-                                t_id = (int)token["typeId"],
-                                t_name = (string)token["typeName"] + "(" + (string)token["count"] + "篇)",
-                                p_count = (int)token["count"],
-                                t_en_name = (string)token["typeEnName"] + "(" + (string)token["count"] + "篇)",
-                            };
-                            CommonData.PaperTypes.Add(pt);
-                        }
+                        MessageBox.Show("初始化类型列表失败，请检查后台服务!");
                     }
-
-                    //跳转列表页
-                    this.NavigationService.Navigate(new Uri("/PaperList.xaml", UriKind.Relative));
                 }
                 else
                 {
-                    MessageBox.Show("初始化类型列表失败，请检查后台服务!");
+                    //TODO:校验失败提示失败
+                    MessageBox.Show("会议ID不存在或校验码不匹配，请检查!");
                 }
             }
-            else {
-                //TODO:校验失败提示失败
-                MessageBox.Show("会议ID不存在或校验码不匹配，请检查!");
+            catch (Exception ex) {
+                MessageBox.Show(ex.ToString());
             }
         }
 

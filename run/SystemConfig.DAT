@@ -1,6 +1,6 @@
-image.banner=ydt-mettings\1103\image_config\banner.png
-image.bottom=ydt-mettings\1103\image_config\logo.png
+image.banner=ydt-mettings\3137\image_config\banner.png
+image.bottom=ydt-mettings\3137\image_config\logo.png
 //录用类型为电子壁报的crc_id值
 result.eposter=139
-http.url=http://192.168.5.163:8080/api/eposter
+http.url=http://medcircle.top/medapp/api/eposter
 page.size=8

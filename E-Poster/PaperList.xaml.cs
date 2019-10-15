@@ -42,54 +42,6 @@ namespace E_Poster
 
         }
 
-        
-        /// <summary>
-        /// 刷新论文列表
-        /// </summary>
-        //public void RefreshList() {
-        //    CommonData.Papers.Clear();
-        //    string json_req = JsonConvert.SerializeObject(
-        //        CommonData.jsonFilters
-        //    );
-        //    string response = ServiceRequest.HttpPost(CommonData.pre_url + "/paperlist", json_req);
-
-        //    //            string str_papers = "{\"paper_list\": [{\"paper_id\": 1,\"paper_title\":\"电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响\",\"first_author\": \"张春萍\",\"first_author_org\": \"北京大学医学部\",\"keyword\": \"关节，疼痛\"," +
-        //    //"\"filename\": \"电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响.jpg\",\"hot\": 34}," +
-        //    //        "{\"paper_id\": 2,\"paper_title\": \"冲击波治疗关节疼痛的疗效观察\",\"first_author\": \"薛毅\",\"first_author_org\": \"北京大学医学部北京大学医学部北京大学医学部\",\"keyword\": \"冲击波，疼痛\",\"filename\": \"冲击波治疗关节疼痛的疗效观察.jpg\",\"hot\": 5}," +
-        //    //        "{\"paper_id\": 1,\"paper_title\": \" 浅谈自闭症儿童正面干预的策略\",\"first_author\": \"刘锡\",\"first_author_org\": \"北京大学医学部\",\"keyword\": \"自闭症\",\"filename\": \"浅谈自闭症儿童正面干预的策略.jpg\",\"hot\": 2}]}";
-
-        //    JObject jo = (JObject)JsonConvert.DeserializeObject(response);
-        //    //TODO：调接口查询论文列表
-        //    if (jo["code"].ToString().Equals("0")) {
-
-        //        String record = jo["papers"].ToString();
-        //        JArray array = (JArray)JsonConvert.DeserializeObject(record);
-
-
-        //            foreach (JToken token in array)
-        //            {
-        //                string first_author = ((JObject)((JObject)token["firstAuthor"])["author"])["uName"].ToString();
-        //                string first_author_org = ((JObject)((JObject)token["firstAuthor"])["author"])["uOrg"].ToString();
-        //                string filename = ((JObject)((JArray)token["files"])[0])["fileName"].ToString();
-        //                Paper p = new Paper()
-        //                {
-        //                    paper_id = (int)token["paperId"],
-        //                    paper_title = (string)token["paperTitle"],
-        //                    first_author = first_author,
-        //                    first_author_org = first_author_org,
-        //                    keyword = token["paperKeyword"].ToString(),
-        //                    filename = filename,
-        //                    paper_title_en = token["paperTitleEn"].ToString(),
-        //                    hot = (int)token["paperEposterHot"]
-
-        //                };
-        //            CommonData.Papers.Add(p);
-        //            }
-
-        //        //this.paperList.ItemsSource = null;
-        //        this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
-        //    }
-        //}
 
         /// <summary>
         /// 翻页按钮闪烁动画
@@ -157,29 +109,34 @@ namespace E_Poster
         /// 初始化banner图和bottom图
         /// </summary>
         private void ImageInit() {
+            try {
+                SystemConfig sc = new SystemConfig();
+                string uri_banner = sc.GetValue("image.banner");
+                string uri_bottom = sc.GetValue("image.bottom");
 
-            SystemConfig sc = new SystemConfig();
-            string uri_banner = sc.GetValue("image.banner");
-            string uri_bottom = sc.GetValue("image.bottom");
 
-            BitmapImage bi_banner = new BitmapImage();
-            // BitmapImage.UriSource must be in a BeginInit/EndInit block.  
-            bi_banner.BeginInit();
-            bi_banner.UriSource = new Uri(AppDomain.CurrentDomain.BaseDirectory + uri_banner, UriKind.Absolute);
-            bi_banner.EndInit();
-            this.banner.Source = bi_banner;
+                BitmapImage bi_banner = new BitmapImage();
+                // BitmapImage.UriSource must be in a BeginInit/EndInit block.  
+                bi_banner.BeginInit();
+                bi_banner.UriSource = new Uri(AppDomain.CurrentDomain.BaseDirectory + uri_banner, UriKind.Absolute);
+                bi_banner.EndInit();
+                this.banner.Source = bi_banner;
 
-            BitmapImage bi_bottom = new BitmapImage();
-            // BitmapImage.UriSource must be in a BeginInit/EndInit block.  
-            bi_bottom.BeginInit();
-            bi_bottom.UriSource = new Uri(AppDomain.CurrentDomain.BaseDirectory + uri_bottom, UriKind.Absolute);
-            bi_bottom.EndInit();
-            this.bottom.Source = bi_bottom;
-
-            //相对路径:有问题！！
-            //Uri uri_re_bottom = new Uri(uri_bottom, UriKind.Relative);
-            //this.bottom.Source = new BitmapImage(uri_re_bottom);
-
+                if (!string.IsNullOrEmpty(uri_bottom)) {
+                    BitmapImage bi_bottom = new BitmapImage();
+                    // BitmapImage.UriSource must be in a BeginInit/EndInit block.  
+                    bi_bottom.BeginInit();
+                    bi_bottom.UriSource = new Uri(AppDomain.CurrentDomain.BaseDirectory + uri_bottom, UriKind.Absolute);
+                    bi_bottom.EndInit();
+                    this.bottom.Source = bi_bottom;
+                }
+                //相对路径:有问题！！
+                //Uri uri_re_bottom = new Uri(uri_bottom, UriKind.Relative);
+                //this.bottom.Source = new BitmapImage(uri_re_bottom);
+            }
+            catch (Exception ex) {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         /// <summary>
@@ -189,16 +146,20 @@ namespace E_Poster
         /// <param name="e"></param>
         private void paperList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //1、获取当前选中的壁报信息
-            if (paperList.SelectedIndex >= 0)
-            {
-                CommonData.CurrentIndex = paperList.SelectedIndex;
-                CommonData.CurrentPaper = CommonData.Papers[paperList.SelectedIndex];
-            }
+            try {
+                //1、获取当前选中的壁报信息
+                if (paperList.SelectedIndex >= 0)
+                {
+                    CommonData.CurrentIndex = paperList.SelectedIndex;
+                    CommonData.CurrentPaper = CommonData.Papers[paperList.SelectedIndex];
+                }
                 //TODO：根据选择项跳转详情页
 
                 this.NavigationService.Navigate(new Uri("/PaperDetail.xaml", UriKind.Relative));
-
+            }
+            catch (Exception ex) {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         /// <summary>
@@ -226,60 +187,50 @@ namespace E_Poster
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void CnEn_Click(object sender, RoutedEventArgs e) {
-            //切换字典资源
-            var btn = sender as RadioButton;
-            string requestedCulture= @"Resources\zh-cn.xaml";
-            if (btn.Name.Equals("btn_en"))
-            {
-                requestedCulture = @"Resources\en-us.xaml";
-                CommonData.jsonFilters.language = "en";
-                //TODO:切换论文类型控件的数据源
-                typeList.DisplayMemberPath = "t_en_name";
-                 
+            try {
+                //切换字典资源
+                var btn = sender as RadioButton;
+                string requestedCulture = @"Resources\zh-cn.xaml";
+                if (btn.Name.Equals("btn_en"))
+                {
+                    requestedCulture = @"Resources\en-us.xaml";
+                    CommonData.jsonFilters.language = "en";
+                    //TODO:切换论文类型控件的数据源
+                    typeList.DisplayMemberPath = "t_en_name";
+
+                }
+                if (btn.Name.Equals("btn_cn"))
+                {
+                    requestedCulture = @"Resources\zh-cn.xaml";
+                    CommonData.jsonFilters.language = "cn";
+                    //TODO:切换论文类型控件的数据源
+                    typeList.DisplayMemberPath = "t_name";
+                }
+
+                List<ResourceDictionary> dictionaries = new List<ResourceDictionary>();
+                foreach (ResourceDictionary dictionary in Application.Current.Resources.MergedDictionaries)
+                {
+                    dictionaries.Add(dictionary);
+                }
+
+                ResourceDictionary resourceDictionary = dictionaries.FirstOrDefault(d => d.Source.OriginalString.Equals(requestedCulture));
+                Application.Current.Resources.MergedDictionaries.Remove(resourceDictionary);
+                Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
+
+
+                //TODO:调接口获取论文列表（按中/英文排序）
+                CommonData.jsonFilters.offset = 1;
+                ServiceRequest.RefreshList();
+                this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
+
+                this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
             }
-            if(btn.Name.Equals("btn_cn"))
-            {
-                requestedCulture = @"Resources\zh-cn.xaml";
-                CommonData.jsonFilters.language = "cn";
-                //TODO:切换论文类型控件的数据源
-                typeList.DisplayMemberPath = "t_name";
+            catch (Exception ex) {
+                MessageBox.Show(ex.ToString());
             }
-
-            List<ResourceDictionary> dictionaries = new List<ResourceDictionary>();
-            foreach (ResourceDictionary dictionary in Application.Current.Resources.MergedDictionaries)
-            {
-                dictionaries.Add(dictionary);
-            }
-            
-            ResourceDictionary resourceDictionary = dictionaries.FirstOrDefault(d => d.Source.OriginalString.Equals(requestedCulture));
-            Application.Current.Resources.MergedDictionaries.Remove(resourceDictionary);
-            Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
-
-
-            //TODO:调接口获取论文列表（按中/英文排序）
-            CommonData.jsonFilters.offset = 1;
-            ServiceRequest.RefreshList();
-            this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
-
-            this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
 
         }
 
-        private void APP_Closed(object sender, RoutedEventArgs e) {
-            //TODO:需输入会议校验码校验正确方可关闭程序
-
-            DependencyObject currParent = VisualTreeHelper.GetParent(this);
-            Window mainwindow = null;
-            //循环取节点树中this的父节点直到取到window
-            while (currParent != null && mainwindow == null)
-            {
-                mainwindow = currParent as Window;
-                currParent = VisualTreeHelper.GetParent(currParent);
-            }
-            // Change the page of the frame.
-            mainwindow.Close();
-
-        }
         #region 抽屉效果
         private bool _Expand = false;
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -340,28 +291,33 @@ namespace E_Poster
         /// <param name="e"></param>
         private void TypeList_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (typeList.SelectedIndex == 0) {
-                //选中全部时，清空搜索框关键字
-                switch (CommonData.jsonFilters.language) {
-                    case "cn":
-                        txt_keyword.Text = "搜索";
-                        break;
-                    case "en:":
-                        txt_keyword.Text = "Search";
-                        break;
+            try {
+                if (typeList.SelectedIndex == 0) {
+                    //选中全部时，清空搜索框关键字
+                    switch (CommonData.jsonFilters.language) {
+                        case "cn":
+                            txt_keyword.Text = "搜索";
+                            break;
+                        case "en:":
+                            txt_keyword.Text = "Search";
+                            break;
+                    }
+                    CommonData.jsonFilters.keyword = "";
                 }
-                CommonData.jsonFilters.keyword = "";
+                CommonData.jsonFilters.offset = 1;
+
+                //TODO:调接口获取论文列表并赋值给全局静态变量
+                CommonData.jsonFilters.type = CommonData.PaperTypes[typeList.SelectedIndex].t_id;
+                ServiceRequest.RefreshList();
+                this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
+
+                this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
+
+                Button_Click_1(sender, e);
             }
-            CommonData.jsonFilters.offset = 1;
-
-            //TODO:调接口获取论文列表并赋值给全局静态变量
-            CommonData.jsonFilters.type = CommonData.PaperTypes[typeList.SelectedIndex].t_id;
-            ServiceRequest.RefreshList();
-            this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
-
-            this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
-
-            Button_Click_1(sender, e);
+            catch (Exception ex) {
+                ex.ToString();
+            }
         }
 
         /// <summary>
@@ -371,18 +327,24 @@ namespace E_Poster
         /// <param name="e"></param>
         private void Left_Click(object sender, RoutedEventArgs e)
         {
-            if (CommonData.jsonFilters.offset > 1)
-            {
-                CommonData.jsonFilters.offset -= 1;
-               ServiceRequest.RefreshList();
-                this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
+            try { 
+                if (CommonData.jsonFilters.offset > 1)
+                {
+                    CommonData.jsonFilters.offset -= 1;
+                   ServiceRequest.RefreshList();
+                    this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
 
-                this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
+                    this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
 
+                }
+                else
+                {
+                    MessageBox.Show("当前是第一页了!");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("当前是第一页了!");
+                ex.ToString();
             }
 
         }
@@ -394,16 +356,21 @@ namespace E_Poster
         /// <param name="e"></param>
         private void Right_Click(object sender, RoutedEventArgs e)
         {
-            if (CommonData.Papers.Count > 0) { 
-                CommonData.jsonFilters.offset += 1;
-                ServiceRequest.RefreshList();
-                this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
-                this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
+            try { 
+                if (CommonData.Papers.Count > 0) { 
+                    CommonData.jsonFilters.offset += 1;
+                    ServiceRequest.RefreshList();
+                    this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
+                    this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
+                }
+                //if (CommonData.Papers.Count < 1) {
+                //    MessageBox.Show("没有数据了!");
+                //}
             }
-            //if (CommonData.Papers.Count < 1) {
-            //    MessageBox.Show("没有数据了!");
-            //}
-
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
 
         }
 
@@ -420,13 +387,19 @@ namespace E_Poster
 
         private void Btn_Search_Click(object sender, RoutedEventArgs e)
         {
-            CommonData.jsonFilters.keyword = txt_keyword.Text.Trim();
-          ServiceRequest.RefreshList();
-            this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
+            try { 
+                CommonData.jsonFilters.keyword = txt_keyword.Text.Trim();
+              ServiceRequest.RefreshList();
+                this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
 
-            this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
+                this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
 
-            Button_Click_1(sender, e);
+                Button_Click_1(sender, e);
+            }
+            catch (Exception ex)
+            {
+                ex.ToString();
+            }
         }
     }
     public static class ScrollViewerBehavior
