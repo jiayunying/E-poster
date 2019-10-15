@@ -13,17 +13,13 @@ namespace CommonUtil
     {
         public static string HttpPost(string urlChar, string postDataStr)
         {
-            //SystemConfig conf = new SystemConfig();
-            //string url = conf.GetValue("service.request." + urlChar);
+            ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
             string retString = "";
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(urlChar);
             request.KeepAlive = false;
             request.Method = "POST";
             request.ContentType = "application/json";
-            //request.Headers.Add("log_entid", "1");
-            //request.Headers.Add("log_phone","13231128007");
-            //request.ContentLength = postDataStr.Length;
-            //StreamWriter writer = new StreamWriter(request.GetRequestStream(),Encoding.ASCII); 
+
 
             byte[] postBytes = Encoding.UTF8.GetBytes(postDataStr);
             request.ContentLength = Encoding.UTF8.GetBytes(postDataStr).Length;
@@ -65,11 +61,6 @@ namespace CommonUtil
                     CommonData.jsonFilters
                 );
                 string response = ServiceRequest.HttpPost(CommonData.pre_url + "/paperlist", json_req);
-
-                //            string str_papers = "{\"paper_list\": [{\"paper_id\": 1,\"paper_title\":\"电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响\",\"first_author\": \"张春萍\",\"first_author_org\": \"北京大学医学部\",\"keyword\": \"关节，疼痛\"," +
-                //"\"filename\": \"电针对膝盖骨关节炎大鼠软骨细胞caspase-1表达的影响.jpg\",\"hot\": 34}," +
-                //        "{\"paper_id\": 2,\"paper_title\": \"冲击波治疗关节疼痛的疗效观察\",\"first_author\": \"薛毅\",\"first_author_org\": \"北京大学医学部北京大学医学部北京大学医学部\",\"keyword\": \"冲击波，疼痛\",\"filename\": \"冲击波治疗关节疼痛的疗效观察.jpg\",\"hot\": 5}," +
-                //        "{\"paper_id\": 1,\"paper_title\": \" 浅谈自闭症儿童正面干预的策略\",\"first_author\": \"刘锡\",\"first_author_org\": \"北京大学医学部\",\"keyword\": \"自闭症\",\"filename\": \"浅谈自闭症儿童正面干预的策略.jpg\",\"hot\": 2}]}";
 
                 JObject jo = (JObject)JsonConvert.DeserializeObject(response);
                 //TODO：调接口查询论文列表
