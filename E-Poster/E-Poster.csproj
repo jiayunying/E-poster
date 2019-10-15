@@ -136,14 +136,6 @@
     <Resource Include="Resources\logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ydt-mettings\1103\banner.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="ydt-mettings\1103\logo.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\CommonUtil\CommonUtil.csproj">
       <Project>{77140152-8cdb-4755-bb41-ee2bf39cdded}</Project>
       <Name>CommonUtil</Name>
