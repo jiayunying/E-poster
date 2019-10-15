@@ -204,7 +204,7 @@ TextBlock.Foreground="{TemplateBinding Foreground}"/>
                 </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border Name="border_paper" CornerRadius="10" Margin="27,28,30,28">
+                        <Border Name="border_paper" CornerRadius="10" Margin="27,27,30,27">
                             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*"/>
