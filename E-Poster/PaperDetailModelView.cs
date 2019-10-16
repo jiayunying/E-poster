@@ -36,7 +36,7 @@ namespace E_Poster
         }
         BitmapImage RefreshImg()
         {
-            DirectoryInfo dirInfo = new DirectoryInfo(System.Environment.CurrentDirectory + @"\ydt-mettings\1103\posters");
+            DirectoryInfo dirInfo = new DirectoryInfo(System.Environment.CurrentDirectory + @"\ydt-mettings\"+CommonData.cid+@"\posters");
             FileInfo[] files = dirInfo.GetFiles();
             int length = files.Length;
             foreach (FileInfo file in files)
@@ -45,7 +45,7 @@ namespace E_Poster
                 {
                     if (Path.GetFileNameWithoutExtension(CommonData.CurrentPaper.filename).Equals(Path.GetFileNameWithoutExtension(file.Name)))
                     {
-                        return new BitmapImage(new Uri(System.Environment.CurrentDirectory + @"\ydt-mettings\1103\posters\" + file.Name));
+                        return new BitmapImage(new Uri(System.Environment.CurrentDirectory + @"\ydt-mettings\"+ CommonData.cid + @"\posters\" + file.Name));
                     }
                 }
             }
