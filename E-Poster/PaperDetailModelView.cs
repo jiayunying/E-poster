@@ -36,20 +36,25 @@ namespace E_Poster
         }
         BitmapImage RefreshImg()
         {
-            DirectoryInfo dirInfo = new DirectoryInfo(System.Environment.CurrentDirectory + @"\ydt-mettings\"+CommonData.cid+@"\posters");
-            FileInfo[] files = dirInfo.GetFiles();
-            int length = files.Length;
-            foreach (FileInfo file in files)
-            {
-                if (file.Extension.Equals(".jpg") || file.Extension.Equals(".jpeg"))
+            try {
+                DirectoryInfo dirInfo = new DirectoryInfo(System.Environment.CurrentDirectory + @"\ydt-mettings\" + CommonData.cid + @"\posters");
+                FileInfo[] files = dirInfo.GetFiles();
+                int length = files.Length;
+                foreach (FileInfo file in files)
                 {
-                    if (Path.GetFileNameWithoutExtension(CommonData.CurrentPaper.filename).Equals(Path.GetFileNameWithoutExtension(file.Name)))
+                    if (file.Extension.Equals(".jpg") || file.Extension.Equals(".jpeg"))
                     {
-                        return new BitmapImage(new Uri(System.Environment.CurrentDirectory + @"\ydt-mettings\"+ CommonData.cid + @"\posters\" + file.Name));
+                        if (Path.GetFileNameWithoutExtension(CommonData.CurrentPaper.filename).Equals(Path.GetFileNameWithoutExtension(file.Name)))
+                        {
+                            return new BitmapImage(new Uri(System.Environment.CurrentDirectory + @"\ydt-mettings\" + CommonData.cid + @"\posters\" + file.Name));
+                        }
                     }
                 }
+                return null;
             }
-            return null;
+            catch (Exception ex) {
+                return null;
+            }
         }
 
         public DelegateCommand LastClickCommand
@@ -68,16 +73,29 @@ namespace E_Poster
         //上一页
         void LastClick(object obj)
         {
-            CommonData.CurrentIndex -= 1;
-            CommonData.CurrentPaper = CommonData.Papers[CommonData.CurrentIndex.Value];
-            this.CurImg = RefreshImg();
+            try {
+                CommonData.CurrentIndex -= 1;
+                CommonData.CurrentPaper = CommonData.Papers[CommonData.CurrentIndex.Value];
+                this.CurImg = RefreshImg();
+            }
+            catch (Exception ex) {
+                
+            }
         }
         //下一页
         void NextClick(object obj)
         {
-            CommonData.CurrentIndex += 1;
-            CommonData.CurrentPaper = CommonData.Papers[CommonData.CurrentIndex.Value];
-            this.CurImg = RefreshImg();
+            try
+            {
+                if (CommonData.Papers.Count > 0) { 
+                CommonData.CurrentIndex += 1;
+                CommonData.CurrentPaper = CommonData.Papers[CommonData.CurrentIndex.Value];
+                this.CurImg = RefreshImg();
+                }
+            }
+            catch (Exception ex) {
+
+            }
         }
 
         #region INotifyPropertyChanged Members

@@ -52,26 +52,7 @@ namespace E_Poster
             }
         }
 
-        /// <summary>
-        /// 下一篇壁报
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Next_Click(object sender, RoutedEventArgs e)
-        {
-            CommonData.CurrentIndex += 1;
-            CommonData.CurrentPaper = CommonData.Papers[CommonData.CurrentIndex.Value];
-        }
-        /// <summary>
-        ///上一篇壁报
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Last_Click(object sender, RoutedEventArgs e)
-        {
-            CommonData.CurrentIndex -= 1;
-            CommonData.CurrentPaper = CommonData.Papers[CommonData.CurrentIndex.Value];
-        }
+        
         /// <summary>
         /// 返回列表页
         /// </summary>

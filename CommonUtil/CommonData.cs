@@ -19,6 +19,7 @@ namespace CommonUtil
             }
             set {
                 if (value == Papers.Count) {
+                    //该向下翻页了
                     //先判断是最后一页 最后一条；
                     //向后翻页
                     if (Papers.Count < PageSize)
@@ -26,15 +27,19 @@ namespace CommonUtil
                         //如果已经是列表最后一页，则跳转到第一页
                         jsonFilters.offset = 1;
                         ServiceRequest.RefreshList();
-
                     }
-                    else
+                    else if(Papers.Count == PageSize)
                     {
                         //列表页翻页,刷新列表
                         jsonFilters.offset += 1;
                         ServiceRequest.RefreshList();
+                        //翻页后无数据了
+                        if (CommonData.Papers.Count == 0) {
+
+                        }
                     }
                     currentIndex = 0;
+
                 }
                 else if (value >= 0 && value < PageSize) {
                     currentIndex = value;

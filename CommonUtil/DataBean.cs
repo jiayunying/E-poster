@@ -37,8 +37,6 @@ namespace CommonUtil
 
         public string filename { get; set; }
         public string paper_title_en { get; set; }
-
-        public string display_title { get; set; }
         public int hot { get; set; }
     }
 

@@ -215,27 +215,12 @@ TextBlock.Foreground="{TemplateBinding Foreground}"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Image Source="pack://application:,,,/resources/icon.png" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="0" Width="21" Height="21" Grid.Row="0"/>
-                                <!--<ScrollViewer  HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Center"  Grid.Row="0" Grid.Column="1" >
-                                    <ItemsControl Name="pTitle" ItemsSource="{Binding display_title}"  Foreground="#000524" FontWeight="Bold" FontSize="26" >
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel Orientation="Horizontal"/>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Border Margin="1">
-                                                    <ContentPresenter Content="{Binding}"/>
-                                                </Border>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </ScrollViewer>-->
+                              
                                 <ScrollViewer Name="slv" 
                                       VerticalScrollBarVisibility="Hidden"
                                       HorizontalScrollBarVisibility="Hidden"
                                       HorizontalAlignment="Left" VerticalAlignment="Center"  Grid.Row="0" Grid.Column="1" >
-                                    <Label Content="{Binding display_title, Mode=OneWay}"  
+                                    <Label Content="{Binding paper_title, Mode=OneWay}"  
                                        VerticalContentAlignment="Center" 
                                        HorizontalContentAlignment="Center" 
                                            Foreground="#000524" FontWeight="Bold" FontSize="26"

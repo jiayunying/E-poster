@@ -332,14 +332,19 @@ namespace E_Poster
                 {
                     CommonData.jsonFilters.offset -= 1;
                    ServiceRequest.RefreshList();
-                    this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
-
                     this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
-
                 }
                 else
                 {
-                    MessageBox.Show("当前是第一页了!");
+                    switch (CommonData.jsonFilters.language)
+                    {
+                        case "cn":
+                            MessageBox.Show("当前是第一页!");
+                            break;
+                        case "en":
+                            MessageBox.Show("No More Date!");
+                            break;
+                    }
                 }
             }
             catch (Exception ex)
@@ -360,12 +365,24 @@ namespace E_Poster
                 if (CommonData.Papers.Count > 0) { 
                     CommonData.jsonFilters.offset += 1;
                     ServiceRequest.RefreshList();
-                    this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
-                    this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
+                    if (CommonData.Papers.Count > 0)
+                    {
+                        this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
+                    }
+                    else {
+                        CommonData.jsonFilters.offset -= 1;
+                        switch (CommonData.jsonFilters.language) {
+                            case "cn":
+                                MessageBox.Show("已经是最后一页了!");
+                                break;
+                            case "en":
+                                MessageBox.Show("No More Date!");
+                                break;
+                        }
+
+                    }
                 }
-                //if (CommonData.Papers.Count < 1) {
-                //    MessageBox.Show("没有数据了!");
-                //}
+
             }
             catch (Exception ex)
             {

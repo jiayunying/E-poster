@@ -1,6 +1,7 @@
 image.banner=ydt-mettings\3152\image_config\banner.png
-image.bottom=ydt-mettings\3152\image_config\logo.png
+//底部图片可配置，不设置值则不显示，若有值则按banner的方法配置即可
+image.bottom=
 //录用类型为电子壁报的crc_id值
-result.eposter=139
-http.url=http://medcircle.top/medapp/api/eposter
+result.eposter=159
+http.url=http://127.0.0.1:8080/api/eposter
 page.size=20

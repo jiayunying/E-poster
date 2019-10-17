@@ -87,15 +87,6 @@ namespace CommonUtil
                             paper_title_en = token["paperTitleEn"].ToString(),
                             hot = (int)token["paperEposterHot"],
                         };
-                        switch (CommonData.jsonFilters.language)
-                        {
-                            case "cn":
-                                p.display_title = p.paper_title;
-                                break;
-                            case "en":
-                                p.display_title = string.IsNullOrEmpty(p.paper_title_en) ? p.paper_title : p.paper_title_en;
-                                break;
-                        }
                         CommonData.Papers.Add(p);
                     }
                 }
