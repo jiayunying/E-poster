@@ -19,50 +19,46 @@ namespace CommonUtil
             }
             set {
                 //这是自动循环
-                //if (value == Papers.Count) {
-                //    //该向下翻页了
-                //    //先判断是最后一页 最后一条；
-                //    //向后翻页
-                //    if (Papers.Count < PageSize)
+                //    if (value == Papers.Count)
                 //    {
-                //        //如果已经是列表最后一页，则跳转到第一页
-                //        jsonFilters.offset = 1;
-                //        ServiceRequest.RefreshList();
-                //    }
-                //    else if(Papers.Count == PageSize)
-                //    {
-                //        //列表页翻页,刷新列表
-                //        jsonFilters.offset += 1;
-                //        ServiceRequest.RefreshList();
-                //        //翻页后无数据了
-                //        if (CommonData.Papers.Count == 0) {
-
+                //        //该向下翻页了
+                //        //先判断是最后一页 最后一条；
+                //        //向后翻页
+                //        if (Papers.Count == PageSize)
+                //        {
+                //            //列表页翻页,刷新列表
+                //            List<Paper> temp = CommonData.Papers;
+                //            jsonFilters.offset += 1;
+                //            ServiceRequest.RefreshList();
+                //            currentIndex = 0;
+                //      //  翻页后无数据了
+                //            if (CommonData.Papers.Count == 0)
+                //        {
+                //            CommonData.Papers = temp;
                 //        }
                 //    }
-                //    currentIndex = 0;
-
                 //}
-                //else if (value >= 0 && value < PageSize) {
-                //    currentIndex = value;
-                //}
-                //else if (value == -1)
-                //{
-                //    //列表第一条基础上点击上一条
-                    
-                //    //向前翻页
-                //    if (jsonFilters.offset == 1) {
-                //        //如果已经是列表第一页，则不更新列表，只定位到当前页最后一条
-                //        currentIndex = Papers.Count - 1;
+                //    else if (value >= 0 && value < Papers.Count)
+                //    {
+                //        currentIndex = value;
                 //    }
-                //    else {
-                //        //列表页翻页,刷新列表
-                //        jsonFilters.offset -= 1;
-                //        ServiceRequest.RefreshList();
-                //        currentIndex = 0;
-                //    }
-                //}
+                //    else 
 
+                if (value == -1)
+                {
+                    //列表第一条基础上点击上一条
+                    //向前翻页
+
+                    //列表页翻页,刷新列表
+                    jsonFilters.offset -= 1;
+                    ServiceRequest.RefreshList();
+                    currentIndex = Papers.Count-1;
+                }
+                else {
                     currentIndex = value;
+                }
+
+                //  currentIndex = value;
             }
         }
         private static Paper currentPaper;

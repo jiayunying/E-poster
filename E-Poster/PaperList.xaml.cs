@@ -379,17 +379,24 @@ namespace E_Poster
         /// <param name="e"></param>
         private void Right_Click(object sender, RoutedEventArgs e)
         {
-            try { 
-                if (CommonData.Papers.Count > 0) { 
+            try
+            {
+                if (CommonData.Papers.Count == CommonData.PageSize)
+                {
                     CommonData.jsonFilters.offset += 1;
+                    List<Paper> temp = CommonData.Papers;
                     ServiceRequest.RefreshList();
                     if (CommonData.Papers.Count > 0)
                     {
                         this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
                     }
-                    else {
+                    else
+                    {
+                        //如果没有数据了则回退
                         CommonData.jsonFilters.offset -= 1;
-                        switch (CommonData.jsonFilters.language) {
+                        CommonData.Papers = temp;
+                        switch (CommonData.jsonFilters.language)
+                        {
                             case "cn":
                                 MessageBox.Show("已经是最后一页了!");
                                 break;
@@ -400,7 +407,19 @@ namespace E_Poster
 
                     }
                 }
+                else if(CommonData.Papers.Count < CommonData.PageSize)
+                {
+                    switch (CommonData.jsonFilters.language)
+                    {
+                        case "cn":
+                            MessageBox.Show("已经是最后一页了!");
+                            break;
+                        case "en":
+                            MessageBox.Show("No More Date!");
+                            break;
+                    }
 
+                }
             }
             catch (Exception ex)
             {

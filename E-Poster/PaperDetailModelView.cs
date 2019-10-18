@@ -75,7 +75,7 @@ namespace E_Poster
         void LastClick(object obj)
         {
             try {
-                if (CommonData.CurrentIndex == 0)
+                if (CommonData.jsonFilters.offset==1&&CommonData.CurrentIndex == 0)
                 {
                     //提示第一页
                     switch (CommonData.jsonFilters.language) {
@@ -102,24 +102,77 @@ namespace E_Poster
         {
             try
             {
-                if (CommonData.CurrentIndex == CommonData.Papers.Count-1)
+                //if (CommonData.Papers.Count < CommonData.PageSize && CommonData.CurrentIndex == CommonData.Papers.Count-1)
+                //{
+                //    //提示最后一页
+                //    switch (CommonData.jsonFilters.language)
+                //    {
+                //        case "cn":
+                //            MessageBox.Show("当前是最后一篇！");
+                //            break;
+                //        case "en":
+                //            MessageBox.Show("No More Data！");
+                //            break;
+                //    }
+                //}
+                //else { 
+                //    CommonData.CurrentIndex += 1;
+                //    CommonData.CurrentPaper = CommonData.Papers[CommonData.CurrentIndex.Value];
+                //    this.CurImg = RefreshImg();
+                //}
+
+                //未翻到本页最后一条，则正常翻页
+                if (CommonData.CurrentIndex < CommonData.Papers.Count-1)
                 {
-                    //提示最后一页
-                    switch (CommonData.jsonFilters.language)
-                    {
-                        case "cn":
-                            MessageBox.Show("当前是最后一篇！");
-                            break;
-                        case "en":
-                            MessageBox.Show("No More Data！");
-                            break;
-                    }
-                }
-                else { 
                     CommonData.CurrentIndex += 1;
                     CommonData.CurrentPaper = CommonData.Papers[CommonData.CurrentIndex.Value];
                     this.CurImg = RefreshImg();
                 }
+                else {
+                    //翻最后一条需判断是否是最后一页
+                    if (CommonData.Papers.Count < CommonData.PageSize)
+                    {
+                        //提示最后一篇
+                        switch (CommonData.jsonFilters.language)
+                        {
+                            case "cn":
+                                MessageBox.Show("当前是最后一篇！");
+                                break;
+                            case "en":
+                                MessageBox.Show("No More Data！");
+                                break;
+                        }
+                    }
+                    else {
+                        //本页条数和pagesize相等需要翻一页判断是否是最后一页
+                        CommonData.jsonFilters.offset += 1;
+                        List<Paper> temp = CommonData.Papers;
+                        ServiceRequest.RefreshList();
+                        if (CommonData.Papers.Count == 0)
+                        {
+                            CommonData.Papers = temp;
+                            CommonData.jsonFilters.offset -= 1;
+                            //提示最后一篇
+                            switch (CommonData.jsonFilters.language)
+                            {
+                                case "cn":
+                                    MessageBox.Show("当前是最后一篇！");
+                                    break;
+                                case "en":
+                                    MessageBox.Show("No More Data！");
+                                    break;
+                            }
+                        }
+                        else {
+                            CommonData.CurrentIndex = 0;
+                            CommonData.CurrentPaper = CommonData.Papers[CommonData.CurrentIndex.Value];
+                            this.CurImg = RefreshImg();
+                        }
+
+                    }
+
+                }
+
 
             }
             catch (Exception ex) {
