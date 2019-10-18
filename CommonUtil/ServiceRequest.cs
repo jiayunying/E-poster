@@ -73,18 +73,15 @@ namespace CommonUtil
 
                     foreach (JToken token in array)
                     {
-                        string first_author = ((JObject)((JObject)token["firstAuthor"])["author"])["uName"].ToString();
-                        string first_author_org = ((JObject)((JObject)token["firstAuthor"])["author"])["uOrg"].ToString();
-                        string filename = ((JObject)((JArray)token["files"])[0])["fileName"].ToString();
                         Paper p = new Paper()
                         {
                             paper_id = (int)token["paperId"],
                             paper_title = (string)token["paperTitle"],
-                            first_author = first_author,
-                            first_author_org = first_author_org,
-                            keyword = token["paperKeyword"].ToString(),
-                            filename = filename,
-                            paper_title_en = token["paperTitleEn"].ToString(),
+                            first_author = (string)token["firstUName"],
+                            first_author_org = (string)token["firstUOrg"],    
+                            keyword = (string)token["paperKeyword"],
+                            filename = (string)token["fileName"],
+                            paper_title_en = (string)token["paperTitleEn"],
                             hot = (int)token["paperEposterHot"],
                         };
                         CommonData.Papers.Add(p);

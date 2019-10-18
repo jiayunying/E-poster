@@ -35,7 +35,7 @@
             <!--头部功能按钮-->
             <DockPanel Grid.Row="0" Panel.ZIndex="10" Grid.ColumnSpan="2">
                 <!--展开分类侧边的按钮-->
-                <Button   VerticalAlignment="Bottom" Click="Button_Click_1" Width="54" Height="54" Visibility="Visible" HorizontalAlignment="Left" Margin="32,0,0,17">
+                <Button   VerticalAlignment="Bottom" Click="Button_Click_1" Width="104" Height="104" Visibility="Visible" HorizontalAlignment="Left" Margin="32,0,0,0">
                     <Button.Template>
                         <ControlTemplate>
                             <Rectangle Margin="2">
@@ -47,13 +47,13 @@
                     </Button.Template>
                 </Button>
                 <!--中英文切换按钮-->
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,39,17">
-                    <RadioButton Visibility="Visible" Click="CnEn_Click" Name="btn_cn" IsChecked="True">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,39,17" Name="cn_en_btn">
+                    <RadioButton Visibility="Visible" Click="CnEn_Click" Name="btn_cn">
                         <RadioButton.Template>
                             <ControlTemplate>
                                 <StackPanel>
-                                    <Border Width="62" Height="46" Background="#C7C7C7" x:Name="bdcn" CornerRadius="5,0,0,5">
-                                        <TextBlock Text="中" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="22"/>
+                                    <Border Width="82" Height="66" Background="#C7C7C7" x:Name="bdcn" CornerRadius="5,0,0,5">
+                                        <TextBlock Text="中" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="28"/>
                                     </Border>
                                 </StackPanel>
                                 <ControlTemplate.Triggers>
@@ -75,8 +75,8 @@
                         <RadioButton.Template>
                             <ControlTemplate>
                                 <StackPanel>
-                                    <Border Width="62" Height="46" Background="#C7C7C7" x:Name="bden" CornerRadius="0,5,5,0">
-                                        <TextBlock Text="EN" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="22"/>
+                                    <Border Width="82" Height="66" Background="#C7C7C7" x:Name="bden" CornerRadius="0,5,5,0">
+                                        <TextBlock Text="EN" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="28"/>
                                     </Border>
                                 </StackPanel>
                                 <ControlTemplate.Triggers>
@@ -273,7 +273,7 @@ TextBlock.Foreground="{TemplateBinding Foreground}"/>
             </ListBox>
 
             <!--翻页按钮 -->
-            <Button x:Name="Left"   HorizontalAlignment="Left"  Grid.Row="1" Grid.ColumnSpan="2" Width="95" Height="95" Visibility="Visible" Margin="12,0,0,0" Click="Left_Click">
+            <Button x:Name="Left"   HorizontalAlignment="Left"  Grid.Row="1" Grid.ColumnSpan="2" Width="155" Height="155" Visibility="Visible" Margin="12,0,0,0" Click="Left_Click">
                 <Button.Template>
                     <ControlTemplate>
                         <Rectangle Margin="2">
@@ -284,7 +284,7 @@ TextBlock.Foreground="{TemplateBinding Foreground}"/>
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button x:Name="Right"   HorizontalAlignment="Right"  Grid.Row="1" Grid.ColumnSpan="2" Width="95" Height="95" Visibility="Visible"  Margin="0,0,12,0" Click="Right_Click">
+            <Button x:Name="Right"   HorizontalAlignment="Right"  Grid.Row="1" Grid.ColumnSpan="2" Width="155" Height="155" Visibility="Visible"  Margin="0,0,12,0" Click="Right_Click">
                 <Button.Template>
                     <ControlTemplate>
                         <Rectangle Margin="2">

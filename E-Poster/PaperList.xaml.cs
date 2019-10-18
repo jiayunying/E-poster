@@ -30,13 +30,30 @@ namespace E_Poster
             InitializeComponent();
             //初始化paperdata数据
 
-            
             ImageInit();
             this.typeList.ItemsSource = CommonData.PaperTypes;
             ButtomAnimation();
             if (CommonData.Papers.Count==0) {
-                ServiceRequest.RefreshList();
+
+                    //TODO：调接口查询论文列表
+                    ServiceRequest.RefreshList();
                 this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
+            }
+            //设置语言切换按钮是否可见
+            if (CommonData.langFl)
+            {
+                cn_en_btn.Visibility = Visibility.Visible;
+                switch (CommonData.jsonFilters.language) {
+                    case "cn":
+                        btn_cn.IsChecked = true;
+                        break;
+                    case "en":
+                        btn_en.IsChecked = true;
+                        break;
+                }
+            }
+            else {
+                cn_en_btn.Visibility = Visibility.Collapsed;
             }
             this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
 
@@ -292,22 +309,23 @@ namespace E_Poster
         private void TypeList_GotFocus(object sender, RoutedEventArgs e)
         {
             try {
-                if (typeList.SelectedIndex == 0) {
+                //if (typeList.SelectedIndex == 0) {
                     //选中全部时，清空搜索框关键字
                     switch (CommonData.jsonFilters.language) {
                         case "cn":
-                            txt_keyword.Text = "搜索";
+                            txt_keyword.Text = "论文名/关键字/作者";
                             break;
                         case "en:":
                             txt_keyword.Text = "Search";
                             break;
                     }
                     CommonData.jsonFilters.keyword = "";
-                }
+               
                 CommonData.jsonFilters.offset = 1;
 
                 //TODO:调接口获取论文列表并赋值给全局静态变量
                 CommonData.jsonFilters.type = CommonData.PaperTypes[typeList.SelectedIndex].t_id;
+                CommonData.jsonFilters.keyword = null;
                 ServiceRequest.RefreshList();
                 this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
 
@@ -404,9 +422,13 @@ namespace E_Poster
 
         private void Btn_Search_Click(object sender, RoutedEventArgs e)
         {
-            try { 
-                CommonData.jsonFilters.keyword = txt_keyword.Text.Trim();
-              ServiceRequest.RefreshList();
+            try {
+                if (!txt_keyword.Text.Trim().Equals(App.Current.FindResource("txt_search").ToString())) {
+                    CommonData.jsonFilters.keyword = txt_keyword.Text.Trim();                   
+                }
+                CommonData.jsonFilters.offset = 0;
+                CommonData.jsonFilters.type = -1;
+                ServiceRequest.RefreshList();
                 this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
 
                 this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);

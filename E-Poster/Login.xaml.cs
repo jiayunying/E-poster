@@ -83,10 +83,38 @@ namespace E_Poster
 
                         //跳转列表页
                         this.NavigationService.Navigate(new Uri("/PaperList.xaml", UriKind.Relative));
-                    }
+                    }         
                     else
                     {
                         MessageBox.Show("初始化类型列表失败，请检查后台服务!");
+                    }
+
+                    //查询本次会议的投稿类型，根据投稿类型判断是否显示中英文切换按钮
+                    string con_req = JsonConvert.SerializeObject(new
+                    {
+                        cid = CommonData.cid
+                    }
+                    );
+                    string res_con = ServiceRequest.HttpPost(CommonData.pre_url + "/config", con_req);
+
+                    JObject jo_con = (JObject)JsonConvert.DeserializeObject(res_con);
+
+                    if (jo_con["code"].ToString().Equals("0"))
+                    {
+                        if (jo_con["cnfl"].ToString().Equals("1") && jo_con["enfl"].ToString().Equals("1"))
+                        {
+                            CommonData.langFl = true;
+                        }
+                        else {
+                            CommonData.langFl = false;
+                            if (jo_con["cnfl"].ToString().Equals("1"))
+                            {
+                                CommonData.jsonFilters.language = "cn";
+                            }
+                            else if (jo_con["enfl"].ToString().Equals("1")) {
+                                CommonData.jsonFilters.language = "en";
+                            }
+                        }
                     }
                 }
                 else

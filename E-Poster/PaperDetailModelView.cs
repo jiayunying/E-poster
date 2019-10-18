@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
@@ -74,9 +75,23 @@ namespace E_Poster
         void LastClick(object obj)
         {
             try {
-                CommonData.CurrentIndex -= 1;
-                CommonData.CurrentPaper = CommonData.Papers[CommonData.CurrentIndex.Value];
-                this.CurImg = RefreshImg();
+                if (CommonData.CurrentIndex == 0)
+                {
+                    //提示第一页
+                    switch (CommonData.jsonFilters.language) {
+                        case "cn":
+                            MessageBox.Show("当前是第一篇！");
+                            break;
+                        case "en":
+                            MessageBox.Show("No More Data！");
+                            break;
+                    }
+                }
+                else { 
+                    CommonData.CurrentIndex -= 1;
+                    CommonData.CurrentPaper = CommonData.Papers[CommonData.CurrentIndex.Value];
+                    this.CurImg = RefreshImg();
+                }
             }
             catch (Exception ex) {
                 
@@ -87,11 +102,25 @@ namespace E_Poster
         {
             try
             {
-                if (CommonData.Papers.Count > 0) { 
-                CommonData.CurrentIndex += 1;
-                CommonData.CurrentPaper = CommonData.Papers[CommonData.CurrentIndex.Value];
-                this.CurImg = RefreshImg();
+                if (CommonData.CurrentIndex == CommonData.Papers.Count-1)
+                {
+                    //提示最后一页
+                    switch (CommonData.jsonFilters.language)
+                    {
+                        case "cn":
+                            MessageBox.Show("当前是最后一篇！");
+                            break;
+                        case "en":
+                            MessageBox.Show("No More Data！");
+                            break;
+                    }
                 }
+                else { 
+                    CommonData.CurrentIndex += 1;
+                    CommonData.CurrentPaper = CommonData.Papers[CommonData.CurrentIndex.Value];
+                    this.CurImg = RefreshImg();
+                }
+
             }
             catch (Exception ex) {
 
