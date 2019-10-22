@@ -2,11 +2,14 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:s="clr-namespace:System;assembly=mscorlib"
                     xmlns:local="clr-namespace:E_Poster.resources">
-    <s:String x:Key="txt_search">Search</s:String>
+    <s:String x:Key="txt_search">Title/Author/Keyword</s:String>
     <s:String x:Key="txt_type">Paper Types</s:String>
     <s:String x:Key="all_type">ALL Types</s:String>
     <s:String x:Key="first_author">First Author：</s:String>
     <s:String x:Key="first_author_org">Organization：</s:String>
     <s:String x:Key="no_data">No eligible data was queried</s:String>
-
+    <s:String x:Key="endPage">This is the last page</s:String>
+    <s:String x:Key="startPage">This is the first page</s:String>
+    <s:String x:Key="endPaper">This is the last paper</s:String>
+    <s:String x:Key="startPaper">This is the first paper</s:String>
 </ResourceDictionary>

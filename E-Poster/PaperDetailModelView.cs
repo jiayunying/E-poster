@@ -78,14 +78,7 @@ namespace E_Poster
                 if (CommonData.jsonFilters.offset==1&&CommonData.CurrentIndex == 0)
                 {
                     //提示第一页
-                    switch (CommonData.jsonFilters.language) {
-                        case "cn":
-                            MessageBox.Show("当前是第一篇！");
-                            break;
-                        case "en":
-                            MessageBox.Show("No More Data！");
-                            break;
-                    }
+                    MessageBox.Show(App.Current.FindResource("startPaper").ToString());
                 }
                 else { 
                     CommonData.CurrentIndex -= 1;
@@ -133,35 +126,21 @@ namespace E_Poster
                     if (CommonData.Papers.Count < CommonData.PageSize)
                     {
                         //提示最后一篇
-                        switch (CommonData.jsonFilters.language)
-                        {
-                            case "cn":
-                                MessageBox.Show("当前是最后一篇！");
-                                break;
-                            case "en":
-                                MessageBox.Show("No More Data！");
-                                break;
-                        }
+                        MessageBox.Show(App.Current.FindResource("endPaper").ToString());
+
                     }
                     else {
                         //本页条数和pagesize相等需要翻一页判断是否是最后一页
                         CommonData.jsonFilters.offset += 1;
-                        List<Paper> temp = CommonData.Papers;
                         ServiceRequest.RefreshList();
                         if (CommonData.Papers.Count == 0)
                         {
-                            CommonData.Papers = temp;
                             CommonData.jsonFilters.offset -= 1;
+                            ServiceRequest.RefreshList();
+
                             //提示最后一篇
-                            switch (CommonData.jsonFilters.language)
-                            {
-                                case "cn":
-                                    MessageBox.Show("当前是最后一篇！");
-                                    break;
-                                case "en":
-                                    MessageBox.Show("No More Data！");
-                                    break;
-                            }
+                            MessageBox.Show(App.Current.FindResource("endPaper").ToString());
+
                         }
                         else {
                             CommonData.CurrentIndex = 0;

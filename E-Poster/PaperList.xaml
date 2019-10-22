@@ -120,14 +120,14 @@
                             <RowDefinition Height="160"/>
                             <RowDefinition Height="1520"/>
                         </Grid.RowDefinitions>
-                        <Border Width="514" Height="73" Grid.Row="0" VerticalAlignment="Bottom" BorderThickness="4,4,4,4" >
+                        <Border Width="514" Height="100" Grid.Row="0" VerticalAlignment="Bottom" BorderThickness="4,4,4,4" >
                             <Border.BorderBrush>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                                     <GradientStop Color="#0DBCCD" Offset="1"/>
                                     <GradientStop Color="#72EDF8" Offset="0"/>
                                 </LinearGradientBrush>
                             </Border.BorderBrush>
-                            <Grid  Grid.Row="0" HorizontalAlignment="Stretch">
+                            <Grid HorizontalAlignment="Stretch">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="440"/>
                                     <ColumnDefinition Width="74"/>
@@ -137,7 +137,10 @@
                                     <Image   Source="pack://application:,,,/resources/search.png"></Image>
                                 </Button>
                             </Grid>
+                            <!--<TextBlock Text="{DynamicResource txt_search}"  FontSize="28"  Foreground="#999999" VerticalAlignment="Bottom"/>-->
+
                         </Border>
+
                         <TextBlock Text="{DynamicResource txt_type}" Foreground="White" Margin="60,20" VerticalAlignment="Center" FontSize="36" Grid.Row="1"/>
                         <ListBox Name="typeList" Grid.Row="2"  DisplayMemberPath="t_name" SelectedValuePath="t_id"  Background="Transparent" Foreground="White" BorderThickness="0,0,0,0" SelectionChanged ="TypeList_GotFocus" FontSize="24">
                             <ListBox.ItemContainerStyle>

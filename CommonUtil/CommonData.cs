@@ -27,14 +27,14 @@ namespace CommonUtil
                 //        if (Papers.Count == PageSize)
                 //        {
                 //            //列表页翻页,刷新列表
-                //            List<Paper> temp = CommonData.Papers;
+      
                 //            jsonFilters.offset += 1;
                 //            ServiceRequest.RefreshList();
                 //            currentIndex = 0;
                 //      //  翻页后无数据了
                 //            if (CommonData.Papers.Count == 0)
                 //        {
-                //            CommonData.Papers = temp;
+               
                 //        }
                 //    }
                 //}

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -32,6 +34,7 @@ namespace E_Poster
 
             ImageInit();
             this.typeList.ItemsSource = CommonData.PaperTypes;
+
             ButtomAnimation();
             if (CommonData.Papers.Count==0) {
 
@@ -46,9 +49,13 @@ namespace E_Poster
                 switch (CommonData.jsonFilters.language) {
                     case "cn":
                         btn_cn.IsChecked = true;
+                        typeList.DisplayMemberPath = "t_name";
+
                         break;
                     case "en":
                         btn_en.IsChecked = true;
+                        typeList.DisplayMemberPath = "t_en_name";
+
                         break;
                 }
             }
@@ -57,8 +64,11 @@ namespace E_Poster
             }
             this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
 
+
+          
         }
 
+       
 
         /// <summary>
         /// 翻页按钮闪烁动画
@@ -237,6 +247,7 @@ namespace E_Poster
 
                 //TODO:调接口获取论文列表（按中/英文排序）
                 CommonData.jsonFilters.offset = 1;
+                CommonData.jsonFilters.keyword = null;
                 ServiceRequest.RefreshList();
                 this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
 
@@ -253,6 +264,9 @@ namespace E_Poster
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             Expand = !_Expand;
+            if (string.IsNullOrEmpty(CommonData.jsonFilters.keyword)) { 
+            txt_keyword.Text = App.Current.FindResource("txt_search").ToString();
+            }
         }
 
         public bool Expand
@@ -309,23 +323,18 @@ namespace E_Poster
         private void TypeList_GotFocus(object sender, RoutedEventArgs e)
         {
             try {
-                //if (typeList.SelectedIndex == 0) {
-                    //选中全部时，清空搜索框关键字
-                    switch (CommonData.jsonFilters.language) {
-                        case "cn":
-                            txt_keyword.Text = "论文名/关键字/作者";
-                            break;
-                        case "en:":
-                            txt_keyword.Text = "Search";
-                            break;
-                    }
-                    CommonData.jsonFilters.keyword = "";
-               
+
+                //txt_keyword.Text = App.Current.FindResource("txt_search").ToString();
+                //    CommonData.jsonFilters.keyword = "";
+
+                if (!txt_keyword.Text.Trim().Equals(App.Current.FindResource("txt_search").ToString())) {
+                    CommonData.jsonFilters.keyword = txt_keyword.Text.Trim();
+                }
+
                 CommonData.jsonFilters.offset = 1;
 
                 //TODO:调接口获取论文列表并赋值给全局静态变量
                 CommonData.jsonFilters.type = CommonData.PaperTypes[typeList.SelectedIndex].t_id;
-                CommonData.jsonFilters.keyword = null;
                 ServiceRequest.RefreshList();
                 this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
 
@@ -354,15 +363,8 @@ namespace E_Poster
                 }
                 else
                 {
-                    switch (CommonData.jsonFilters.language)
-                    {
-                        case "cn":
-                            MessageBox.Show("当前是第一页!");
-                            break;
-                        case "en":
-                            MessageBox.Show("No More Date!");
-                            break;
-                    }
+                    MessageBox.Show(App.Current.FindResource("startPage").ToString());
+                   
                 }
             }
             catch (Exception ex)
@@ -384,7 +386,6 @@ namespace E_Poster
                 if (CommonData.Papers.Count == CommonData.PageSize)
                 {
                     CommonData.jsonFilters.offset += 1;
-                    List<Paper> temp = CommonData.Papers;
                     ServiceRequest.RefreshList();
                     if (CommonData.Papers.Count > 0)
                     {
@@ -394,30 +395,14 @@ namespace E_Poster
                     {
                         //如果没有数据了则回退
                         CommonData.jsonFilters.offset -= 1;
-                        CommonData.Papers = temp;
-                        switch (CommonData.jsonFilters.language)
-                        {
-                            case "cn":
-                                MessageBox.Show("已经是最后一页了!");
-                                break;
-                            case "en":
-                                MessageBox.Show("No More Date!");
-                                break;
-                        }
+                        ServiceRequest.RefreshList();
+                        MessageBox.Show(App.Current.FindResource("endPage").ToString());
 
                     }
                 }
                 else if(CommonData.Papers.Count < CommonData.PageSize)
                 {
-                    switch (CommonData.jsonFilters.language)
-                    {
-                        case "cn":
-                            MessageBox.Show("已经是最后一页了!");
-                            break;
-                        case "en":
-                            MessageBox.Show("No More Date!");
-                            break;
-                    }
+                    MessageBox.Show(App.Current.FindResource("endPage").ToString());
 
                 }
             }
@@ -430,7 +415,10 @@ namespace E_Poster
 
         private void TxtSearch_GotFocus(object sender, RoutedEventArgs e)
         {
-            txt_keyword.Text = "";
+            if (txt_keyword.Text.Trim().Equals(App.Current.FindResource("txt_search"))) {
+                txt_keyword.Text = "";
+            }
+           
             InputPanel.ShowInputPanel();
         }
 
@@ -445,7 +433,7 @@ namespace E_Poster
                 if (!txt_keyword.Text.Trim().Equals(App.Current.FindResource("txt_search").ToString())) {
                     CommonData.jsonFilters.keyword = txt_keyword.Text.Trim();                   
                 }
-                CommonData.jsonFilters.offset = 0;
+                CommonData.jsonFilters.offset = 1;
                 CommonData.jsonFilters.type = -1;
                 ServiceRequest.RefreshList();
                 this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
@@ -499,5 +487,7 @@ namespace E_Poster
         //    }
         //}
     }
+
+
 
 }

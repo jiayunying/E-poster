@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace E_Poster
 {
@@ -28,16 +30,49 @@ namespace E_Poster
             b.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/bg_login.png"));
             b.Stretch = Stretch.Fill;
             this.Background = b;
+            //初始化屏保数据
+            mLastInputInfo = new LASTINPUTINFO();
+            mLastInputInfo.cbSize = Marshal.SizeOf(mLastInputInfo);
+
+            mIdleTimer = new System.Windows.Threading.DispatcherTimer();
+            mIdleTimer.Tick += new EventHandler(IdleTime);//起个Timer一直获取当前时间 
+            mIdleTimer.Interval = new TimeSpan(0, 0, 0, 1, 0);
+            mIdleTimer.Start();
         }
-        /// <summary>
-        /// 相应鼠标左键，使窗体能拖动
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        #region 屏保
+        [StructLayout(LayoutKind.Sequential)]
+        struct LASTINPUTINFO
         {
-            this.DragMove();
+            // 设置结构体块容量
+            [MarshalAs(UnmanagedType.U4)]
+            public int cbSize;
+            // 捕获的时间
+            [MarshalAs(UnmanagedType.U4)]
+            public uint dwTime;
         }
+
+        private DispatcherTimer mIdleTimer;
+        private LASTINPUTINFO mLastInputInfo;
+
+        [DllImport("user32.dll")]
+        private static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
+
+        private void IdleTime(object sender, EventArgs e)
+        {
+
+            if (!GetLastInputInfo(ref mLastInputInfo))
+                MessageBox.Show("GetLastInputInfo Failed!");
+            else
+            {
+                if ((Environment.TickCount - (long)mLastInputInfo.dwTime) / 1000 > 10)
+                {
+                    ScreenSaver screenSaver = new ScreenSaver();
+                    screenSaver.ShowDialog();
+                }
+            }
+
+        }
+        #endregion
 
     }
 }
