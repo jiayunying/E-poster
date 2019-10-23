@@ -75,8 +75,7 @@ namespace E_Poster
                             if (array.Count < 1) return;
                             else
                             {
-                                //测试完成打开
-                                //CommonData.PaperTypes.Clear();
+                                CommonData.PaperTypes.Clear();
                                 foreach (JToken token in array)
                                 {
                                     string tName = (string)token["typeName"];

@@ -35,7 +35,7 @@
             <!--头部功能按钮-->
             <DockPanel Grid.Row="0" Panel.ZIndex="10" Grid.ColumnSpan="2">
                 <!--展开分类侧边的按钮-->
-                <Button   VerticalAlignment="Bottom" Click="Button_Click_1" Width="104" Height="104" Visibility="Visible" HorizontalAlignment="Left" Margin="32,0,0,0">
+                <Button   VerticalAlignment="Bottom" Click="Button_Click_1" Width="105" Height="105" Visibility="Visible" HorizontalAlignment="Left" Margin="32,0,0,0">
                     <Button.Template>
                         <ControlTemplate>
                             <Rectangle Margin="2">
@@ -133,9 +133,19 @@
                                     <ColumnDefinition Width="74"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBox Name="txt_keyword" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"  Text="{DynamicResource txt_search}" FontSize="28" Width="440" HorizontalContentAlignment="Left" Foreground="#999999" BorderThickness="0,0,0,0" GotFocus="TxtSearch_GotFocus" LostFocus="TxtSearch_LostFocus" Margin="40,0,0,0"/>
-                                <Button Name="btn_search" Width="40" Height="40" Background="Transparent" Grid.Column="1" BorderThickness="0,0,0,0" Click="Btn_Search_Click">
-                                    <Image   Source="pack://application:,,,/resources/search.png"></Image>
+                                <Button Name="btn_search" Width="50" Height="50" Background="Transparent" Grid.Column="1" BorderThickness="0,0,0,0" Click="Btn_Search_Click" HorizontalAlignment="Left">
+                                    <Button.Template>
+                                        <ControlTemplate>
+                                            <Rectangle>
+                                                <Rectangle.Fill>
+                                                    <ImageBrush ImageSource="pack://application:,,,/resources/search.png" />
+                                                </Rectangle.Fill>
+                                            </Rectangle>
+                                        </ControlTemplate>
+                                    </Button.Template>
                                 </Button>
+
+
                             </Grid>
                             <!--<TextBlock Text="{DynamicResource txt_search}"  FontSize="28"  Foreground="#999999" VerticalAlignment="Bottom"/>-->
 
