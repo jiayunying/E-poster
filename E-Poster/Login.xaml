@@ -5,57 +5,68 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:E_Poster"
       mc:Ignorable="d" 
-      d:DesignHeight="1200" d:DesignWidth="765"
+      d:DesignHeight="1920" d:DesignWidth="1080"
       Title="Login">
     <Page.Resources>
         <Style x:Key="TextBoxStyle" TargetType="TextBox">
             <Setter Property="Control.FontFamily" Value="Time New Roman"/>
-            <Setter Property="Control.FontSize" Value="20"/>
-            <Setter Property="Control.Height" Value="60"/>
-            <Setter Property="Control.MaxWidth" Value="500"/>
-            <Setter Property="Control.Foreground" Value="Gray"/>
-            <Setter Property="Control.Padding" Value="30,30,0,5"/>
-            <Setter Property="BorderThickness" Value="0,0,0,1"/>
-            <Setter Property="Background" Value="Transparent"/>
-
+            <Setter Property="Control.FontSize" Value="26"/>
+            <Setter Property="Control.Height" Value="70"/>
+            <!--<Setter Property="Control.MaxWidth" Value="500"/>-->
+            <Setter Property="Control.Foreground" Value="#2A49B6"/>
+            <Setter Property="Control.Padding" Value="100,30,0,0"/>
+            <Setter Property="Control.BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="Control.BorderBrush" Value="#2A49B6"/>
         </Style>
     </Page.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="4*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="1*"/>
-        </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Grid.Column="1" Text="电 子 壁 报 管 理 系 统" TextAlignment="Center" VerticalAlignment="Center" FontSize="28px" Foreground="White" FontWeight="Bold"></TextBlock>
-        <TextBox Name="mettingId" Grid.Row="1" Grid.Column="1"  VerticalAlignment="Bottom" Style="{StaticResource TextBoxStyle}" Text="会议ID" GotFocus="MettingId_GotFocus" LostFocus="MettingId_LostFocus" >
+    <Viewbox Stretch="Uniform">
+        <Grid Width="1080" Height="1920">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="1" Grid.Column="1" Source="pack://application:,,,/resources/title.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="585" Height="63" />
+            <StackPanel Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" MaxWidth="700">
 
+                <TextBox Name="mettingId" Style="{StaticResource TextBoxStyle}" Text="会议ID" GotFocus="Text_GotFocus" LostFocus="Text_LostFocus"  Margin="0,0,0,90" >
+                    <TextBox.Background>
+                        <ImageBrush ImageSource="pack://application:,,,/resources/mettingID.png" Stretch="Uniform" AlignmentX="Left" AlignmentY="Center" TileMode="FlipXY"/>
+                    </TextBox.Background>
+                </TextBox>
 
-        </TextBox>
-        <TextBox Name="checksum" Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" Style="{StaticResource TextBoxStyle}" Text="校验码" GotFocus="Checksum_GotFocus" LostFocus="Checksum_LostFocus"></TextBox>
-        <Button Name="login" Grid.Row="3" Grid.Column="1" Click="Login_Click" MaxWidth="500" Height="50" VerticalAlignment="Top" Foreground="White" FontSize="20px" FontWeight="Bold" Content="登  录" >
-            <Button.Template>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border BorderBrush="{TemplateBinding Control.BorderBrush}" BorderThickness="0" CornerRadius="20">
-                        <Border.Background>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                <GradientStop Color="Red" Offset="0.5"/>
-                            </LinearGradientBrush>
-                        </Border.Background>
-                        <ContentPresenter Content="{TemplateBinding ContentControl.Content}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Border>
+                <TextBox Name="checksum"   Style="{StaticResource TextBoxStyle}" Text="校验码" GotFocus="Text_GotFocus" LostFocus="Text_LostFocus">
+                    <TextBox.Background>
+                        <ImageBrush ImageSource="pack://application:,,,/resources/checknum.png" Stretch="Uniform" AlignmentX="Left" />
+                    </TextBox.Background>
+                </TextBox>
 
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
-        <Image Source="pack://application:,,,/resources/logo.png" Grid.Row="5" Grid.Column="1" Width="200" VerticalAlignment="Center"></Image>
+            </StackPanel>
 
-    </Grid>
+            <Button Grid.Row="3" Grid.Column="1" Name="login"  Click="Login_Click" Width="807" Height="117" VerticalAlignment="Center" Foreground="White" FontSize="42px" FontWeight="Bold" Content="登  录" >
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border BorderBrush="{TemplateBinding Control.BorderBrush}" BorderThickness="0" CornerRadius="44">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Color="#456EF9" Offset="1"/>
+                                    <GradientStop Color="#019DD5" Offset="0"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <ContentPresenter Content="{TemplateBinding ContentControl.Content}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Image Source="pack://application:,,,/resources/logo.png" Grid.Row="4" Grid.Column="1" Width="252" Height="77" VerticalAlignment="Bottom" Margin="0,0,0,70"></Image>
+            <Button Content="close" Grid.Column="2" Grid.Row="4" Width="40" Height="20" Background="Transparent" Click="CLose_Click" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+        </Grid>
+    </Viewbox>
 </Page>

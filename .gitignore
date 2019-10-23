@@ -338,3 +338,7 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+/run/ydt-mettings/1103/posters/12_1011_265399_1562724310195_478188.jpg
+
+#忽略的文件
+run/

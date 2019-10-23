@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib"
+                    xmlns:local="clr-namespace:E_Poster.resources">
+    <s:String x:Key="txt_search">论文名/作者/关键字</s:String>
+    <s:String x:Key="txt_type">论文分类</s:String>
+    <s:String x:Key="all_type">全部分类</s:String>
+    <s:String x:Key="first_author">第一作者：</s:String>
+    <s:String x:Key="first_author_org">单位：</s:String>
+    <s:String x:Key="no_data">未查询到符合条件的数据</s:String>
+    <s:String x:Key="endPage">当前是最后一页</s:String>
+    <s:String x:Key="startPage">当前是第一页</s:String>
+    <s:String x:Key="endPaper">当前是最后一篇</s:String>
+    <s:String x:Key="startPaper">当前是第一篇</s:String>
+</ResourceDictionary>

@@ -4,11 +4,306 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:E_Poster"
+      xmlns:util="clr-namespace:CommonUtil;assembly=CommonUtil"
       mc:Ignorable="d" 
-      d:DesignHeight="1200" d:DesignWidth="675"
+      d:DesignHeight="1920" d:DesignWidth="1080"
       Title="PaperList">
-    <Grid>
-        <TextBlock Text="测试测试测试" FontSize="100"></TextBlock>
-      
-    </Grid>
+    <Page.Triggers>
+        <EventTrigger RoutedEvent="Page.Loaded">
+            <EventTrigger.Actions>
+                <BeginStoryboard>
+                    <Storyboard>
+                        <!--<ThicknessAnimation Duration="0:0:.85" Storyboard.TargetProperty="Margin" From="900,0,-900,0" To="0" DecelerationRatio=".9" />-->
+                        <ThicknessAnimation Duration="0:0:1" Storyboard.TargetProperty="Margin" From="-50,0,50,0" To="0" DecelerationRatio=".9" />
+                        <DoubleAnimation Duration="0:0:1" Storyboard.TargetProperty="Opacity" From="0" To="1" />
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger.Actions>
+        </EventTrigger>
+    </Page.Triggers>
+    <Viewbox>
+        <Grid Width="1080" Height="1920">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100*"/>
+                <RowDefinition Height="342*"/>
+                <RowDefinition Height="30*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <!--头部功能按钮-->
+            <DockPanel Grid.Row="0" Panel.ZIndex="10" Grid.ColumnSpan="2">
+                <!--展开分类侧边的按钮-->
+                <Button   VerticalAlignment="Bottom" Click="Button_Click_1" Width="104" Height="104" Visibility="Visible" HorizontalAlignment="Left" Margin="32,0,0,0">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Rectangle Margin="2">
+                                <Rectangle.Fill>
+                                    <ImageBrush ImageSource="pack://application:,,,/resources/typelist.png"/>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <!--中英文切换按钮-->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,39,17" Name="cn_en_btn">
+                    <RadioButton Visibility="Visible" Click="CnEn_Click" Name="btn_cn">
+                        <RadioButton.Template>
+                            <ControlTemplate>
+                                <StackPanel>
+                                    <Border Width="82" Height="66" Background="#C7C7C7" x:Name="bdcn" CornerRadius="5,0,0,5">
+                                        <TextBlock Text="中" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="28"/>
+                                    </Border>
+                                </StackPanel>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="RadioButton.IsChecked" Value="True">
+                                        <Setter TargetName="bdcn" Property="Background">
+                                            <Setter.Value>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                    <GradientStop Color="#1E4DEF" Offset="1"/>
+                                                    <GradientStop Color="#019DD5" Offset="0"/>
+                                                </LinearGradientBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </RadioButton.Template>
+                    </RadioButton>
+                    <RadioButton Visibility="Visible" Name="btn_en" Click="CnEn_Click">
+                        <RadioButton.Template>
+                            <ControlTemplate>
+                                <StackPanel>
+                                    <Border Width="82" Height="66" Background="#C7C7C7" x:Name="bden" CornerRadius="0,5,5,0">
+                                        <TextBlock Text="EN" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="28"/>
+                                    </Border>
+                                </StackPanel>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="RadioButton.IsChecked" Value="True">
+                                        <Setter TargetName="bden" Property="Background">
+                                            <Setter.Value>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                    <GradientStop Color="#1E4DEF" Offset="1"/>
+                                                    <GradientStop Color="#019DD5" Offset="0"/>
+                                                </LinearGradientBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </RadioButton.Template>
+                    </RadioButton>
+                </StackPanel>
+            </DockPanel>
+
+            <!-- 抽屉-论文分类-->
+            <Grid  HorizontalAlignment="Stretch"  Name="Thumb1" VerticalAlignment="Stretch" Grid.Row="0" Grid.RowSpan="3"  Grid.ColumnSpan="2"  Panel.ZIndex="100">
+                <!--CanVerticallyScroll="True"-->
+                <Grid.RenderTransform>
+                    <TranslateTransform x:Name="spt1"></TranslateTransform>
+                </Grid.RenderTransform>
+                <Grid.Clip>
+                    <RectangleGeometry x:Name="spc1"></RectangleGeometry>
+                </Grid.Clip>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Background="#2B323A" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                    <StackPanel.Effect>
+                        <DropShadowEffect x:Name="shadow" Color="#2b323a" Direction="0" ShadowDepth="10" Opacity="0.1"/>
+                    </StackPanel.Effect>
+                    <Grid Name="type_grid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="240"/>
+                            <RowDefinition Height="160"/>
+                            <RowDefinition Height="1520"/>
+                        </Grid.RowDefinitions>
+                        <Border Width="514" Height="100" Grid.Row="0" VerticalAlignment="Bottom" BorderThickness="4,4,4,4" >
+                            <Border.BorderBrush>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Color="#0DBCCD" Offset="1"/>
+                                    <GradientStop Color="#72EDF8" Offset="0"/>
+                                </LinearGradientBrush>
+                            </Border.BorderBrush>
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="440"/>
+                                    <ColumnDefinition Width="74"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Name="txt_keyword" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"  Text="{DynamicResource txt_search}" FontSize="28" Width="440" HorizontalContentAlignment="Center" Foreground="#999999" BorderThickness="0,0,0,0" GotFocus="TxtSearch_GotFocus" LostFocus="TxtSearch_LostFocus"/>
+                                <Button Name="btn_search" Width="40" Height="40" Background="Transparent" Grid.Column="1" BorderThickness="0,0,0,0" Click="Btn_Search_Click">
+                                    <Image   Source="pack://application:,,,/resources/search.png"></Image>
+                                </Button>
+                            </Grid>
+                            <!--<TextBlock Text="{DynamicResource txt_search}"  FontSize="28"  Foreground="#999999" VerticalAlignment="Bottom"/>-->
+
+                        </Border>
+
+                        <TextBlock Text="{DynamicResource txt_type}" Foreground="White" Margin="60,20" VerticalAlignment="Center" FontSize="36" Grid.Row="1"/>
+                        <ListBox Name="typeList" Grid.Row="2"  DisplayMemberPath="t_name" SelectedValuePath="t_id"  Background="Transparent" Foreground="White" BorderThickness="0,0,0,0" SelectionChanged ="TypeList_GotFocus" FontSize="24">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <Border Background="{TemplateBinding Background}" Padding="60,20">
+                                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+TextBlock.Foreground="{TemplateBinding Foreground}"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="true">
+                                            <Setter Property="Background">
+                                                <Setter.Value>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                        <GradientStop Color="#09B9CB" Offset="1"/>
+                                                        <GradientStop Color="#73EDF9" Offset="0"/>
+                                                    </LinearGradientBrush>
+                                                </Setter.Value>
+                                            </Setter>
+                                            <Setter Property="Foreground" Value="White"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+                    </Grid>
+                </StackPanel>
+                <Button Name="mengban" Background="#404851" Opacity="0.2" Grid.Column="1" Height="1920" BorderThickness="0,0,0,0" Click="Button_Click_1">
+                </Button>
+            </Grid>
+
+            <!--头部banner图 根据不同的会议可配置-->
+            <Image x:Name="banner" Grid.Row="0" Grid.ColumnSpan="2" Stretch="Fill"/>
+
+            <!-- 论文列表-->
+            <ListBox Grid.Row="1" Name="paperList" Grid.ColumnSpan="2" 
+                Background="Transparent" SelectionChanged="paperList_SelectionChanged"  BorderThickness="0,0,0,0" Padding="39,33,39,0" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+                <!--考虑做静态变量的绑定ItemsSource="{Binding Source={x:Static util:CommonData.PaperList}}"-->
+                <!--ItemsSource="{Binding PaperList, Mode=OneWay}"-->
+                    <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem" >
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border x:Name="border" CornerRadius="10"  Background="#F8F8F8"  BorderThickness="3,3,3,3">
+                                        <Border.BorderBrush>
+                                            <LinearGradientBrush Opacity="0.2">
+                                                <GradientStop Color="#377b81"/>
+                                            </LinearGradientBrush>
+                                        </Border.BorderBrush>
+                                        <ContentPresenter/>
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Margin" Value="0,0,0,17"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Name="border_paper" CornerRadius="10" Margin="27,27,30,27">
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="pack://application:,,,/resources/icon.png" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="0" Width="21" Height="21" Grid.Row="0"/>
+                              
+                                <ScrollViewer Name="slv" 
+                                      VerticalScrollBarVisibility="Hidden"
+                                      HorizontalScrollBarVisibility="Hidden"
+                                      HorizontalAlignment="Left" VerticalAlignment="Center"  Grid.Row="0" Grid.Column="1" >
+                                    <Label Content="{Binding paper_title, Mode=OneWay}"  
+                                       VerticalContentAlignment="Center" 
+                                       HorizontalContentAlignment="Center" 
+                                           Foreground="#000524" FontWeight="Bold" FontSize="26"
+                                           >
+                                        <Label.Triggers>
+                                            <EventTrigger RoutedEvent="Label.Loaded" >
+                                                <BeginStoryboard HandoffBehavior="Compose">
+                                                    <Storyboard>
+                                                        <DoubleAnimation From="-300" 
+                                                        To="{Binding ElementName=slv,Path=ScrollableWidth}"
+                                                        Duration="0:0:10"
+                                                        Storyboard.TargetName="slv"
+                                                        AutoReverse="False"
+                                                        RepeatBehavior="Forever"
+                                                        BeginTime="0:0:2"
+                                                        Storyboard.TargetProperty="(local:ScrollViewerBehavior.HorizontalOffset)"                 
+                                                        >  
+                                                        </DoubleAnimation>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                </ScrollViewer>
+
+
+                                <Grid  HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1" Margin="0,24,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="70"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Orientation="Horizontal" Grid.Column="0">
+                                        <TextBlock Text="{DynamicResource first_author}"   Foreground="#019DD5" FontSize="18"/>
+                                        <TextBlock Text="{Binding first_author}" TextAlignment="Center" FontSize="18"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal"  Grid.Column="1">
+                                        <TextBlock Text="{DynamicResource first_author_org}" Foreground="#019DD5" FontSize="18" Padding="20,0,0,0"/>
+                                        <TextBlock Text="{Binding first_author_org}" FontSize="18"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal"  Grid.Column="2" HorizontalAlignment="Right">
+                                        <Image Source="pack://application:,,,/resources/hot.png" Width="30" Height="18" Margin="0,0,10,0"/>
+                                        <TextBlock Text="{Binding hot}"  FontSize="18"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <!--翻页按钮 -->
+            <Button x:Name="Left"   HorizontalAlignment="Left"  Grid.Row="1" Grid.ColumnSpan="2" Width="155" Height="155" Visibility="Visible" Margin="12,0,0,0" Click="Left_Click">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Rectangle Margin="2">
+                            <Rectangle.Fill>
+                                <ImageBrush x:Name="Last_Imgbrush" ImageSource="pack://application:,,,/resources/left.png"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button x:Name="Right"   HorizontalAlignment="Right"  Grid.Row="1" Grid.ColumnSpan="2" Width="155" Height="155" Visibility="Visible"  Margin="0,0,12,0" Click="Right_Click">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Rectangle Margin="2">
+                            <Rectangle.Fill>
+                                <ImageBrush x:Name="Next_Imgbrush" ImageSource="pack://application:,,,/resources/right.png"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <!--底部图片 可配置-->
+            <Image x:Name="bottom" Grid.Row="2" Grid.ColumnSpan="2" Stretch="None"/>
+            <Canvas x:Name="nodata" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1" Visibility="Hidden" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="{DynamicResource no_data}" Foreground="#999999" FontSize="26"  Margin="-125,0,0,0"></TextBlock>
+            </Canvas>
+        </Grid>
+    </Viewbox>
 </Page>
