@@ -14,7 +14,7 @@
             <Setter Property="Control.Height" Value="70"/>
             <!--<Setter Property="Control.MaxWidth" Value="500"/>-->
             <Setter Property="Control.Foreground" Value="#2A49B6"/>
-            <Setter Property="Control.Padding" Value="100,30,0,0"/>
+            <Setter Property="Control.Padding" Value="70,40,0,0"/>
             <Setter Property="Control.BorderThickness" Value="0,0,0,1"/>
             <Setter Property="Control.BorderBrush" Value="#2A49B6"/>
         </Style>
@@ -38,13 +38,13 @@
 
                 <TextBox Name="mettingId" Style="{StaticResource TextBoxStyle}" Text="会议ID" GotFocus="Text_GotFocus" LostFocus="Text_LostFocus"  Margin="0,0,0,90" >
                     <TextBox.Background>
-                        <ImageBrush ImageSource="pack://application:,,,/resources/mettingID.png" Stretch="None" AlignmentX="Left" AlignmentY="Center"/>
+                        <ImageBrush ImageSource="pack://application:,,,/resources/mettingID.png" Stretch="None" AlignmentX="Left" AlignmentY="Bottom"/>
                     </TextBox.Background>
                 </TextBox>
 
                 <TextBox Name="checksum"   Style="{StaticResource TextBoxStyle}" Text="校验码" GotFocus="Text_GotFocus" LostFocus="Text_LostFocus">
                     <TextBox.Background>
-                        <ImageBrush ImageSource="pack://application:,,,/resources/checknum.png" Stretch="None" AlignmentX="Left"/>
+                        <ImageBrush ImageSource="pack://application:,,,/resources/checknum.png" Stretch="None" AlignmentX="Left" AlignmentY="Bottom"/>
                     </TextBox.Background>
                 </TextBox>
 

@@ -69,9 +69,9 @@ namespace E_Poster
             else
             {
                 //判断配置文件中的时间是正整数
-                if (Regex.IsMatch(str_scrSaveTime, @"^[1-9]\d*|0$"))
+                if (Regex.IsMatch(str_scrSaveTime, @"^(\+)?\d+(\.\d+)?$"))
                 {
-                    if ((Environment.TickCount - (long)mLastInputInfo.dwTime) / 1000 >10 )//int.Parse(str_scrSaveTime)*60
+                    if ((Environment.TickCount - (long)mLastInputInfo.dwTime) / 1000 >60*double.Parse(str_scrSaveTime))//int.Parse(str_scrSaveTime)*60
                     {
                         ScreenSaver screenSaver = new ScreenSaver();
                         screenSaver.ShowDialog();
