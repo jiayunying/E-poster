@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -57,6 +58,9 @@ namespace E_Poster
         [DllImport("user32.dll")]
         private static extern bool GetLastInputInfo(ref LASTINPUTINFO plii);
 
+        private static string str_scrSaveTime = (new SystemConfig()).GetValue("screensaver.time");
+
+        //屏保效果
         private void IdleTime(object sender, EventArgs e)
         {
 
@@ -64,11 +68,17 @@ namespace E_Poster
                 MessageBox.Show("GetLastInputInfo Failed!");
             else
             {
-                if ((Environment.TickCount - (long)mLastInputInfo.dwTime) / 1000 > 10)
+                //判断配置文件中的时间是正整数
+                if (Regex.IsMatch(str_scrSaveTime, @"^[1-9]\d*|0$"))
                 {
-                    ScreenSaver screenSaver = new ScreenSaver();
-                    screenSaver.ShowDialog();
+                    if ((Environment.TickCount - (long)mLastInputInfo.dwTime) / 1000 >10 )//int.Parse(str_scrSaveTime)*60
+                    {
+                        ScreenSaver screenSaver = new ScreenSaver();
+                        screenSaver.ShowDialog();
+                    }
                 }
+
+                
             }
 
         }

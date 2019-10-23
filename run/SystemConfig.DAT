@@ -6,3 +6,4 @@ result.eposter=159
 //http.url=http://medcircle.top/medapp/api/eposter
 http.url=http://medcircle.top/medapp/api/eposter
 page.size=8
+screensaver.time=10

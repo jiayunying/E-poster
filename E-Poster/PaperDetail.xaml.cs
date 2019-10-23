@@ -24,9 +24,7 @@ namespace E_Poster
     public partial class PaperDetail : Page
     {
 
-        ObservableCollection<BitmapImage> bmList;
-        int index = 0;
-        bool isRendering = false;
+
 
         public PaperDetail()
         {
@@ -67,6 +65,10 @@ namespace E_Poster
             CommonData.CurrentIndex = null;
         }
         #region 暂时不用的代码 与自动播放相关
+
+        ObservableCollection<BitmapImage> bmList;
+        int index = 0;
+        bool isRendering = false;
         public void InitList()
         {
             bmList = new ObservableCollection<BitmapImage>();
