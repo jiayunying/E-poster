@@ -75,14 +75,19 @@ namespace E_Poster
                             if (array.Count < 1) return;
                             else
                             {
+                                //测试完成打开
+                                //CommonData.PaperTypes.Clear();
                                 foreach (JToken token in array)
                                 {
+                                    string tName = (string)token["typeName"];
+                                    string tEnName = (string)token["typeEnName"];
+
                                     PaperType pt = new PaperType()
                                     {
                                         t_id = (int)token["typeId"],
-                                        t_name = (string)token["typeName"] + "(" + (string)token["count"] + "篇)",
+                                        t_name = (tName.Length>15?tName.Substring(0,14)+"...":tName) + " (" + (string)token["count"] + "篇)",
                                         p_count = (int)token["count"],
-                                        t_en_name = (string)token["typeEnName"] + "(" + (string)token["count"] + " Papers)",
+                                        t_en_name = (tEnName.Length > 22 ? tEnName.Substring(0, 21) + "..." : tEnName) + " (" + (string)token["count"] + " Papers)",
                                     };
                                     CommonData.PaperTypes.Add(pt);
                                 }

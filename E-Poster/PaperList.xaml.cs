@@ -76,8 +76,8 @@ namespace E_Poster
         private void ButtomAnimation() {
             Storyboard s_left = new Storyboard();
             DoubleAnimation da_opacity = new DoubleAnimation();
-            da_opacity.From = 0.5;
-            da_opacity.To = 1;
+            da_opacity.From = 0.4;
+            da_opacity.To = 0.7;
 
             //DoubleAnimation da_width= new DoubleAnimation();
             //da_width.From = 40;
@@ -325,11 +325,11 @@ namespace E_Poster
             try {
 
                 //txt_keyword.Text = App.Current.FindResource("txt_search").ToString();
-                //    CommonData.jsonFilters.keyword = "";
+                    CommonData.jsonFilters.keyword = "";
 
-                if (!txt_keyword.Text.Trim().Equals(App.Current.FindResource("txt_search").ToString())) {
-                    CommonData.jsonFilters.keyword = txt_keyword.Text.Trim();
-                }
+                //if (!txt_keyword.Text.Trim().Equals(App.Current.FindResource("txt_search").ToString())) {
+                //    CommonData.jsonFilters.keyword = txt_keyword.Text.Trim();
+                //}
 
                 CommonData.jsonFilters.offset = 1;
 

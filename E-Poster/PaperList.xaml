@@ -132,7 +132,7 @@
                                     <ColumnDefinition Width="440"/>
                                     <ColumnDefinition Width="74"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Name="txt_keyword" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"  Text="{DynamicResource txt_search}" FontSize="28" Width="440" HorizontalContentAlignment="Left" Foreground="#999999" BorderThickness="0,0,0,0" GotFocus="TxtSearch_GotFocus" LostFocus="TxtSearch_LostFocus"/>
+                                <TextBox Name="txt_keyword" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"  Text="{DynamicResource txt_search}" FontSize="28" Width="440" HorizontalContentAlignment="Left" Foreground="#999999" BorderThickness="0,0,0,0" GotFocus="TxtSearch_GotFocus" LostFocus="TxtSearch_LostFocus" Margin="40,0,0,0"/>
                                 <Button Name="btn_search" Width="40" Height="40" Background="Transparent" Grid.Column="1" BorderThickness="0,0,0,0" Click="Btn_Search_Click">
                                     <Image   Source="pack://application:,,,/resources/search.png"></Image>
                                 </Button>
@@ -142,7 +142,7 @@
                         </Border>
 
                         <TextBlock Text="{DynamicResource txt_type}" Foreground="White" Margin="60,20" VerticalAlignment="Center" FontSize="36" Grid.Row="1"/>
-                        <ListBox Name="typeList" Grid.Row="2"  DisplayMemberPath="t_name" SelectedValuePath="t_id"  Background="Transparent" Foreground="White" BorderThickness="0,0,0,0" SelectionChanged ="TypeList_GotFocus" FontSize="24">
+                        <ListBox Name="typeList" Grid.Row="2"  DisplayMemberPath="t_name" SelectedValuePath="t_id"  Background="Transparent" Foreground="White" BorderThickness="0,0,0,0" SelectionChanged ="TypeList_GotFocus" FontSize="24" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden">
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
                                     <Setter Property="Template">
@@ -151,7 +151,7 @@
                                                 <Border Background="{TemplateBinding Background}" Padding="60,20">
                                                     <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-TextBlock.Foreground="{TemplateBinding Foreground}"/>
+TextBlock.Foreground="{TemplateBinding Foreground}" />
                                                 </Border>
                                             </ControlTemplate>
                                         </Setter.Value>
@@ -253,7 +253,7 @@ TextBlock.Foreground="{TemplateBinding Foreground}"/>
                                 <Grid  HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1" Margin="0,24,0,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="70"/>
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Orientation="Horizontal" Grid.Column="0">

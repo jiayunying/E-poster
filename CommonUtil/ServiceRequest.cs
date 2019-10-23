@@ -78,7 +78,7 @@ namespace CommonUtil
                             paper_id = (int)token["paperId"],
                             paper_title = (string)token["paperTitle"],
                             first_author = (string)token["firstUName"],
-                            first_author_org = (string)token["firstUOrg"],    
+                            first_author_org = ((string)token["firstUOrg"]).Length>18? ((string)token["firstUOrg"]).Substring(0,18)+"...": (string)token["firstUOrg"],    
                             keyword = (string)token["paperKeyword"],
                             filename = (string)token["fileName"],
                             paper_title_en = (string)token["paperTitleEn"],
