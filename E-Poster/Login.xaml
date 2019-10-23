@@ -38,13 +38,13 @@
 
                 <TextBox Name="mettingId" Style="{StaticResource TextBoxStyle}" Text="会议ID" GotFocus="Text_GotFocus" LostFocus="Text_LostFocus"  Margin="0,0,0,90" >
                     <TextBox.Background>
-                        <ImageBrush ImageSource="pack://application:,,,/resources/mettingID.png" Stretch="Uniform" AlignmentX="Left" AlignmentY="Center" TileMode="FlipXY"/>
+                        <ImageBrush ImageSource="pack://application:,,,/resources/mettingID.png" Stretch="None" AlignmentX="Left" AlignmentY="Center"/>
                     </TextBox.Background>
                 </TextBox>
 
                 <TextBox Name="checksum"   Style="{StaticResource TextBoxStyle}" Text="校验码" GotFocus="Text_GotFocus" LostFocus="Text_LostFocus">
                     <TextBox.Background>
-                        <ImageBrush ImageSource="pack://application:,,,/resources/checknum.png" Stretch="Uniform" AlignmentX="Left" />
+                        <ImageBrush ImageSource="pack://application:,,,/resources/checknum.png" Stretch="None" AlignmentX="Left"/>
                     </TextBox.Background>
                 </TextBox>
 

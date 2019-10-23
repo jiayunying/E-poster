@@ -132,7 +132,7 @@
                                     <ColumnDefinition Width="440"/>
                                     <ColumnDefinition Width="74"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBox Name="txt_keyword" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"  Text="{DynamicResource txt_search}" FontSize="28" Width="440" HorizontalContentAlignment="Center" Foreground="#999999" BorderThickness="0,0,0,0" GotFocus="TxtSearch_GotFocus" LostFocus="TxtSearch_LostFocus"/>
+                                <TextBox Name="txt_keyword" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"  Text="{DynamicResource txt_search}" FontSize="28" Width="440" HorizontalContentAlignment="Left" Foreground="#999999" BorderThickness="0,0,0,0" GotFocus="TxtSearch_GotFocus" LostFocus="TxtSearch_LostFocus"/>
                                 <Button Name="btn_search" Width="40" Height="40" Background="Transparent" Grid.Column="1" BorderThickness="0,0,0,0" Click="Btn_Search_Click">
                                     <Image   Source="pack://application:,,,/resources/search.png"></Image>
                                 </Button>
