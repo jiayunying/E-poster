@@ -177,5 +177,8 @@
   <ItemGroup>
     <Folder Include="Resources\ScreenSaver\" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\search_bg.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
