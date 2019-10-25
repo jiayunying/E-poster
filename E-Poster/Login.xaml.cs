@@ -85,7 +85,7 @@ namespace E_Poster
                                         t_id = (int)token["typeId"],
                                         t_name = (tName.Length>13?tName.Substring(0,12)+"...":tName) + " (" + (string)token["count"] + "篇)",
                                         p_count = (int)token["count"],
-                                        t_en_name = (tEnName.Length > 20 ? tEnName.Substring(0, 19) + "..." : tEnName) + " (" + (string)token["count"] + " Papers)",
+                                        t_en_name = (tEnName.Length > 20 ? tEnName.Substring(0, 18) + "..." : tEnName) + " (" + (string)token["count"] + " Papers)",
                                     };
                                     CommonData.PaperTypes.Add(pt);
                                 }

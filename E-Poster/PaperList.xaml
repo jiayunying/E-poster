@@ -24,8 +24,8 @@
     <Viewbox>
         <Grid Width="1080" Height="1920">
             <Grid.RowDefinitions>
-                <RowDefinition Height="400"/>
-                <RowDefinition Height="1395"/>
+                <RowDefinition Height="505"/>
+                <RowDefinition Height="1290"/>
                 <RowDefinition Height="125"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -34,18 +34,53 @@
             </Grid.ColumnDefinitions>
             <!--头部功能按钮-->
             <DockPanel Grid.Row="0" Panel.ZIndex="10" Grid.ColumnSpan="2">
+
                 <!--展开分类侧边的按钮-->
-                <Button   VerticalAlignment="Bottom" Click="Button_Click_1" Width="105" Height="105" Visibility="Visible" HorizontalAlignment="Left" Margin="32,0,0,0">
-                    <Button.Template>
-                        <ControlTemplate>
-                            <Rectangle Margin="2">
-                                <Rectangle.Fill>
-                                    <ImageBrush ImageSource="pack://application:,,,/resources/typelist.png"/>
-                                </Rectangle.Fill>
-                            </Rectangle>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
+                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                    <Button    Click="Button_Click_1" Width="100" Height="100"   Margin="32,0,0,0">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Rectangle Margin="2">
+                                    <Rectangle.Fill>
+                                        <ImageBrush ImageSource="pack://application:,,,/resources/typelist.png"/>
+                                    </Rectangle.Fill>
+                                </Rectangle>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="30,0,0,0">
+                    <!--搜索框-->
+                    <Border Width="680" Height="90" BorderThickness="4,4,4,4" >
+                        <Border.BorderBrush> 
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Color="#0DBCCD" Offset="1"/>
+                                <GradientStop Color="#72EDF8" Offset="0"/>
+                            </LinearGradientBrush>
+                        </Border.BorderBrush>
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="600"/>
+                                <ColumnDefinition Width="80"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Name="txt_keyword" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"  Text="{DynamicResource txt_search}" FontSize="28" Width="600" HorizontalContentAlignment="Left" Foreground="#999999" BorderThickness="0,0,0,0" GotFocus="TxtSearch_GotFocus" LostFocus="TxtSearch_LostFocus" Margin="40,0,0,0"/>
+                            <Button Name="btn_search" Width="60" Height="60" Background="Transparent" Grid.Column="1" BorderThickness="0,0,0,0" Click="Btn_Search_Click" HorizontalAlignment="Left">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Rectangle>
+                                            <Rectangle.Fill>
+                                                <ImageBrush ImageSource="pack://application:,,,/resources/search.png" />
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+
+
+                        </Grid>
+                        <!--<TextBlock Text="{DynamicResource txt_search}"  FontSize="28"  Foreground="#999999" VerticalAlignment="Bottom"/>-->
+                    </Border>
+                </StackPanel>
                 <!--中英文切换按钮-->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,39,17" Name="cn_en_btn">
                     <RadioButton Visibility="Visible" Click="CnEn_Click" Name="btn_cn">
@@ -120,7 +155,7 @@
                             <RowDefinition Height="160"/>
                             <RowDefinition Height="1520"/>
                         </Grid.RowDefinitions>
-                        <Border Width="514" Height="100" Grid.Row="0" VerticalAlignment="Bottom" BorderThickness="4,4,4,4" >
+                        <!--<Border Width="514" Height="100" Grid.Row="0" VerticalAlignment="Bottom" BorderThickness="4,4,4,4" >
                             <Border.BorderBrush>
                                 <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                                     <GradientStop Color="#0DBCCD" Offset="1"/>
@@ -147,9 +182,9 @@
 
 
                             </Grid>
-                            <!--<TextBlock Text="{DynamicResource txt_search}"  FontSize="28"  Foreground="#999999" VerticalAlignment="Bottom"/>-->
+                            --><!--<TextBlock Text="{DynamicResource txt_search}"  FontSize="28"  Foreground="#999999" VerticalAlignment="Bottom"/>--><!--
 
-                        </Border>
+                        </Border>-->
 
                         <TextBlock Text="{DynamicResource txt_type}" Foreground="White" Margin="60,20" VerticalAlignment="Center" FontSize="36" Grid.Row="1"/>
                         <ListBox Name="typeList" Grid.Row="2"  DisplayMemberPath="t_name" SelectedValuePath="t_id"  Background="Transparent" Foreground="White" BorderThickness="0,0,0,0" SelectionChanged ="TypeList_GotFocus" FontSize="28" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden">
@@ -189,60 +224,65 @@ TextBlock.Foreground="{TemplateBinding Foreground}" />
             </Grid>
 
             <!--头部banner图 根据不同的会议可配置-->
-            <Image x:Name="banner" Grid.Row="0" Grid.ColumnSpan="2"/>
+            <StackPanel Grid.Row="0" Grid.ColumnSpan="2">
+                <!--头部banner图-->
+                <Image x:Name="banner"/>
+            </StackPanel>
 
             <!-- 论文列表-->
-            <ListBox Grid.Row="1" Name="paperList" Grid.ColumnSpan="2" 
-                Background="Transparent" SelectionChanged="paperList_SelectionChanged"  BorderThickness="0,0,0,0" Padding="39,33,39,0" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
-                <!--考虑做静态变量的绑定ItemsSource="{Binding Source={x:Static util:CommonData.PaperList}}"  SelectionChanged="paperList_SelectionChanged" -->
-                <!--ItemsSource="{Binding PaperList, Mode=OneWay}"-->
+            <!--<ScrollViewer Grid.Row="1" Grid.ColumnSpan="2"  VerticalScrollBarVisibility="Hidden">-->
+            <StackPanel  Grid.Row="1" Grid.ColumnSpan="2">
+                <ListBox  Name="paperList" 
+                Background="Transparent" SelectionChanged="paperList_SelectionChanged"  BorderThickness="0,0,0,0" Padding="39,20,39,0" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+                    <!--考虑做静态变量的绑定ItemsSource="{Binding Source={x:Static util:CommonData.PaperList}}"  SelectionChanged="paperList_SelectionChanged" -->
+                    <!--ItemsSource="{Binding PaperList, Mode=OneWay}"-->
                     <ListBox.ItemContainerStyle>
-                    <Style TargetType="ListBoxItem" >
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="ListBoxItem">
-                                    <Border x:Name="border" CornerRadius="10"  Background="#F8F8F8"  BorderThickness="3,3,3,3">
-                                        <Border.BorderBrush>
-                                            <LinearGradientBrush Opacity="0.2">
-                                                <GradientStop Color="#377b81"/>
-                                            </LinearGradientBrush>
-                                        </Border.BorderBrush>
-                                        <ContentPresenter/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Setter Property="Margin" Value="0,0,0,17"/>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Border Name="border_paper" CornerRadius="10" Margin="27,27,30,27">
-                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="30"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Image Source="pack://application:,,,/resources/icon.png" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="0" Width="21" Height="21" Grid.Row="0"/>
-                              
-                                <ScrollViewer Name="slv" 
+                        <Style TargetType="ListBoxItem" >
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border x:Name="border" CornerRadius="10"  Background="#F8F8F8"  BorderThickness="3,3,5,5">
+                                            <Border.BorderBrush>
+                                                <LinearGradientBrush Opacity="0.2">
+                                                    <GradientStop Color="#377b81"/>
+                                                </LinearGradientBrush>
+                                            </Border.BorderBrush>
+                                            <ContentPresenter/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="Margin" Value="0,0,0,15"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Name="border_paper" CornerRadius="10" Margin="27,20,30,24">
+                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="pack://application:,,,/resources/icon.png" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Column="0" Width="21" Height="21" Grid.Row="0"/>
+
+                                    <ScrollViewer Name="slv" 
                                       VerticalScrollBarVisibility="Hidden"
                                       HorizontalScrollBarVisibility="Hidden"
                                       HorizontalAlignment="Left" VerticalAlignment="Center"  Grid.Row="0" Grid.Column="1">
-                                    <Label Content="{Binding paper_title, Mode=OneWay}"  
+                                        <Label Content="{Binding paper_title, Mode=OneWay}"  
                                        VerticalContentAlignment="Center" 
                                        HorizontalContentAlignment="Center" 
                                            Foreground="#000524" FontWeight="Bold" FontSize="26"
                                           MouseDown="Label_MouseDown" >
-                                        <Label.Triggers>
-                                            <EventTrigger RoutedEvent="Label.Loaded" >
-                                                <BeginStoryboard HandoffBehavior="Compose">
-                                                    <Storyboard>
-                                                         <DoubleAnimation From="-300" 
+                                            <Label.Triggers>
+                                                <EventTrigger RoutedEvent="Label.Loaded" >
+                                                    <BeginStoryboard HandoffBehavior="Compose">
+                                                        <Storyboard>
+                                                            <DoubleAnimation From="-300" 
                                                         To="{Binding ElementName=slv,Path=ScrollableWidth}"
                                                         Duration="0:0:10"
                                                         Storyboard.TargetName="slv"
@@ -250,40 +290,43 @@ TextBlock.Foreground="{TemplateBinding Foreground}" />
                                                         RepeatBehavior="Forever"
                                                         BeginTime="0:0:2"
                                                         Storyboard.TargetProperty="(local:ScrollViewerBehavior.HorizontalOffset)"                 
-                                                        >  
-                                                        </DoubleAnimation>
-                                                    </Storyboard>
-                                                </BeginStoryboard>
-                                            </EventTrigger>
-                                        </Label.Triggers>
-                                    </Label>
-                                </ScrollViewer>
+                                                        >
+                                                            </DoubleAnimation>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </EventTrigger>
+                                            </Label.Triggers>
+                                        </Label>
+                                    </ScrollViewer>
 
 
-                                <Grid  HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1" Margin="0,24,0,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="70"/>
-                                    </Grid.ColumnDefinitions>
-                                    <StackPanel Orientation="Horizontal" Grid.Column="0">
-                                        <TextBlock Text="{DynamicResource first_author}"   Foreground="#019DD5" FontSize="18"/>
-                                        <TextBlock Text="{Binding first_author}" TextAlignment="Center" FontSize="18"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal"  Grid.Column="1">
-                                        <TextBlock Text="{DynamicResource first_author_org}" Foreground="#019DD5" FontSize="18" Padding="20,0,0,0"/>
-                                        <TextBlock Text="{Binding first_author_org}" FontSize="18"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal"  Grid.Column="2" HorizontalAlignment="Right">
-                                        <Image Source="pack://application:,,,/resources/hot.png" Width="30" Height="18" Margin="0,0,10,0"/>
-                                        <TextBlock Text="{Binding hot}"  FontSize="18"/>
-                                    </StackPanel>
+                                    <Grid  HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1" Margin="0,24,0,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="70"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Orientation="Horizontal" Grid.Column="0">
+                                            <TextBlock Text="{DynamicResource first_author}"   Foreground="#019DD5" FontSize="18"/>
+                                            <TextBlock Text="{Binding first_author}" TextAlignment="Center" FontSize="18"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal"  Grid.Column="1">
+                                            <TextBlock Text="{DynamicResource first_author_org}" Foreground="#019DD5" FontSize="18" Padding="20,0,0,0"/>
+                                            <TextBlock Text="{Binding first_author_org}" FontSize="18"/>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal"  Grid.Column="2" HorizontalAlignment="Right">
+                                            <Image Source="pack://application:,,,/resources/hot.png" Width="30" Height="18" Margin="0,0,10,0"/>
+                                            <TextBlock Text="{Binding hot}"  FontSize="18"/>
+                                        </StackPanel>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            <!--</ScrollViewer>-->
+           
 
             <!--翻页按钮 -->
             <Button x:Name="Left"   HorizontalAlignment="Left"  Grid.Row="1" Grid.ColumnSpan="2" Width="155" Height="155" Visibility="Visible"  Click="Left_Click">
@@ -310,7 +353,9 @@ TextBlock.Foreground="{TemplateBinding Foreground}" />
             </Button>
 
             <!--底部图片 可配置-->
-            <Image x:Name="bottom" Grid.Row="2" Grid.ColumnSpan="2" Stretch="None"/>
+            <StackPanel Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image x:Name="bottom"  Stretch="None" />
+            </StackPanel>
             <Canvas x:Name="nodata" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1" Visibility="Hidden" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock Text="{DynamicResource no_data}" Foreground="#999999" FontSize="26"  Margin="-125,0,0,0"></TextBlock>
             </Canvas>

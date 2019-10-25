@@ -463,8 +463,10 @@ namespace E_Poster
                 this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
 
                 this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
-
-                Button_Click_1(sender, e);
+                if (string.IsNullOrEmpty(txt_keyword.Text.Trim())) {
+                    txt_keyword.Text = App.Current.FindResource("txt_search").ToString();
+                }
+                //Button_Click_1(sender, e);
             }
             catch (Exception ex)
             {
