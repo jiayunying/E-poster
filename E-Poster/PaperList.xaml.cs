@@ -188,7 +188,31 @@ namespace E_Poster
                 MessageBox.Show(ex.ToString());
             }
         }
+        /// <summary>
+        /// 点击标题响应选中壁报事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Label_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            try {
+                DataTemplate obj = (sender as Label).ContentTemplate;
 
+                DependencyObject currParent = VisualTreeHelper.GetParent(sender as Label);
+                ListBoxItem listBoxitem = null;
+                //循环取节点树中this的父节点直到取到window
+                while (currParent != null && listBoxitem == null)
+                {
+                    listBoxitem = currParent as ListBoxItem;
+                    currParent = VisualTreeHelper.GetParent(currParent);
+                }
+                int index = paperList.ItemContainerGenerator.IndexFromContainer(listBoxitem);
+                paperList.SelectedIndex = index;
+            }
+            catch (Exception ex) {
+                MessageBox.Show(ex.ToString());
+            }
+        }
         /// <summary>
         /// 输入框获得焦点时
         /// </summary>
@@ -447,6 +471,8 @@ namespace E_Poster
                 ex.ToString();
             }
         }
+
+
     }
     public static class ScrollViewerBehavior
     {

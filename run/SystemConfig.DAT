@@ -3,8 +3,8 @@ image.banner=ydt-mettings\3152\image_config\banner.png
 image.bottom=ydt-mettings\3152\image_config\logo.png
 //录用类型为电子壁报的crc_id值
 result.eposter=159
-//http.url=http://medcircle.top/medapp/api/eposter
-http.url=http://127.0.0.1:8080/api/eposter
-page.size=8
+http.url=http://medcircle.top/medapp/api/eposter
+//http.url=http://127.0.0.1:8080/api/eposter
+page.size=9
 //增加屏保：设定时间内无操作显示屏保图片 设定时间单位为分钟 测试可设置0.1 则为6秒无操作即显示屏保
 screensaver.time=1

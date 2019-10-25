@@ -24,9 +24,9 @@
     <Viewbox>
         <Grid Width="1080" Height="1920">
             <Grid.RowDefinitions>
-                <RowDefinition Height="100*"/>
-                <RowDefinition Height="342*"/>
-                <RowDefinition Height="30*"/>
+                <RowDefinition Height="400"/>
+                <RowDefinition Height="1395"/>
+                <RowDefinition Height="125"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -152,7 +152,7 @@
                         </Border>
 
                         <TextBlock Text="{DynamicResource txt_type}" Foreground="White" Margin="60,20" VerticalAlignment="Center" FontSize="36" Grid.Row="1"/>
-                        <ListBox Name="typeList" Grid.Row="2"  DisplayMemberPath="t_name" SelectedValuePath="t_id"  Background="Transparent" Foreground="White" BorderThickness="0,0,0,0" SelectionChanged ="TypeList_GotFocus" FontSize="24" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                        <ListBox Name="typeList" Grid.Row="2"  DisplayMemberPath="t_name" SelectedValuePath="t_id"  Background="Transparent" Foreground="White" BorderThickness="0,0,0,0" SelectionChanged ="TypeList_GotFocus" FontSize="28" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden">
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
                                     <Setter Property="Template">
@@ -189,12 +189,12 @@ TextBlock.Foreground="{TemplateBinding Foreground}" />
             </Grid>
 
             <!--头部banner图 根据不同的会议可配置-->
-            <Image x:Name="banner" Grid.Row="0" Grid.ColumnSpan="2" Stretch="Fill"/>
+            <Image x:Name="banner" Grid.Row="0" Grid.ColumnSpan="2"/>
 
             <!-- 论文列表-->
             <ListBox Grid.Row="1" Name="paperList" Grid.ColumnSpan="2" 
                 Background="Transparent" SelectionChanged="paperList_SelectionChanged"  BorderThickness="0,0,0,0" Padding="39,33,39,0" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
-                <!--考虑做静态变量的绑定ItemsSource="{Binding Source={x:Static util:CommonData.PaperList}}"-->
+                <!--考虑做静态变量的绑定ItemsSource="{Binding Source={x:Static util:CommonData.PaperList}}"  SelectionChanged="paperList_SelectionChanged" -->
                 <!--ItemsSource="{Binding PaperList, Mode=OneWay}"-->
                     <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem" >
@@ -232,17 +232,17 @@ TextBlock.Foreground="{TemplateBinding Foreground}" />
                                 <ScrollViewer Name="slv" 
                                       VerticalScrollBarVisibility="Hidden"
                                       HorizontalScrollBarVisibility="Hidden"
-                                      HorizontalAlignment="Left" VerticalAlignment="Center"  Grid.Row="0" Grid.Column="1" >
+                                      HorizontalAlignment="Left" VerticalAlignment="Center"  Grid.Row="0" Grid.Column="1">
                                     <Label Content="{Binding paper_title, Mode=OneWay}"  
                                        VerticalContentAlignment="Center" 
                                        HorizontalContentAlignment="Center" 
                                            Foreground="#000524" FontWeight="Bold" FontSize="26"
-                                           >
+                                          MouseDown="Label_MouseDown" >
                                         <Label.Triggers>
                                             <EventTrigger RoutedEvent="Label.Loaded" >
                                                 <BeginStoryboard HandoffBehavior="Compose">
                                                     <Storyboard>
-                                                        <DoubleAnimation From="-300" 
+                                                         <DoubleAnimation From="-300" 
                                                         To="{Binding ElementName=slv,Path=ScrollableWidth}"
                                                         Duration="0:0:10"
                                                         Storyboard.TargetName="slv"
@@ -286,7 +286,7 @@ TextBlock.Foreground="{TemplateBinding Foreground}" />
             </ListBox>
 
             <!--翻页按钮 -->
-            <Button x:Name="Left"   HorizontalAlignment="Left"  Grid.Row="1" Grid.ColumnSpan="2" Width="155" Height="155" Visibility="Visible" Margin="12,0,0,0" Click="Left_Click">
+            <Button x:Name="Left"   HorizontalAlignment="Left"  Grid.Row="1" Grid.ColumnSpan="2" Width="155" Height="155" Visibility="Visible"  Click="Left_Click">
                 <Button.Template>
                     <ControlTemplate>
                         <Rectangle Margin="2">
@@ -297,7 +297,7 @@ TextBlock.Foreground="{TemplateBinding Foreground}" />
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button x:Name="Right"   HorizontalAlignment="Right"  Grid.Row="1" Grid.ColumnSpan="2" Width="155" Height="155" Visibility="Visible"  Margin="0,0,12,0" Click="Right_Click">
+            <Button x:Name="Right"   HorizontalAlignment="Right"  Grid.Row="1" Grid.ColumnSpan="2" Width="155" Height="155" Visibility="Visible"   Click="Right_Click">
                 <Button.Template>
                     <ControlTemplate>
                         <Rectangle Margin="2">
