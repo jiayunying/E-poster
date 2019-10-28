@@ -97,8 +97,8 @@
                             <Grid.Background>
                                 <ImageBrush  ImageSource="pack://application:,,,/resources/search_bg.png"/>
                             </Grid.Background>
-                            <TextBox Name="txt_keyword" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"  Text="{DynamicResource txt_search}" FontSize="28" Width="700" HorizontalContentAlignment="Left" Foreground="#999999" BorderThickness="0,0,0,0" GotFocus="TxtSearch_GotFocus" LostFocus="TxtSearch_LostFocus" Margin="40,0,0,0"/>
-                            <Button Name="btn_search" Width="60" Height="60"  Grid.Column="1" BorderThickness="0,0,0,0" Click="Btn_Search_Click" HorizontalAlignment="Center" Margin="0,0,20,0">
+                            <TextBox Name="txt_keyword" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"  Text="{DynamicResource txt_search}" FontSize="28" Width="700" HorizontalContentAlignment="Center" Foreground="#999999" BorderThickness="0,0,0,0" GotFocus="TxtSearch_GotFocus" LostFocus="TxtSearch_LostFocus" Margin="40,0,0,0"/>
+                            <Button Name="btn_search" Width="51" Height="51"  Grid.Column="1" BorderThickness="0,0,0,0" Click="Btn_Search_Click" HorizontalAlignment="Center" Margin="0,0,20,0">
                                 <Button.Template>
                                     <ControlTemplate>
                                         <Rectangle>
@@ -256,7 +256,7 @@ TextBlock.Foreground="{TemplateBinding Foreground}" />
                     </ListBox.ItemContainerStyle>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Border Name="border_paper" CornerRadius="10" Margin="27,18,30,18">
+                            <Border Name="border_paper" CornerRadius="10" Margin="27,18,25,18">
                                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -303,7 +303,7 @@ TextBlock.Foreground="{TemplateBinding Foreground}" />
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="70"/>
+                                            <ColumnDefinition Width="82"/>
                                         </Grid.ColumnDefinitions>
                                         <StackPanel Orientation="Horizontal" Grid.Column="0">
                                             <TextBlock Text="{DynamicResource first_author}"   Foreground="#019DD5" FontSize="18"/>
