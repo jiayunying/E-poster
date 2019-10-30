@@ -61,6 +61,7 @@ namespace E_Poster
             ////TODO:调接口进行权限校验
             NavigationService.GetNavigationService(this).GoBack(); //向前转
             this.NavigationService.Navigate(new Uri("/PaperList.xaml", UriKind.Relative));
+            CommonData.isReturn = true;
             CommonData.CurrentPaper = null;
             CommonData.CurrentIndex = null;
         }

@@ -88,7 +88,7 @@
                 
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="40,0,0,0">
                     <!--搜索框-->
-                    <Border Height="75" BorderThickness="0,0,0,0">
+                    <Border Height="76" BorderThickness="0,0,0,0">
                         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="714"/>
@@ -97,7 +97,18 @@
                             <Grid.Background>
                                 <ImageBrush  ImageSource="pack://application:,,,/resources/search_bg.png"/>
                             </Grid.Background>
-                            <TextBox Name="txt_keyword" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"  Text="{DynamicResource txt_search}" FontSize="28" Width="700" HorizontalContentAlignment="Center" Foreground="#999999" BorderThickness="0,0,0,0" GotFocus="TxtSearch_GotFocus" LostFocus="TxtSearch_LostFocus" Margin="40,0,0,0"/>
+                            <TextBox Name="txt_keyword" Background="Transparent" Grid.Column="0" VerticalAlignment="Center"  Text="{DynamicResource txt_search}" FontSize="28" Width="670" HorizontalContentAlignment="Left" Foreground="#999999" BorderThickness="0,0,0,0" GotFocus="TxtSearch_GotFocus" LostFocus="TxtSearch_LostFocus" Margin="30,0,0,7" TextChanged="Txt_keyword_TextChanged"/>
+                            <Button Name="btn_clear" Width="25" Height="25"  Grid.Column="0" BorderThickness="0,0,0,0" Click="Txt_clear_Click" HorizontalAlignment="Right" Margin="0,0,30,0" Visibility="Hidden">
+                                <Button.Template>
+                                    <ControlTemplate>
+                                        <Rectangle>
+                                            <Rectangle.Fill>
+                                                <ImageBrush ImageSource="pack://application:,,,/resources/clear.png" />
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
                             <Button Name="btn_search" Width="51" Height="51"  Grid.Column="1" BorderThickness="0,0,0,0" Click="Btn_Search_Click" HorizontalAlignment="Center" Margin="0,0,20,0">
                                 <Button.Template>
                                     <ControlTemplate>
@@ -186,7 +197,7 @@
                         </Border>-->
 
                         <TextBlock Text="{DynamicResource txt_type}" Foreground="White" Margin="60,20" VerticalAlignment="Center" FontSize="36" Grid.Row="1"/>
-                        <ListBox Name="typeList" Grid.Row="2"  DisplayMemberPath="t_name" SelectedValuePath="t_id"  Background="Transparent" Foreground="White" BorderThickness="0,0,0,0" SelectionChanged ="TypeList_GotFocus" FontSize="28" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                        <ListBox Name="typeList" Grid.Row="2"  DisplayMemberPath="t_name" SelectedValuePath="t_id"  Background="Transparent" Foreground="White" BorderThickness="0,0,0,0" SelectionChanged ="TypeList_SelectionChanged" FontSize="28" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden">
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
                                     <Setter Property="Template">
@@ -232,7 +243,7 @@ TextBlock.Foreground="{TemplateBinding Foreground}" />
             <!--<ScrollViewer Grid.Row="1" Grid.ColumnSpan="2"  VerticalScrollBarVisibility="Hidden">-->
             <StackPanel  Grid.Row="1" Grid.ColumnSpan="2">
                 <ListBox  Name="paperList" 
-                Background="Transparent" SelectionChanged="paperList_SelectionChanged"  BorderThickness="0,0,0,0" Padding="39,5,39,0" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
+                Background="Transparent" SelectionChanged="paperList_SelectionChanged"  BorderThickness="0,0,0,0" Padding="39,0,39,0" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Disabled" >
                     <!--考虑做静态变量的绑定ItemsSource="{Binding Source={x:Static util:CommonData.PaperList}}"  SelectionChanged="paperList_SelectionChanged" -->
                     <!--ItemsSource="{Binding PaperList, Mode=OneWay}"-->
                     <ListBox.ItemContainerStyle>
