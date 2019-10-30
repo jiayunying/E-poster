@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:s="clr-namespace:System;assembly=mscorlib"
                     xmlns:local="clr-namespace:E_Poster.resources">
-    <s:String x:Key="txt_search">论文名/作者/关键字</s:String>
+    <s:String x:Key="txt_search">论文标题/作者/关键字</s:String>
     <s:String x:Key="txt_type">论文分类</s:String>
     <s:String x:Key="all_type">全部分类</s:String>
     <s:String x:Key="first_author">第一作者：</s:String>

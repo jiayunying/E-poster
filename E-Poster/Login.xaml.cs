@@ -77,12 +77,15 @@ namespace E_Poster
                             {
                                 foreach (JToken token in array)
                                 {
+                                    string tName = (string)token["typeName"];
+                                    string tEnName = string.IsNullOrEmpty((string)token["typeEnName"])?"":(string)token["typeEnName"];
+
                                     PaperType pt = new PaperType()
                                     {
                                         t_id = (int)token["typeId"],
-                                        t_name = (string)token["typeName"] + "(" + (string)token["count"] + "篇)",
+                                        t_name = (tName.Length>13?tName.Substring(0,12)+"...":tName) + " (" + (string)token["count"] + "篇)",
                                         p_count = (int)token["count"],
-                                        t_en_name = (string)token["typeEnName"] + "(" + (string)token["count"] + " Papers)",
+                                        t_en_name = (tEnName.Length > 20 ? tEnName.Substring(0, 18) + "..." : tEnName) + " (" + (string)token["count"] + " Papers)",
                                     };
                                     CommonData.PaperTypes.Add(pt);
                                 }

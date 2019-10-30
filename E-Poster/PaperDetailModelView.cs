@@ -43,7 +43,7 @@ namespace E_Poster
                 int length = files.Length;
                 foreach (FileInfo file in files)
                 {
-                    if (file.Extension.Equals(".jpg") || file.Extension.Equals(".jpeg"))
+                    if (file.Extension.Equals(".jpg") || file.Extension.Equals(".jpeg") || file.Extension.Equals(".png"))
                     {
                         if (Path.GetFileNameWithoutExtension(CommonData.CurrentPaper.filename).Equals(Path.GetFileNameWithoutExtension(file.Name)))
                         {

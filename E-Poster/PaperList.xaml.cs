@@ -62,13 +62,18 @@ namespace E_Poster
             else {
                 cn_en_btn.Visibility = Visibility.Collapsed;
             }
+
+            if (!string.IsNullOrEmpty(CommonData.jsonFilters.keyword)) {
+                txt_keyword.Text = CommonData.jsonFilters.keyword;
+            }
+
+            this.typeList.SelectedValue = CommonData.jsonFilters.type;
+            CommonData.isReturn = false;
             this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
 
-
-          
         }
 
-       
+
 
         /// <summary>
         /// 翻页按钮闪烁动画
@@ -76,8 +81,8 @@ namespace E_Poster
         private void ButtomAnimation() {
             Storyboard s_left = new Storyboard();
             DoubleAnimation da_opacity = new DoubleAnimation();
-            da_opacity.From = 0.5;
-            da_opacity.To = 1;
+            da_opacity.From = 0.4;
+            da_opacity.To = 0.7;
 
             //DoubleAnimation da_width= new DoubleAnimation();
             //da_width.From = 40;
@@ -188,7 +193,31 @@ namespace E_Poster
                 MessageBox.Show(ex.ToString());
             }
         }
+        /// <summary>
+        /// 点击标题响应选中壁报事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Label_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            try {
+                DataTemplate obj = (sender as Label).ContentTemplate;
 
+                DependencyObject currParent = VisualTreeHelper.GetParent(sender as Label);
+                ListBoxItem listBoxitem = null;
+                //循环取节点树中this的父节点直到取到window
+                while (currParent != null && listBoxitem == null)
+                {
+                    listBoxitem = currParent as ListBoxItem;
+                    currParent = VisualTreeHelper.GetParent(currParent);
+                }
+                int index = paperList.ItemContainerGenerator.IndexFromContainer(listBoxitem);
+                paperList.SelectedIndex = index;
+            }
+            catch (Exception ex) {
+                MessageBox.Show(ex.ToString());
+            }
+        }
         /// <summary>
         /// 输入框获得焦点时
         /// </summary>
@@ -264,9 +293,7 @@ namespace E_Poster
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             Expand = !_Expand;
-            if (string.IsNullOrEmpty(CommonData.jsonFilters.keyword)) { 
-            txt_keyword.Text = App.Current.FindResource("txt_search").ToString();
-            }
+
         }
 
         public bool Expand
@@ -320,27 +347,32 @@ namespace E_Poster
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TypeList_GotFocus(object sender, RoutedEventArgs e)
+        private void TypeList_SelectionChanged(object sender, RoutedEventArgs e)
         {
             try {
+                //监视搜索框内容变化之前使用
+                //if (!txt_keyword.Text.Trim().Equals(App.Current.FindResource("txt_search").ToString()))
+                //{
+                //    CommonData.jsonFilters.keyword = txt_keyword.Text.Trim();
+                //}
+                if (CommonData.isReturn)
+                {
+                    e.Handled = false;
 
-                //txt_keyword.Text = App.Current.FindResource("txt_search").ToString();
-                //    CommonData.jsonFilters.keyword = "";
+                }else { 
+                    CommonData.jsonFilters.offset = 1;
 
-                if (!txt_keyword.Text.Trim().Equals(App.Current.FindResource("txt_search").ToString())) {
-                    CommonData.jsonFilters.keyword = txt_keyword.Text.Trim();
+                    //TODO:调接口获取论文列表并赋值给全局静态变量
+                    CommonData.jsonFilters.type = CommonData.PaperTypes[typeList.SelectedIndex].t_id;
+                    ServiceRequest.RefreshList();
+                    this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
+
+                    this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
+                    //缩回后置为_Expand=false 否则页面刷新时展开分类会有问题
+                    Button_Click_1(sender, e);
+                    _Expand = false;
                 }
 
-                CommonData.jsonFilters.offset = 1;
-
-                //TODO:调接口获取论文列表并赋值给全局静态变量
-                CommonData.jsonFilters.type = CommonData.PaperTypes[typeList.SelectedIndex].t_id;
-                ServiceRequest.RefreshList();
-                this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
-
-                this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
-
-                Button_Click_1(sender, e);
             }
             catch (Exception ex) {
                 ex.ToString();
@@ -430,22 +462,46 @@ namespace E_Poster
         private void Btn_Search_Click(object sender, RoutedEventArgs e)
         {
             try {
-                if (!txt_keyword.Text.Trim().Equals(App.Current.FindResource("txt_search").ToString())) {
-                    CommonData.jsonFilters.keyword = txt_keyword.Text.Trim();                   
-                }
+                //监视搜索框内容变化之前使用
+                //if (!txt_keyword.Text.Trim().Equals(App.Current.FindResource("txt_search").ToString())) {
+                //    CommonData.jsonFilters.keyword = txt_keyword.Text.Trim();                   
+                //}
                 CommonData.jsonFilters.offset = 1;
-                CommonData.jsonFilters.type = -1;
+                //CommonData.jsonFilters.type = -1;
                 ServiceRequest.RefreshList();
                 this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
 
                 this.paperList.ItemsSource = new ObservableCollection<Paper>(CommonData.Papers);
-
-                Button_Click_1(sender, e);
+                if (string.IsNullOrEmpty(txt_keyword.Text.Trim())) {
+                    txt_keyword.Text = App.Current.FindResource("txt_search").ToString();
+                }
             }
             catch (Exception ex)
             {
                 ex.ToString();
             }
+        }
+
+        private void Txt_keyword_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!txt_keyword.Text.Equals(App.Current.FindResource("txt_search").ToString()))
+            {
+                CommonData.jsonFilters.keyword = txt_keyword.Text.Trim();
+                if (!string.IsNullOrEmpty(txt_keyword.Text.Trim()))
+                {
+                    btn_clear.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    btn_clear.Visibility = Visibility.Hidden;
+                }
+            }
+
+        }
+
+        private void Txt_clear_Click(object sender, RoutedEventArgs e)
+        {
+            txt_keyword.Text = "";
         }
     }
     public static class ScrollViewerBehavior

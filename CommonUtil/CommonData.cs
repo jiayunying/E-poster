@@ -12,6 +12,7 @@ namespace CommonUtil
 
         public static List<Paper> Papers=new List<Paper>();
 
+        public static bool isReturn = false;
         private static int? currentIndex = null;
         public static int? CurrentIndex {
             get {
