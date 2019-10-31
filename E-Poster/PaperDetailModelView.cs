@@ -84,6 +84,9 @@ namespace E_Poster
                     CommonData.CurrentIndex -= 1;
                     CommonData.CurrentPaper = CommonData.Papers[CommonData.CurrentIndex.Value];
                     this.CurImg = RefreshImg();
+                    if (this.CurImg == null) {
+                        LastClick(obj);
+                    }
                 }
             }
             catch (Exception ex) {
@@ -146,13 +149,17 @@ namespace E_Poster
                             CommonData.CurrentIndex = 0;
                             CommonData.CurrentPaper = CommonData.Papers[CommonData.CurrentIndex.Value];
                             this.CurImg = RefreshImg();
+                            
                         }
 
                     }
 
                 }
 
-
+                if (this.CurImg == null)
+                {
+                    NextClick(obj);
+                }
             }
             catch (Exception ex) {
 
