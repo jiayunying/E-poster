@@ -123,6 +123,10 @@ namespace E_Poster
                     CommonData.CurrentIndex += 1;
                     CommonData.CurrentPaper = CommonData.Papers[CommonData.CurrentIndex.Value];
                     this.CurImg = RefreshImg();
+                    if (this.CurImg == null)
+                    {
+                        NextClick(obj);
+                    }
                 }
                 else {
                     //翻最后一条需判断是否是最后一页
@@ -140,7 +144,6 @@ namespace E_Poster
                         {
                             CommonData.jsonFilters.offset -= 1;
                             ServiceRequest.RefreshList();
-
                             //提示最后一篇
                             MessageBox.Show(App.Current.FindResource("endPaper").ToString());
 
@@ -149,17 +152,16 @@ namespace E_Poster
                             CommonData.CurrentIndex = 0;
                             CommonData.CurrentPaper = CommonData.Papers[CommonData.CurrentIndex.Value];
                             this.CurImg = RefreshImg();
-                            
+                            if (this.CurImg == null)
+                            {
+                                NextClick(obj);
+                            }
                         }
 
                     }
 
                 }
 
-                if (this.CurImg == null)
-                {
-                    NextClick(obj);
-                }
             }
             catch (Exception ex) {
 
