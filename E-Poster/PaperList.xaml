@@ -196,14 +196,14 @@
 
                         </Border>-->
 
-                        <TextBlock Text="{DynamicResource txt_type}" Foreground="White" Margin="60,20" VerticalAlignment="Center" FontSize="36" Grid.Row="1"/>
+                        <TextBlock Text="{DynamicResource txt_type}" Foreground="White" Margin="55,20" VerticalAlignment="Center" FontSize="36" Grid.Row="1"/>
                         <ListBox Name="typeList" Grid.Row="2"  DisplayMemberPath="t_name" SelectedValuePath="t_id"  Background="Transparent" Foreground="White" BorderThickness="0,0,0,0" SelectionChanged ="TypeList_SelectionChanged" FontSize="28" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden">
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
                                     <Setter Property="Template">
                                         <Setter.Value>
                                             <ControlTemplate TargetType="ListBoxItem">
-                                                <Border Background="{TemplateBinding Background}" Padding="60,20">
+                                                <Border Background="{TemplateBinding Background}" Padding="55,20">
                                                     <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
 TextBlock.Foreground="{TemplateBinding Foreground}" />

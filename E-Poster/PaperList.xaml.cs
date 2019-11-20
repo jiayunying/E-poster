@@ -60,7 +60,7 @@ namespace E_Poster
                 }
             }
             else {
-                cn_en_btn.Visibility = Visibility.Collapsed;
+                cn_en_btn.Visibility = Visibility.Collapsed; 
             }
 
             if (!string.IsNullOrEmpty(CommonData.jsonFilters.keyword)) {
@@ -364,6 +364,8 @@ namespace E_Poster
 
                     //TODO:调接口获取论文列表并赋值给全局静态变量
                     CommonData.jsonFilters.type = CommonData.PaperTypes[typeList.SelectedIndex].t_id;
+                    txt_keyword.Text = App.Current.FindResource("txt_search").ToString();
+
                     ServiceRequest.RefreshList();
                     this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
 
@@ -467,7 +469,7 @@ namespace E_Poster
                 //    CommonData.jsonFilters.keyword = txt_keyword.Text.Trim();                   
                 //}
                 CommonData.jsonFilters.offset = 1;
-                //CommonData.jsonFilters.type = -1;
+                CommonData.jsonFilters.type = -1;
                 ServiceRequest.RefreshList();
                 this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
 
