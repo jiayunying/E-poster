@@ -1,10 +1,10 @@
-image.banner=ydt-mettings\3133\image_config\banner.png
+image.banner=ydt-mettings\3069\image_config\banner.jpg
 //底部图片可配置，不设置值则不显示，若有值则按banner的方法配置即可
-image.bottom=ydt-mettings\3133\image_config\bottom.png
+image.bottom=ydt-mettings\3069\image_config\bottom.png
 //录用类型为电子壁报的case_result_config.crc_id值
-result.eposter=64
+result.eposter=70
 http.url=http://medcircle.cn/medapp/api/eposter
 //http.url=http://127.0.0.1:8080/api/eposter
 page.size=9
 //增加屏保：设定时间内无操作显示屏保图片 设定时间单位为分钟 测试可设置0.1 则为6秒无操作即显示屏保
-screensaver.time=5
+screensaver.time=0.1

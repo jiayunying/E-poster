@@ -365,7 +365,8 @@ namespace E_Poster
                     //TODO:调接口获取论文列表并赋值给全局静态变量
                     CommonData.jsonFilters.type = CommonData.PaperTypes[typeList.SelectedIndex].t_id;
                     txt_keyword.Text = App.Current.FindResource("txt_search").ToString();
-
+                    btn_clear.Visibility = Visibility.Hidden;
+                    CommonData.jsonFilters.keyword = "";
                     ServiceRequest.RefreshList();
                     this.nodata.Visibility = CommonData.Papers.Count > 0 ? Visibility.Hidden : Visibility.Visible;
 
